@@ -36,6 +36,7 @@ g++ -I /usr/include/eigen3/ ei.cpp -o ei
 
 ## Armadillo
 Тут я тоже запихала в конейнер, но лучше без него.
+Без контейнера:
 1. sudo apt update && sudo apt upgrade
 2. sudo apt install cmake libopenblas-dev liblapack-dev
 3. Скачать отсюда: https://arma.sourceforge.net/download.html    само Armadillo
@@ -44,8 +45,9 @@ g++ -I /usr/include/eigen3/ ei.cpp -o ei
 6. make
 7. sudo make install
 8. запускаем apm.cpp:  g++ arm.cpp -o arm -DARMA_DONT_USE_WRAPPER -lopenblas -llapack  и ./arm
-
 Ссылка, по которой делала я: https://solarianprogrammer.com/2017/03/24/getting-started-armadillo-cpp-linear-algebra-windows-mac-linux/
+
+С контейнером:
 
 ## NumPy
 Без контейнера:
