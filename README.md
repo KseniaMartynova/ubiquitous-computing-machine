@@ -48,7 +48,13 @@ g++ -I /usr/include/eigen3/ ei.cpp -o ei
 Ссылка, по которой делала я: https://solarianprogrammer.com/2017/03/24/getting-started-armadillo-cpp-linear-algebra-windows-mac-linux/
 
 ## NumPy
+Без контейнера:
 1. Запускаем файл NumPy.py:  python3 NumPy.py
+
+С конейнером:
+docker build -t num:latest -f Dockerfile.numpy .
+docker run --rm -ti -v num:/usr/share/num num:latest bash
+python3 NumPy.py
 
 ## CUDA cuBLAS и cuSOLVER
 В процессе.....будет скоро...может быть
