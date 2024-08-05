@@ -1,0 +1,6 @@
+FROM gcc:latest 
+RUN apt-get update && apt-get upgrade && apt-get install nano && apt-get install sudo
+RUN apt-get install -y libopenblas-dev && apt-get install -y liblapack-dev && apt-get install -y cmake
+COPY arm.cpp .
+WORKDIR /usr/share/app
+CMD ["./myapp"]
