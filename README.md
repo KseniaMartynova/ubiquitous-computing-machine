@@ -17,4 +17,7 @@
 1. В том же контейнере intel запускаем openblas.cpp c помощью: icpx -qmkl openblas.cpp -o oopn  и ./oopn
 
 ## LAPACK
-1. В том же контейнере intel запускаем 
+1. В том же контейнере intel запускаем lapack.cpp с помощью: icpx -qmkl lapack.cpp -o lapa  и ./lapa
+
+## Eigen
+
