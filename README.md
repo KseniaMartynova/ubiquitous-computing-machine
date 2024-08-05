@@ -2,7 +2,7 @@
 ## Содержание
 - [MKL](#Intel_Math_Kernel_Library (MKL))
 - [OpenBLAS](#OpenBLAS)
-- [LAPACKy](#LAPACK)
+- [LAPACK](#LAPACK)
 - [Eigen](#Eigen)
 - [Armadillo](#Armadillo)
 - [NumPy](#NumPy)
@@ -14,4 +14,4 @@
 3. Вводим размерность матрицы
 
 ## OpenBLAS
-1. 
+1. В том же контейнере intel запускаем openblass.cpp c помощью: icpx -qmkl openblas.cpp -o oopn  и ./oopn
