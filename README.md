@@ -41,3 +41,6 @@
 
 Ссылка, по которой делала я: https://solarianprogrammer.com/2017/03/24/getting-started-armadillo-cpp-linear-algebra-windows-mac-linux/
 
+## NumPy
+1. Запускаем файл NumPy.py:  python3 NumPy.py
+
