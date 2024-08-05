@@ -9,4 +9,5 @@
 - [CUDA cuBLAS и cuSOLVER](#CUDA_cuBLAS_и_cuSOLVER)
   
 ## Intel Math Kernel Library (MKL)
-
+1. Скачиваем отсюда: https://hub.docker.com/r/intel/oneapi-basekit докер для intel
+2. 
