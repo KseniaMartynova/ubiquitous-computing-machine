@@ -29,10 +29,10 @@
 Вот по этой ссылке делала я:  https://www.cyberithub.com/how-to-install-eigen3-on-ubuntu-20-04-lts-focal-fossa/
 
 Если с контейнером, то так: папка eigen
-docker build -t eigen:latest -f Dockerfile.Eigen .
-docker run --rm -ti -v ei:/usr/share/myapp eigen:latest bash
-g++ -I /usr/include/eigen3/ ei.cpp -o ei
-./ei
+1. docker build -t eigen:latest -f Dockerfile.Eigen .
+2. docker run --rm -ti -v ei:/usr/share/myapp eigen:latest bash
+3. g++ -I /usr/include/eigen3/ ei.cpp -o ei
+4. ./ei
 
 ## Armadillo
 Тут я тоже запихала в конейнер, но лучше без него.
@@ -48,15 +48,16 @@ g++ -I /usr/include/eigen3/ ei.cpp -o ei
 Ссылка, по которой делала я: https://solarianprogrammer.com/2017/03/24/getting-started-armadillo-cpp-linear-algebra-windows-mac-linux/
 
 С контейнером:
-
+1. docker build -t armadillo:latest -f Dockerfile.arm .
+2. docker run --rm -ti -v arm:/usr/share/myapp armadillo:latest bash 
 ## NumPy
 Без контейнера:
 1. Запускаем файл NumPy.py:  python3 NumPy.py
 
 С конейнером:
-docker build -t num:latest -f Dockerfile.numpy .
-docker run --rm -ti -v num:/usr/share/num num:latest bash
-python3 NumPy.py
+1. docker build -t num:latest -f Dockerfile.numpy .
+2. docker run --rm -ti -v num:/usr/share/num num:latest bash
+3. python3 NumPy.py
 
 ## CUDA cuBLAS и cuSOLVER
 В процессе.....будет скоро...может быть
