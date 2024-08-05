@@ -21,13 +21,16 @@
 
 ## Eigen
 Я все запихала в контейнер, но можно и без него.
+Если без контейнера то так:
 1. sudo apt update && sudo apt upgrade
 2. sudo apt install libeigen3-dev
 3. dpkg -L libeigen3-dev
 4. Запускаем файл eigen.cpp с помощью g++ -I /usr/include/eigen3/ eigen.cpp -o ei  и  ./ei
-
 Вот по этой ссылке делала я:  https://www.cyberithub.com/how-to-install-eigen3-on-ubuntu-20-04-lts-focal-fossa/
 
+Если с контейнером, то так: папка eigen
+docker build -t eigen:latest -f Dockerfile.Eigen .
+docker run --rm -ti -v ei:/usr/share/myapp eigen:latest bash
 ## Armadillo
 Тут я тоже запихала в конейнер, но лучше без него.
 1. sudo apt update && sudo apt upgrade
