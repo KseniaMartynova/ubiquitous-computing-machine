@@ -10,4 +10,8 @@
   
 ## Intel Math Kernel Library (MKL)
 1. Скачиваем отсюда: https://hub.docker.com/r/intel/oneapi-basekit докер для intel
-2. 
+2. Запускаем файл mkl.cpp с помощью: icpx -qmkl mkl.cpp -o mkl  и  ./mkl
+3. Вводим размерность матрицы
+
+## OpenBLAS
+1. 
