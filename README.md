@@ -49,7 +49,13 @@
 
 С контейнером:
 1. docker build -t armadillo:latest -f Dockerfile.arm .
-2. docker run --rm -ti -v arm:/usr/share/myapp armadillo:latest bash 
+2. docker run --rm -ti -v arm:/usr/share/app armadillo:latest bash
+3. cd armadillo-14.0.1
+4. cmake .
+5. make
+6. sudo make install
+7. g++ arm.cpp -o arm -DARMA_DONT_USE_WRAPPER -lopenblas -llapack
+8. ./arm
 ## NumPy
 Без контейнера:
 1. Запускаем файл NumPy.py:  python3 NumPy.py
