@@ -39,7 +39,7 @@
 Без контейнера:
 1. sudo apt update && sudo apt upgrade
 2. sudo apt install cmake libopenblas-dev liblapack-dev
-3. Скачать отсюда: https://arma.sourceforge.net/download.html    само Armadillo
+3. wget https://sourceforge.net/projects/arma/files/armadillo-14.0.1.tar.xz    (Скачать отсюда: https://arma.sourceforge.net/download.html    само Armadillo)     
 4. Потом найти то, что скачали и разархивировать и перейти в эту разахивированную директорию:  cd arma*
 5. cmake .
 6. make
