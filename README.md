@@ -44,3 +44,6 @@
 ## NumPy
 1. Запускаем файл NumPy.py:  python3 NumPy.py
 
+## CUDA cuBLAS и cuSOLVER
+В процессе.....будет скоро...может быть
+
