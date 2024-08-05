@@ -14,4 +14,7 @@
 3. Вводим размерность матрицы
 
 ## OpenBLAS
-1. В том же контейнере intel запускаем openblass.cpp c помощью: icpx -qmkl openblas.cpp -o oopn  и ./oopn
+1. В том же контейнере intel запускаем openblas.cpp c помощью: icpx -qmkl openblas.cpp -o oopn  и ./oopn
+
+## LAPACK
+1. В том же контейнере intel запускаем 
