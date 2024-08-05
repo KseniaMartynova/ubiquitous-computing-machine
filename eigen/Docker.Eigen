@@ -1,0 +1,7 @@
+FROM gcc:latest
+RUN apt-get update && apt-get upgrade && apt-get install sudo && apt-get install nano \ 
+    libeigen3-dev
+COPY ei.cpp . 
+WORKDIR /usr/share/eigen
+
+CMD ["./eigen"]
