@@ -10,15 +10,15 @@
   
 ## Intel Math Kernel Library (MKL)
 1. docker pull intel/oneapi-basekit
-2. docker run --rm -ti -v mkl:/usr/share intel/oneapi-basekit:latest bash
-3. Запускаем файл mkl.cpp с помощью: icpx -qmkl mkl.cpp -o mkl  и  ./mkl
-4. Вводим размерность матрицы
+2. docker build -t intel/oneapi-basekit:latest -f Dockerfile.mkl . 
+3. docker run --rm -ti -v mkl:/usr/share intel/oneapi-basekit:latest bash
+4. ./mkl
 
 ## OpenBLAS
-1. В том же контейнере intel запускаем openblas.cpp c помощью: icpx -qmkl openblas.cpp -o oopn  и ./oopn
+1. В том же контейнере intel запускаем openblas.cpp c помощью: ./oopn
 
 ## LAPACK
-1. В том же контейнере intel запускаем lapack.cpp с помощью: icpx -qmkl lapack.cpp -o lapa  и ./lapa
+1. В том же контейнере intel запускаем lapack.cpp с помощью: ./lapa
 
 ## Eigen
 Я все запихала в контейнер, но можно и без него.
