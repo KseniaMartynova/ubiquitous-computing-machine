@@ -1,7 +1,7 @@
 FROM gcc:latest
 RUN apt-get update && apt-get upgrade && apt-get install sudo && apt-get install nano \ 
     libeigen3-dev
-COPY ei.cpp . 
+COPY ei.cpp /usr/share/myapp/ei.cpp 
 WORKDIR /usr/share/myapp
-
-CMD ["./myapp"]
+RUN g++ -I /usr/include/eigen3/ ei.cpp -o ei 
+CMD ["./ei"] 
