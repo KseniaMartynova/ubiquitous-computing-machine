@@ -34,6 +34,8 @@
 2. docker run --rm -ti -v ei:/usr/share/myapp eigen:latest bash
 3. ./ei
 
+0. docker run --rm -ti -v ei:/usr/share/myapp eigen:latest
+
 ## Armadillo
 Тут я тоже запихала в конейнер.
 Без контейнера:
@@ -51,7 +53,8 @@
 1. docker build -t armadillo:latest -f Dockerfile.arm .
 2. docker run --rm -ti -v arm:/usr/share/app armadillo:latest bash
 3. ./arm
-   
+
+0. docker run --rm -ti -v arm:/usr/share/app armadillo:latest
 ## NumPy
 Без контейнера:
 1. Запускаем файл NumPy.py:  python3 NumPy.py
@@ -61,6 +64,8 @@
 2. docker run --rm -ti -v num:/usr/share/num num:latest bash
 3. python3 NumPy.py
 
+(по умолчанию размер матрицы 500)
+0. docker run --rm -ti -v num:/usr/share/num num:latest
 ## CUDA cuBLAS и cuSOLVER
 В процессе.....будет скоро...может быть
 
