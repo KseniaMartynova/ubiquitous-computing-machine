@@ -32,8 +32,7 @@
 Если с контейнером, то так: папка eigen
 1. docker build -t eigen:latest -f Dockerfile.Eigen .
 2. docker run --rm -ti -v ei:/usr/share/myapp eigen:latest bash
-3. g++ -I /usr/include/eigen3/ ei.cpp -o ei
-4. ./ei
+3. ./ei
 
 ## Armadillo
 Тут я тоже запихала в конейнер.
