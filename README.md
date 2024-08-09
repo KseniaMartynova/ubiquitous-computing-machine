@@ -14,6 +14,7 @@
 3. docker run --rm -ti -v mkl:/usr/share intel/oneapi-basekit:latest bash
 4. ./mkl
 
+ИЛИ ПРОЩЕ: docker run intel/oneapi-basekit
 ## OpenBLAS
 1. В том же контейнере intel запускаем openblas.cpp c помощью: ./oopn
 
@@ -35,7 +36,7 @@
 3. ./ei
 
 ИЛИ ПРОЩЕ:
-docker run --rm -ti -v ei:/usr/share/myapp eigen:latest
+docker run eigen 200
 
 ## Armadillo
 Тут я тоже запихала в конейнер.
@@ -56,7 +57,7 @@ docker run --rm -ti -v ei:/usr/share/myapp eigen:latest
 3. ./arm
 
 ИЛИ ПРОЩЕ:
-docker run --rm -ti -v arm:/usr/share/app armadillo:latest
+docker run armadillo 200
 ## NumPy
 Без контейнера:
 1. Запускаем файл NumPy.py:  python3 NumPy.py
@@ -67,8 +68,7 @@ docker run --rm -ti -v arm:/usr/share/app armadillo:latest
 3. python3 NumPy.py
 
 ИЛИ ПРОЩЕ:
-(по умолчанию размер матрицы 500)
-docker run --rm -ti -v num:/usr/share/num num:latest
+docker run num 200
 ## CUDA cuBLAS и cuSOLVER
 В процессе.....будет скоро...может быть
 
