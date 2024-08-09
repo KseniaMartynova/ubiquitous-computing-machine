@@ -1,8 +1,7 @@
 # Сравнение производительности библиотек линейной алгебры для обращения положительно определенных матриц
 ## Содержание
 - [MKL](#Intel_Math_Kernel_Library (MKL))
-- [OpenBLAS](#OpenBLAS)
-- [LAPACK](#LAPACK)
+- [OpenBLAS - LAPACK](#OpenBLAS_-_LAPACK)
 - [Eigen](#Eigen)
 - [Armadillo](#Armadillo)
 - [NumPy](#NumPy)
@@ -15,12 +14,9 @@
 4. ./mkl
 
 ИЛИ ПРОЩЕ: docker run intel/oneapi-basekit
-## OpenBLAS
-1. В том же контейнере intel запускаем openblas.cpp c помощью: ./oopn
-
-## LAPACK
-1. В том же контейнере intel запускаем lapack.cpp с помощью: ./lapa
-
+## OpenBLAS - LAPACK
+1. docker build -t lapack:latest -f Dockerfile.lapack .
+2. docker run lapack  200
 ## Eigen
 Я все запихала в контейнер, но можно и без него.
 Если без контейнера то так:
