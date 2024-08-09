@@ -1,0 +1,13 @@
+FROM gcc:latest   
+RUN apt-get update && apt-get install -y \
+        make \
+        cmake \  
+        git \  
+        libopenblas-dev \ 
+        liblapack-dev \
+        liblapack-dev \
+        && rm -rf /var/lib/apt/lists/*
+WORKDIR /usr/share/lapack  
+COPY lapack.cpp /usr/share/lapack/lapack.cpp
+RUN g++ -o lapack lapack.cpp -lopenblas -llapacke -lm -lpthread
+ENTRYPOINT ["./lapack"] 
