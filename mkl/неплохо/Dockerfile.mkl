@@ -1,0 +1,5 @@
+FROM intel/oneapi-basekit:latest 
+COPY mkl.cpp /usr/share/mkl/mkl.cpp 
+WORKDIR /usr/share/mkl  
+RUN icpx -qmkl mkl.cpp -o mkl
+ENTRYPOINT ["./mkl"]
