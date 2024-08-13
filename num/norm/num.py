@@ -35,11 +35,10 @@ if len(sys.argv) != 2:
 
 n = int(sys.argv[1])  # Размер матрицы
 positive_definite_matrix = generate_positive_definite_matrix(n)
-print("Положительно определенная матрица:\n", positive_definite_matrix)
+
 
 # Замер времени для обращения матрицы
 inverted_matrix, elapsed_time = measure_time_for_matrix_inversion(positive_definite_matrix)
-print("Обращенная матрица:\n", inverted_matrix)
 print(f"Время, затраченное на обращение матрицы: {elapsed_time:.6f} секунд")
 
 # Проверка корректности обращения матрицы
