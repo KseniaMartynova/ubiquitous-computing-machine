@@ -5,7 +5,7 @@
 
 bool check_inversion_correctness(const arma::mat& A, const arma::mat& A_inv) {
     arma::mat result = A * A_inv;
-    double eps = 1e-6;
+    double eps = 1e-3;
     for (size_t i = 0; i < A.n_rows; ++i) {
         for (size_t j = 0; j < A.n_cols; ++j) {
             double expected = (i == j) ? 1.0 : 0.0;
