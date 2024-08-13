@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Define the list of numbers to cycle through
-numbers=(100)
+numbers=(20000)
 
 # Use a for loop to iterate over the array and run the command for each number, 10 times
 for num in "${numbers[@]}"; do
