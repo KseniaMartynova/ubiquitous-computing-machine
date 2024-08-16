@@ -15,7 +15,7 @@
 
 ИЛИ ПРОЩЕ: docker run intel/oneapi-basekit
 ## OpenBLAS - LAPACK
-1. docker build -t lapack:latest -f Dockerfile.lapack .
+1. docker build -t lapack:latest -f Dockerfile.lablas .
 2. docker run lapack  200
 ## Eigen
 Я все запихала в контейнер, но можно и без него.
