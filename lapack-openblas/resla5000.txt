@@ -1,0 +1,11 @@
+Running docker run lapack 5000
+Time to invert 5000x5000 matrix: 0.675831 seconds
+Time to invert 5000x5000 matrix: 0.674122 seconds
+Time to invert 5000x5000 matrix: 0.676815 seconds
+Time to invert 5000x5000 matrix: 0.674146 seconds
+Time to invert 5000x5000 matrix: 0.673917 seconds
+Time to invert 5000x5000 matrix: 0.674592 seconds
+Time to invert 5000x5000 matrix: 0.671608 seconds
+Time to invert 5000x5000 matrix: 0.67442 seconds
+Time to invert 5000x5000 matrix: 0.674267 seconds
+Time to invert 5000x5000 matrix: 0.676193 seconds
