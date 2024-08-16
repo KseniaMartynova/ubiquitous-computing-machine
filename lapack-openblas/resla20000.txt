@@ -1,0 +1,11 @@
+Running docker run lapack 20000
+Time to invert 20000x20000 matrix: 27.6416 seconds
+Time to invert 20000x20000 matrix: 27.1703 seconds
+Time to invert 20000x20000 matrix: 27.8342 seconds
+Time to invert 20000x20000 matrix: 27.6613 seconds
+Time to invert 20000x20000 matrix: 27.6842 seconds
+Time to invert 20000x20000 matrix: 27.5807 seconds
+Time to invert 20000x20000 matrix: 27.7714 seconds
+Time to invert 20000x20000 matrix: 27.7753 seconds
+Time to invert 20000x20000 matrix: 27.4314 seconds
+Time to invert 20000x20000 matrix: 27.7862 seconds
