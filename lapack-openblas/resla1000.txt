@@ -42,3 +42,14 @@ Time to invert 5000x5000 matrix: 0.671608 seconds
 Time to invert 5000x5000 matrix: 0.67442 seconds
 Time to invert 5000x5000 matrix: 0.674267 seconds
 Time to invert 5000x5000 matrix: 0.676193 seconds
+Running docker run lapack 10000
+Time to invert 10000x10000 matrix: 4.13193 seconds
+Time to invert 10000x10000 matrix: 4.08334 seconds
+Time to invert 10000x10000 matrix: 4.16059 seconds
+Time to invert 10000x10000 matrix: 4.14197 seconds
+Time to invert 10000x10000 matrix: 4.13066 seconds
+Time to invert 10000x10000 matrix: 4.1148 seconds
+Time to invert 10000x10000 matrix: 4.16889 seconds
+Time to invert 10000x10000 matrix: 4.13052 seconds
+Time to invert 10000x10000 matrix: 4.14477 seconds
+Time to invert 10000x10000 matrix: 4.13681 seconds
