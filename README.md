@@ -6,7 +6,8 @@
 - [Armadillo](#Armadillo)
 - [NumPy](#NumPy)
 - [CUDA cuBLAS и cuSOLVER](#CUDA_cuBLAS_и_cuSOLVER)
-  
+
+(для запуска: bash run_lapack.sh | tee -a result_openBLAS_LAPACK_docker.log)
 ## Intel Math Kernel Library (MKL)
 1. docker pull intel/oneapi-basekit
 2. docker build -t intel/oneapi-basekit:latest -f Dockerfile.mkl . 
