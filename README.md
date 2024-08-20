@@ -17,10 +17,6 @@
 
 ИЛИ ПРОЩЕ: docker run intel/oneapi-basekit
 
-|заголовок|
-|---------|
-|тескт|
-
 ## OpenBLAS - LAPACK
 1. docker build -t lapack:latest -f Dockerfile.lablas .
 2. docker run lapack  200
@@ -51,7 +47,7 @@ docker run eigen 200
 5. cmake .
 6. make
 7. sudo make install
-8. запускаем apm.cpp:  g++ arm.cpp -o arm -DARMA_DONT_USE_WRAPPER -lopenblas -llapack  и ./arm
+8. запускаем arm.cpp:  g++ arm.cpp -o arm -DARMA_DONT_USE_WRAPPER -lopenblas -llapack  и ./arm
 Ссылка, по которой делала я: https://solarianprogrammer.com/2017/03/24/getting-started-armadillo-cpp-linear-algebra-windows-mac-linux/
 
 С контейнером:
