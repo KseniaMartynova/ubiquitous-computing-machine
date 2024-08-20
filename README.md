@@ -15,6 +15,11 @@
 4. ./mkl
 
 ИЛИ ПРОЩЕ: docker run intel/oneapi-basekit
+
+|заголовок|
+|---------|
+|тескт|
+
 ## OpenBLAS - LAPACK
 1. docker build -t lapack:latest -f Dockerfile.lablas .
 2. docker run lapack  200
