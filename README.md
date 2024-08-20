@@ -75,9 +75,10 @@ docker run num 200
 ## CUDA cuBLAS и cuSOLVER
 В процессе.....будет скоро...может быть
 ## Результаты
-|----------|Armadillo|Eigen|Lapack-OpenBlas|MKL|NumPY|
+||Armadillo|Eigen|Lapack-OpenBlas|MKL|NumPY|
 |----------|---------|-----|---------------|---|-----|
 |Матрица 100 на 100|0.000782807|----|----|-----|-----|
+                   |0.000869859|
 
 
 
