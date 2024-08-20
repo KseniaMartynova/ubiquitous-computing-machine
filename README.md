@@ -6,6 +6,7 @@
 - [Armadillo](#Armadillo)
 - [NumPy](#NumPy)
 - [CUDA cuBLAS и cuSOLVER](#CUDA_cuBLAS_и_cuSOLVER)
+- [Результаты](#Результаты)
 
 (для запуска: bash run_lapack.sh | tee -a result_openBLAS_LAPACK_docker.log)
 ## Intel Math Kernel Library (MKL)
@@ -73,4 +74,8 @@ docker run armadillo 200
 docker run num 200
 ## CUDA cuBLAS и cuSOLVER
 В процессе.....будет скоро...может быть
+## Результаты
+|Библиотека||Размер матрицы 100|
+|----------||------------------|
+
 
