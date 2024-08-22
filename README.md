@@ -90,17 +90,7 @@ bash eirun.sh | tee -a resei.txt
 Результаты запуска на таком то железе, с такой то убунтой и докером представлены внизу.
 
 ## Armadillo
-Тут я тоже запихала в конейнер.
-Без контейнера:
-1. sudo apt update && sudo apt upgrade
-2. sudo apt install cmake libopenblas-dev liblapack-dev
-3. wget https://sourceforge.net/projects/arma/files/armadillo-14.0.1.tar.xz    (Скачать отсюда: https://arma.sourceforge.net/download.html    само Armadillo)     
-4. Потом найти то, что скачали и разархивировать и перейти в эту разахивированную директорию:  cd arma*
-5. cmake .
-6. make
-7. sudo make install
-8. запускаем arm.cpp:  g++ arm.cpp -o arm -DARMA_DONT_USE_WRAPPER -lopenblas -llapack  и ./arm
-Ссылка, по которой делала я: https://solarianprogrammer.com/2017/03/24/getting-started-armadillo-cpp-linear-algebra-windows-mac-linux/
+Ссылка для обычной пошаговой установки: https://solarianprogrammer.com/2017/03/24/getting-started-armadillo-cpp-linear-algebra-windows-mac-linux/
 
 С контейнером:
 1. docker build -t armadillo:latest -f Dockerfile.arm .
