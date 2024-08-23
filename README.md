@@ -109,14 +109,22 @@ docker run armadillo 200
 bash armrun.sh | tee -a resarm.txt
 ```
 ## NumPy
+- NumPy предоставляет мощные возможности для индексирования и среза массивов, включая многомерное индексирование, логическое индексирование и комбинированные срезы.
+- NumPy легко интегрируется с другими научными библиотеками Python, такими как SciPy, pandas, matplotlib и scikit-learn. Это делает её ключевым компонентом экосистемы научных вычислений в Python.
 
-С конейнером:
-1. docker build -t num:latest -f Dockerfile.numpy .
-2. docker run --rm -ti -v num:/usr/share/num num:latest bash
-3. python3 NumPy.py
-
-ИЛИ ПРОЩЕ:
+1. В dockerfile внесем numpy и запустим сборку.
+```
+docker build -t num:latest -f Dockerfile.numpy .
+```
+2. Единичный запуск с нужным размером матрицы.
+```
 docker run num 200
+```
+И с помошью скрипта сделаем несколько запусков:
+```
+bash numrun.sh | tee -a resnum.txt
+```
+
 ## CUDA cuBLAS и cuSOLVER
 В процессе.....будет скоро...может быть
 ## Результаты
