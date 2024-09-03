@@ -114,7 +114,7 @@ bash armrun.sh | tee -a resarm.txt
 
 1. В dockerfile внесем numpy и запустим сборку.
 ```
-docker build -t num:latest -f Dockerfile.numpy .
+docker build -t num:latest -f Dockerfile.num .
 ```
 2. Единичный запуск с нужным размером матрицы.
 ```
