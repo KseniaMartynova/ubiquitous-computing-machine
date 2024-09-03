@@ -1,5 +1,4 @@
 FROM python:3.9 
-RUN apt-get update && apt-get upgrade && apt-get install nano && apt-get install sudo 
 COPY requirements.txt . 
 RUN pip install --no-cache-dir -r requirements.txt
 COPY num.py /usr/share/num/num.py    
