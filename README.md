@@ -108,6 +108,9 @@ docker run armadillo 200
 ```
 bash armrun.sh | tee -a resarm.txt
 ```
+
+![armadillo](https://github.com/user-attachments/assets/9dc4e79c-1797-4879-9938-c4a4dbde961b)
+
 ## NumPy
 - NumPy предоставляет мощные возможности для индексирования и среза массивов, включая многомерное индексирование, логическое индексирование и комбинированные срезы.
 - NumPy легко интегрируется с другими научными библиотеками Python, такими как SciPy, pandas, matplotlib и scikit-learn. Это делает её ключевым компонентом экосистемы научных вычислений в Python.
@@ -236,5 +239,5 @@ Eigen не смог обратить матрицу 20 000 на 20 000, самы
 |20000×20000|30,20797|неизвестно|27,63366|28,10547|52,4262677|
 
 
-![armadillo](https://github.com/user-attachments/assets/9dc4e79c-1797-4879-9938-c4a4dbde961b)
+
 
