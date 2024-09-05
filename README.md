@@ -42,6 +42,9 @@ docker run intel/oneapi-basekit 200
 bash mkrun.sh | tee -a resmkl.txt
 ```
 Результаты представлены в самом низу. 
+
+![image](https://github.com/user-attachments/assets/548f12dd-041b-474c-a4e1-e538c6dee991)
+
 ## OpenBLAS - LAPACK
 LAPACK (Linear Algebra Package). 
 
