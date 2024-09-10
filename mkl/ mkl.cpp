@@ -41,7 +41,7 @@ int main(int argc, char* argv[]) {
     // Обращение матрицы и замер времени
     std::copy(A.begin(), A.end(), A_inv.begin());
     auto start = std::chrono::high_resolution_clock::now();
-
+    // LU разложение
     std::vector<lapack_int> ipiv(n);
     int info = LAPACKE_dgetrf(LAPACK_ROW_MAJOR, n, n, A_inv.data(), n, ipiv.data());
     info = LAPACKE_dgetri(LAPACK_ROW_MAJOR, n, A_inv.data(), n, ipiv.data());
