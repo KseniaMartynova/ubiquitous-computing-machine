@@ -45,7 +45,7 @@ bash mkrun.sh | tee -a resmkl.txt
 
 ![image](https://github.com/user-attachments/assets/548f12dd-041b-474c-a4e1-e538c6dee991)
 
-## OpenBLAS - LAPACK
+## OpenBLAS_-_LAPACK
 LAPACK (Linear Algebra Package). 
 
 - LAPACK предоставляет набор функций для решения систем линейных уравнений, разложения матриц (например, LU, QR, SVD), решения задач на собственные значения и векторы, а также для других операций с матрицами.
