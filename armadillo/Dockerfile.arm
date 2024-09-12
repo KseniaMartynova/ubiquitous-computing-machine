@@ -1,5 +1,4 @@
 FROM gcc:latest 
-RUN apt-get update -y && apt-get upgrade -y && apt-get install nano -y && apt-get install sudo -y
 RUN apt-get install -y libopenblas-dev && apt-get install -y liblapack-dev && apt-get install -y cmake
 RUN wget http://sourceforge.net/projects/arma/files/armadillo-14.0.1.tar.xz \
     && tar -xvf armadillo-14.0.1.tar.xz \
@@ -7,7 +6,7 @@ RUN wget http://sourceforge.net/projects/arma/files/armadillo-14.0.1.tar.xz \
     && cmake . \
     && make \
     && sudo make install
-COPY arm.cpp /usr/share/app/armadillo-14.0.1/arm.cpp 
+COPY arm.cpp /usr/share/app/armadillo-14.0.1/armch.cpp 
 WORKDIR /usr/share/app/armadillo-14.0.1
-RUN g++ arm.cpp -o arm -DARMA_DONT_USE_WRAPPER -lopenblas -llapack 
-ENTRYPOINT ["./arm"]  
+RUN g++ armch.cpp -o armch -DARMA_DONT_USE_WRAPPER -lopenblas -llapack 
+ENTRYPOINT ["./armch"]  
