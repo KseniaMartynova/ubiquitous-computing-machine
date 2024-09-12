@@ -9,5 +9,5 @@ RUN wget http://sourceforge.net/projects/arma/files/armadillo-14.0.1.tar.xz \
     && sudo make install
 COPY arm.cpp /usr/share/app/armadillo-14.0.1/armch.cpp 
 WORKDIR /usr/share/app/armadillo-14.0.1
-RUN g++ armch.cpp -o armch -DARMA_DONT_USE_WRAPPER -lopenblas -llapack 
-ENTRYPOINT ["./armch"]  
+RUN g++ arm.cpp -o arm -DARMA_DONT_USE_WRAPPER -lopenblas -llapack 
+ENTRYPOINT ["./arm"]  
