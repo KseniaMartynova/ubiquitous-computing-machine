@@ -1,0 +1,42 @@
+Running docker run eigen 100
+Time to invert matrix: 0.0167329 seconds
+Matrix inversion is correct.
+Time to invert matrix: 0.016587 seconds
+Matrix inversion is correct.
+Time to invert matrix: 0.0166887 seconds
+Matrix inversion is correct.
+Time to invert matrix: 0.0166148 seconds
+Matrix inversion is correct.
+Time to invert matrix: 0.0166473 seconds
+Matrix inversion is correct.
+Time to invert matrix: 0.0166442 seconds
+Matrix inversion is correct.
+Time to invert matrix: 0.0167014 seconds
+Matrix inversion is correct.
+Time to invert matrix: 0.0166292 seconds
+Matrix inversion is correct.
+Time to invert matrix: 0.0165846 seconds
+Matrix inversion is correct.
+Time to invert matrix: 0.0169028 seconds
+Matrix inversion is correct.
+Running docker run eigen 500
+Time to invert matrix: 1.67336 seconds
+Matrix inversion is correct.
+Time to invert matrix: 1.66268 seconds
+Matrix inversion is correct.
+Time to invert matrix: 1.6605 seconds
+Matrix inversion is correct.
+Time to invert matrix: 1.65762 seconds
+Matrix inversion is correct.
+Time to invert matrix: 1.65803 seconds
+Matrix inversion is correct.
+Time to invert matrix: 1.65839 seconds
+Matrix inversion is correct.
+Time to invert matrix: 1.66112 seconds
+Matrix inversion is correct.
+Time to invert matrix: 1.65905 seconds
+Matrix inversion is correct.
+Time to invert matrix: 1.65777 seconds
+Matrix inversion is correct.
+Time to invert matrix: 1.65786 seconds
+Matrix inversion is correct.
