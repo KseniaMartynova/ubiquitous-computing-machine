@@ -41,8 +41,7 @@ if (info != 0) {
   std::cerr << "Ошибка при выполнении dgetrf: " << info << std::endl;
   return 1;
 }
-// Работа с dgetri: сначала нужно вычислить оптимальный размер рабочего
-массива
+// Работа с dgetri: сначала нужно вычислить оптимальный размер рабочего массива
 MKL_INT lwork = -1; // Запрос оптимального размера рабочего массива
 double work_query;
 dgetri(&n, A_inv.data(), &n, ipiv.data(), &work_query, &lwork, &info);
