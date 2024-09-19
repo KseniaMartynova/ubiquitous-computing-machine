@@ -13,5 +13,5 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
   && rm -rf /var/lib/apt/lists/* 
 COPY cud.cu /usr/share/my/cud.cu 
 WORKDIR /usr/share/my
-RUN nvcc -o excu excu.cu -lcublas -lcusolver
-ENTRYPOINT ["./excu"] 
+RUN nvcc -o cud cud.cu -lcublas -lcusolver
+ENTRYPOINT ["./cud"] 
