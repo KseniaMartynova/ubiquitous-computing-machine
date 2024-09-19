@@ -131,7 +131,7 @@ docker build -t num:latest -f Dockerfile.num .
 ```
 docker run num 200
 ```
-И с помошью скрипта сделаем несколько запусков:
+И с помощью скрипта сделаем несколько запусков:
 ```
 bash numrun.sh | tee -a resnum.txt
 ```
@@ -145,7 +145,7 @@ docker build -t cudaks -f Dockerfile.cuda .
 ```
 docker run cudaks 200
 ```
-И с помошью скрипта сделаем несколько запусков:
+И с помощью скрипта сделаем несколько запусков:
 ```
 bash cudarun.sh | tee -a rescuda.txt
 ```
