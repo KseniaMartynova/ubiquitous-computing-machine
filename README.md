@@ -141,6 +141,14 @@ bash numrun.sh | tee -a resnum.txt
 ```
 docker build -t cudaks -f Dockerfile.cuda .
 ```
+2. Единичный запуск с нужным размером матрицы.
+```
+docker run cudaks 200
+```
+И с помошью скрипта сделаем несколько запусков:
+```
+bash cudarun.sh | tee -a rescuda.txt
+```
 ## Результаты
 
 Время обращения для матрицы размером 100 на 100.
