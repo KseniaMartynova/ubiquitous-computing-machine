@@ -11,7 +11,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
   libcublas-dev-12-5 \ 
   libcusolver-dev-12-5 \
   && rm -rf /var/lib/apt/lists/* 
-COPY . /workspace
-WORKDIR /workspace
+COPY cud.cu /usr/share/my/cud.cu 
+WORKDIR /usr/share/my
 RUN nvcc -o excu excu.cu -lcublas -lcusolver
 ENTRYPOINT ["./excu"] 
