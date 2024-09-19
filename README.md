@@ -137,7 +137,7 @@ bash numrun.sh | tee -a resnum.txt
 ```
 ![image](https://github.com/user-attachments/assets/ceb46548-4d0d-47fd-bb38-b89180d8307b)
 
-## CUDA cuBLAS и cuSOLVER
+## CUDA_cuBLAS_и_cuSOLVER
 ```
 docker build -t cudaks -f Dockerfile.cuda .
 ```
