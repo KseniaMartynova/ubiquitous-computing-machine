@@ -1,0 +1,17 @@
+FROM nvidia/cuda:12.5.1-devel-ubuntu22.04 
+RUN apt-get update && apt-get install -y --no-install-recommends \  
+  cuda-libraries-12-5 \
+  cuda-nvtx-12-5 \  
+  libcublas-12-5 \
+  libcusolver-12-5 \ 
+  libcusparse-12-5 \
+  libcudnn8 \ 
+  && rm -rf /var/lib/apt/lists/* 
+RUN apt-get update && apt-get install -y --no-install-recommends \
+  libcublas-dev-12-5 \ 
+  libcusolver-dev-12-5 \
+  && rm -rf /var/lib/apt/lists/* 
+COPY . /workspace
+WORKDIR /workspace
+RUN nvcc -o excu excu.cu -lcublas -lcusolver
+ENTRYPOINT ["./excu"] 
