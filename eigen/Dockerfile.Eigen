@@ -1,7 +1,7 @@
 FROM gcc:latest
 RUN apt-get update && apt-get upgrade && apt-get install sudo && apt-get install nano \ 
     libeigen3-dev
-COPY eich.cpp /usr/share/myapp/eich.cpp 
+COPY eiCholesky.cpp /usr/share/myapp/eiCholesky.cpp 
 WORKDIR /usr/share/myapp
-RUN g++ -I /usr/include/eigen3/ eich.cpp -o eich 
-ENTRYPOINT ["./eich"]
+RUN g++ -I /usr/include/eigen3/ eiCholesky.cpp -o eiCholesky
+ENTRYPOINT ["./eiCholesky"]
