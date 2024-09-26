@@ -8,6 +8,6 @@ RUN apt-get update && apt-get install -y \
         liblapacke-dev \
         && rm -rf /var/lib/apt/lists/*
 WORKDIR /usr/share/lapack  
-COPY lanocho.cpp /usr/share/lapack/lanocho.cpp
-RUN g++ -o lanocho lanocho.cpp -lopenblas -llapacke -lm -lpthread
+COPY lanoCholesky.cpp /usr/share/lapack/lanoCholesky.cpp
+RUN g++ -o lanocho lanoCholesky.cpp -lopenblas -llapacke -lm -lpthread
 ENTRYPOINT ["./lanocho"] 
