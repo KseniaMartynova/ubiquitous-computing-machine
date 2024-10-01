@@ -7,6 +7,6 @@ numbers=(100 500 1000 5000 10000 20000)
 for num in "${numbers[@]}"; do
     echo "Running docker run eigen $num"
     for i in {1..10}; do
-        docker run eigen "$num"
+        docker run eigenmul "$num"
     done
 done
