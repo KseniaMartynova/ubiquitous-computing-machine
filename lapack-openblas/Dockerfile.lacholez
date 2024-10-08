@@ -8,6 +8,6 @@ RUN apt-get update && apt-get install -y \
         liblapacke-dev \
         && rm -rf /var/lib/apt/lists/*
 WORKDIR /usr/share/lapack  
-COPY laLU.cpp /usr/share/lapack/laLU.cpp
-RUN g++ -o laLU laLU.cpp -lopenblas -llapacke -lm -lpthread
-ENTRYPOINT ["./laLU"] 
+COPY laCholez.cpp /usr/share/lapack/laholez.cpp
+RUN g++ -o laCholez laCholez.cpp -lopenblas -llapacke -lm -lpthread
+ENTRYPOINT ["./laCholez"] 
