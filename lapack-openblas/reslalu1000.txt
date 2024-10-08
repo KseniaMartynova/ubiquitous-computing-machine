@@ -61,3 +61,45 @@ Time to invert 1000x1000 matrix: 0.0327732 seconds
 Matrix inversion is correct.
 Time to invert 1000x1000 matrix: 0.0312723 seconds
 Matrix inversion is correct.
+Running docker run lapack 5000
+Time to invert 5000x5000 matrix: 2.00028 seconds
+Matrix inversion is correct.
+Time to invert 5000x5000 matrix: 2.06044 seconds
+Matrix inversion is correct.
+Time to invert 5000x5000 matrix: 1.92166 seconds
+Matrix inversion is correct.
+Time to invert 5000x5000 matrix: 1.94193 seconds
+Matrix inversion is correct.
+Time to invert 5000x5000 matrix: 1.85787 seconds
+Matrix inversion is correct.
+Time to invert 5000x5000 matrix: 1.96913 seconds
+Matrix inversion is correct.
+Time to invert 5000x5000 matrix: 2.02279 seconds
+Matrix inversion is correct.
+Time to invert 5000x5000 matrix: 1.84356 seconds
+Matrix inversion is correct.
+Time to invert 5000x5000 matrix: 2.01466 seconds
+Matrix inversion is correct.
+Time to invert 5000x5000 matrix: 1.87799 seconds
+Matrix inversion is correct.
+Running docker run lapack 10000
+Time to invert 10000x10000 matrix: 13.5864 seconds
+Matrix inversion is correct.
+Time to invert 10000x10000 matrix: 13.8846 seconds
+Matrix inversion is correct.
+Time to invert 10000x10000 matrix: 13.7672 seconds
+Matrix inversion is correct.
+Time to invert 10000x10000 matrix: 13.4384 seconds
+Matrix inversion is correct.
+Time to invert 10000x10000 matrix: 13.9181 seconds
+Matrix inversion is correct.
+Time to invert 10000x10000 matrix: 13.8461 seconds
+Matrix inversion is correct.
+Time to invert 10000x10000 matrix: 14.0027 seconds
+Matrix inversion is correct.
+Time to invert 10000x10000 matrix: 13.9826 seconds
+Matrix inversion is correct.
+Time to invert 10000x10000 matrix: 13.9007 seconds
+Matrix inversion is correct.
+Time to invert 10000x10000 matrix: 13.7216 seconds
+Matrix inversion is correct.
