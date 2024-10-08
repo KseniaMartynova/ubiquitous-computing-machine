@@ -2,7 +2,7 @@
 
 # Build the Docker container
 echo "Building Docker container..."
-docker build -t lapack:latest -f Dockerfile.lablas .
+docker build -t lalu:latest -f Dockerfile.lalu .
 
 # Check if the build was successful
 if [ $? -eq 0 ]; then
