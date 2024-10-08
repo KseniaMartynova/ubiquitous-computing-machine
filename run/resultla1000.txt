@@ -1,0 +1,33 @@
+Running docker run lapack 100
+Time to invert 100x100 matrix: 0.0153892 seconds
+Time to invert 100x100 matrix: 0.0153432 seconds
+Time to invert 100x100 matrix: 0.015351 seconds
+Time to invert 100x100 matrix: 0.0152485 seconds
+Time to invert 100x100 matrix: 0.0153988 seconds
+Time to invert 100x100 matrix: 0.0153754 seconds
+Time to invert 100x100 matrix: 0.0153904 seconds
+Time to invert 100x100 matrix: 0.0153036 seconds
+Time to invert 100x100 matrix: 0.015357 seconds
+Time to invert 100x100 matrix: 0.0153588 seconds
+Running docker run lapack 500
+Time to invert 500x500 matrix: 1.15489 seconds
+Time to invert 500x500 matrix: 1.1503 seconds
+Time to invert 500x500 matrix: 1.15195 seconds
+Time to invert 500x500 matrix: 1.1465 seconds
+Time to invert 500x500 matrix: 1.12667 seconds
+Time to invert 500x500 matrix: 1.12345 seconds
+Time to invert 500x500 matrix: 1.12987 seconds
+Time to invert 500x500 matrix: 1.1414 seconds
+Time to invert 500x500 matrix: 1.14373 seconds
+Time to invert 500x500 matrix: 1.12984 seconds
+Running docker run lapack 1000
+Time to invert 1000x1000 matrix: 8.91045 seconds
+Time to invert 1000x1000 matrix: 8.88984 seconds
+Time to invert 1000x1000 matrix: 8.90461 seconds
+Time to invert 1000x1000 matrix: 8.90511 seconds
+Time to invert 1000x1000 matrix: 8.89559 seconds
+Time to invert 1000x1000 matrix: 8.92892 seconds
+Time to invert 1000x1000 matrix: 8.90519 seconds
+Time to invert 1000x1000 matrix: 8.89123 seconds
+Time to invert 1000x1000 matrix: 8.89832 seconds
+Time to invert 1000x1000 matrix: 8.9346 seconds
