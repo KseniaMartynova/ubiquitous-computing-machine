@@ -2,7 +2,7 @@
 
 # Build the Docker container
 echo "Building Docker container..."
-docker build -t lasvd:latest -f Dockerfile.lasvd .
+docker build -t laqr:latest -f Dockerfile.laqr .
 
 # Check if the build was successful
 if [ $? -eq 0 ]; then
