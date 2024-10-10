@@ -1,5 +1,5 @@
 FROM intel/oneapi-basekit:latest 
-COPY mklsvd.cpp /usr/share/mkl/mklsvd.cpp
+COPY mklSVD.cpp /usr/share/mkl/mklSVD.cpp
 WORKDIR /usr/share/mkl  
-RUN icpx -qmkl mklsvd.cpp -o mklsvd
+RUN icpx -qmkl mklSVD.cpp -o mklsvd
 ENTRYPOINT ["./mklsvd"]
