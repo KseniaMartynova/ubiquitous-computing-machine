@@ -7,6 +7,6 @@ numbers=(100 500 1000)
 for n in "${numbers[@]}"; do
     echo "Running docker run num $n"
     for i in {1..10}; do
-        docker run numINV "$n"
+        docker run numinv "$n"
     done
 done
