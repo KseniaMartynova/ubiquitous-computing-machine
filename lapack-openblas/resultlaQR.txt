@@ -31,3 +31,4 @@ Time to invert 1000x1000 matrix: 8.83015 seconds
 Time to invert 1000x1000 matrix: 8.78867 seconds
 Time to invert 1000x1000 matrix: 8.89041 seconds
 Time to invert 1000x1000 matrix: 8.92121 seconds
+Running docker run lapack 5000
