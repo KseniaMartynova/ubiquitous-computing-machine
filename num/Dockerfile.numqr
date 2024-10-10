@@ -1,6 +1,6 @@
 FROM python:3.9 
 COPY requirements.txt . 
 RUN pip install --no-cache-dir -r requirements.txt
-COPY numCho.py /usr/share/num/numCho.py    
+COPY numQR.py /usr/share/num/numQR.py    
 WORKDIR /usr/share/num         
-ENTRYPOINT ["python3", "numCho.py"]     
+ENTRYPOINT ["python3", "numQR.py"]     
