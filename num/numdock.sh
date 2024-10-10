@@ -2,7 +2,7 @@
 
 # Build the Docker container
 echo "Building Docker container..."
-docker build -t num:latest -f Dockerfile.num .
+docker build -t numINV:latest -f Dockerfile.numINV .
 
 # Check if the build was successful
 if [ $? -eq 0 ]; then
