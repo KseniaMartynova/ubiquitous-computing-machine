@@ -1,6 +1,6 @@
 FROM python:3.9 
 COPY requirements.txt . 
 RUN pip install --no-cache-dir -r requirements.txt
-COPY numSVD.py /usr/share/num/numSVD.py    
+COPY numCho.py /usr/share/num/numCho.py    
 WORKDIR /usr/share/num         
-ENTRYPOINT ["python3", "numSVD.py"]     
+ENTRYPOINT ["python3", "numCho.py"]     
