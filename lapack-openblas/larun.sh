@@ -7,6 +7,6 @@ numbers=(100 500 1000)
 for num in "${numbers[@]}"; do
     echo "Running docker run lapack $num"
     for i in {1..10}; do
-        docker run lasvd "$num"
+        docker run laqr "$num"
     done
 done
