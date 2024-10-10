@@ -1,5 +1,0 @@
-FROM intel/oneapi-basekit:latest 
-COPY mklCho.cpp /usr/share/mkl/mklCho.cpp
-WORKDIR /usr/share/mkl  
-RUN clang++ -o mklcho mklCho.cpp -I${MKLROOT}/include -L${MKLROOT}/lib/intel64 -lmkl_intel_lp64 -lmkl_sequential -lmkl_core -lpthread -lm -ldl
-ENTRYPOINT ["./mklcho"]
