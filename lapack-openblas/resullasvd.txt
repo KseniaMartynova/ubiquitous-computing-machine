@@ -1,0 +1,33 @@
+Running docker run lapack 100
+Time to invert 100x100 matrix using SVD: 0.0188811 seconds
+Time to invert 100x100 matrix using SVD: 0.0300437 seconds
+Time to invert 100x100 matrix using SVD: 0.0187197 seconds
+Time to invert 100x100 matrix using SVD: 0.0188572 seconds
+Time to invert 100x100 matrix using SVD: 0.0187269 seconds
+Time to invert 100x100 matrix using SVD: 0.0187083 seconds
+Time to invert 100x100 matrix using SVD: 0.0421047 seconds
+Time to invert 100x100 matrix using SVD: 0.01896 seconds
+Time to invert 100x100 matrix using SVD: 0.0186202 seconds
+Time to invert 100x100 matrix using SVD: 0.0189003 seconds
+Running docker run lapack 500
+Time to invert 500x500 matrix using SVD: 1.21777 seconds
+Time to invert 500x500 matrix using SVD: 1.21371 seconds
+Time to invert 500x500 matrix using SVD: 1.20087 seconds
+Time to invert 500x500 matrix using SVD: 1.17178 seconds
+Time to invert 500x500 matrix using SVD: 1.21957 seconds
+Time to invert 500x500 matrix using SVD: 1.14918 seconds
+Time to invert 500x500 matrix using SVD: 1.17044 seconds
+Time to invert 500x500 matrix using SVD: 1.15212 seconds
+Time to invert 500x500 matrix using SVD: 1.20284 seconds
+Time to invert 500x500 matrix using SVD: 1.17818 seconds
+Running docker run lapack 1000
+Time to invert 1000x1000 matrix using SVD: 8.95568 seconds
+Time to invert 1000x1000 matrix using SVD: 8.90269 seconds
+Time to invert 1000x1000 matrix using SVD: 9.01166 seconds
+Time to invert 1000x1000 matrix using SVD: 8.88504 seconds
+Time to invert 1000x1000 matrix using SVD: 8.89308 seconds
+Time to invert 1000x1000 matrix using SVD: 8.99901 seconds
+Time to invert 1000x1000 matrix using SVD: 8.97246 seconds
+Time to invert 1000x1000 matrix using SVD: 8.96279 seconds
+Time to invert 1000x1000 matrix using SVD: 8.98938 seconds
+Time to invert 1000x1000 matrix using SVD: 8.99769 seconds
