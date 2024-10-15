@@ -8,6 +8,6 @@ RUN apt-get update && apt-get install -y \
         liblapacke-dev \
         && rm -rf /var/lib/apt/lists/*
 WORKDIR /usr/share/lapack  
-COPY laQR.cpp /usr/share/lapack/laQR.cpp
-RUN g++ -o laQR laQR.cpp -lopenblas -llapacke -lm -lpthread
-ENTRYPOINT ["./laQR"] 
+COPY lablassvd.cpp /usr/share/lapack/lablassvd.cpp
+RUN g++ -o lablassvd lablassvd.cpp -lopenblas -llapacke -lm -lpthread
+ENTRYPOINT ["./lablassvd"] 
