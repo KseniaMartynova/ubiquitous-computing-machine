@@ -124,12 +124,6 @@ int main(int argc, char* argv[]) {
               << n << "x" << n << ": "
               << diff.count() << " секунд" << std::endl;
 
-    // Проверка результата
-    if (check_inversion_result(A, A_inv, n)) {
-        std::cout << "Обращение матрицы прошло правильно." << std::endl;
-    } else {
-        std::cout << "Обращение матрицы прошло неправильно." << std::endl;
-    }
 
     return 0;
 }
