@@ -2,7 +2,7 @@
 
 # Build the Docker container
 echo "Building Docker container..."
-docker build -t mklmul:latest -f Dockerfile.mklmul .
+docker build -t mklqr:latest -f Dockerfile.mklqr .
 
 # Check if the build was successful
 if [ $? -eq 0 ]; then
