@@ -1,0 +1,5 @@
+FROM intel/oneapi-basekit:latest 
+COPY mklLU.cpp /usr/share/mkl/mklLU.cpp
+WORKDIR /usr/share/mkl  
+RUN clang++ -o mkllu mklLU.cpp -I${MKLROOT}/include -L${MKLROOT}/lib/intel64 -lmkl_intel_lp64 -lmkl_sequential -lmkl_core -lpthread -lm -ldl
+ENTRYPOINT ["./mkllu"]
