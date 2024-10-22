@@ -1,0 +1,30 @@
+Matrix size: 500x500
+Time for LU decomposition and inversion: 0.0242577 seconds
+Maximum error in inverse verification: 3.88578e-15
+Matrix size: 500x500
+Time for LU decomposition and inversion: 0.0931524 seconds
+Maximum error in inverse verification: 2.33147e-15
+Matrix size: 500x500
+Time for LU decomposition and inversion: 0.0369935 seconds
+Maximum error in inverse verification: 2.66454e-15
+Matrix size: 500x500
+Time for LU decomposition and inversion: 0.0300758 seconds
+Maximum error in inverse verification: 2.44249e-15
+Matrix size: 500x500
+Time for LU decomposition and inversion: 0.0309229 seconds
+Maximum error in inverse verification: 2.44249e-15
+Matrix size: 500x500
+Time for LU decomposition and inversion: 0.0244618 seconds
+Maximum error in inverse verification: 2.44249e-15
+Matrix size: 500x500
+Time for LU decomposition and inversion: 0.0304494 seconds
+Maximum error in inverse verification: 2.55351e-15
+Matrix size: 500x500
+Time for LU decomposition and inversion: 0.0250094 seconds
+Maximum error in inverse verification: 2.88658e-15
+Matrix size: 500x500
+Time for LU decomposition and inversion: 0.0371593 seconds
+Maximum error in inverse verification: 2.33147e-15
+Matrix size: 500x500
+Time for LU decomposition and inversion: 0.0381254 seconds
+Maximum error in inverse verification: 2.77556e-15

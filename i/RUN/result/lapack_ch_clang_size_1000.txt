@@ -1,0 +1,20 @@
+Time to invert 1000x1000 matrix: 0.0450062 seconds
+Maximum error in inverse verification: 3.33067e-15
+Time to invert 1000x1000 matrix: 0.0482831 seconds
+Maximum error in inverse verification: 4.21885e-15
+Time to invert 1000x1000 matrix: 0.0461646 seconds
+Maximum error in inverse verification: 3.10862e-15
+Time to invert 1000x1000 matrix: 0.0481299 seconds
+Maximum error in inverse verification: 3.44169e-15
+Time to invert 1000x1000 matrix: 0.0450758 seconds
+Maximum error in inverse verification: 3.77476e-15
+Time to invert 1000x1000 matrix: 0.0487542 seconds
+Maximum error in inverse verification: 3.55271e-15
+Time to invert 1000x1000 matrix: 0.0511168 seconds
+Maximum error in inverse verification: 3.66374e-15
+Time to invert 1000x1000 matrix: 0.0520248 seconds
+Maximum error in inverse verification: 3.55271e-15
+Time to invert 1000x1000 matrix: 0.0512304 seconds
+Maximum error in inverse verification: 3.33067e-15
+Time to invert 1000x1000 matrix: 0.0500309 seconds
+Maximum error in inverse verification: 3.21965e-15

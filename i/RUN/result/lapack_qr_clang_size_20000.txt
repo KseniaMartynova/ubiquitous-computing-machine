@@ -1,0 +1,30 @@
+Matrix size: 20000x20000
+Time for QR decomposition and inversion: 194.051 seconds
+Maximum error in inverse verification: 0.000100901
+Matrix size: 20000x20000
+Time for QR decomposition and inversion: 205.778 seconds
+Maximum error in inverse verification: 0.000100563
+Matrix size: 20000x20000
+Time for QR decomposition and inversion: 193.463 seconds
+Maximum error in inverse verification: 0.000100745
+Matrix size: 20000x20000
+Time for QR decomposition and inversion: 204.795 seconds
+Maximum error in inverse verification: 0.00010063
+Matrix size: 20000x20000
+Time for QR decomposition and inversion: 206.731 seconds
+Maximum error in inverse verification: 0.000100558
+Matrix size: 20000x20000
+Time for QR decomposition and inversion: 196.26 seconds
+Maximum error in inverse verification: 0.000100399
+Matrix size: 20000x20000
+Time for QR decomposition and inversion: 206.298 seconds
+Maximum error in inverse verification: 0.000100647
+Matrix size: 20000x20000
+Time for QR decomposition and inversion: 195.885 seconds
+Maximum error in inverse verification: 0.000100825
+Matrix size: 20000x20000
+Time for QR decomposition and inversion: 200.549 seconds
+Maximum error in inverse verification: 0.000100777
+Matrix size: 20000x20000
+Time for QR decomposition and inversion: 193.531 seconds
+Maximum error in inverse verification: 0.000100554

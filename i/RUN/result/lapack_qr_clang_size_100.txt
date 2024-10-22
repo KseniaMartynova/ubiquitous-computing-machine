@@ -1,0 +1,3 @@
+Matrix size: 100x100
+Time for QR decomposition and inversion: 0.0221314 seconds
+Maximum error in inverse verification: 0.0202155
