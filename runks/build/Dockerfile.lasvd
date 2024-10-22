@@ -1,0 +1,13 @@
+FROM gcc:latest   
+RUN apt-get update && apt-get install -y \
+        make \
+        cmake \  
+        git \  
+        libopenblas-dev \ 
+        liblapack-dev \
+        liblapacke-dev \
+        && rm -rf /var/lib/apt/lists/*
+WORKDIR /usr/share/lapack  
+COPY lablassvd.cpp /usr/share/lapack/lablassvd.cpp
+RUN g++ -o lablassvd lablassvd.cpp -lopenblas -llapacke -lm -lpthread
+ENTRYPOINT ["./lablassvd"] 
