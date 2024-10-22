@@ -1,0 +1,8 @@
+Time to invert 100x100 matrix: 0.0106515 seconds
+Time to invert 100x100 matrix: 0.0119867 seconds
+Time to invert 100x100 matrix: 0.00565976 seconds
+Time to invert 100x100 matrix: 0.0108418 seconds
+Time to invert 100x100 matrix: 0.00648169 seconds
+Time to invert 100x100 matrix: 0.00622625 seconds
+Time to invert 100x100 matrix: 0.0120394 seconds
+Time to invert 100x100 matrix: 0.0108364 seconds

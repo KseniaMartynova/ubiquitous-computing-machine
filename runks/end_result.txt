@@ -1,0 +1,30 @@
+Warning: Could not parse line: lapack_mul_size_100.txt: Время не найдено
+Warning: Could not parse line: lapack_mul_size_500.txt: Время не найдено
+Warning: Could not parse line: lapack_svd_size_100.txt: Время не найдено
+Warning: Could not parse line: lapack_svd_size_500.txt: Время не найдено
+Warning: Could not parse line: mkl_lu_size_100.txt: Время не найдено
+Warning: Could not parse line: mkl_mul_size_100.txt: Время не найдено
+Warning: Could not parse line: mkl_mul_size_500.txt: Время не найдено
+Warning: Could not parse line: mkl_svd_size_100.txt: Время не найдено
+Warning: Could not parse line: mkl_svd_size_500.txt: Время не найдено
+Warning: Could not parse line: num_mul_size_100.txt: Время не найдено
+Warning: Could not parse line: num_mul_size_500.txt: Время не найдено
+Warning: Could not parse line: num_svd_size_100.txt: Время не найдено
+Warning: Could not parse line: num_svd_size_500.txt: Время не найдено
+lapack_chol 100 0.00934 0.00 0.000 GB
+lapack_chol 500 0.00688 0.00 0.000 GB
+lapack_gaus 100 0.01533 0.00 0.000 GB
+lapack_gaus 500 1.15124 134.60 0.000 GB
+lapack_qr 100 0.02409 0.00 0.000 GB
+lapack_qr 500 1.13845 247.19 0.000 GB
+mkl_chol 100 0.00222 0.00 0.000 GB
+mkl_chol 500 0.00880 100.21 0.000 GB
+mkl_lu 500 0.01066 0.00 0.000 GB
+mkl_qr 100 0.00931 0.00 0.000 GB
+mkl_qr 500 0.03064 0.00 0.000 GB
+num_ch 100 0.00224 0.00 0.000 GB
+num_ch 500 0.01576 0.00 0.000 GB
+num_inv 100 0.00344 0.00 0.000 GB
+num_inv 500 0.00979 0.00 0.000 GB
+num_qr 100 0.00234 0.00 0.000 GB
+num_qr 500 0.03090 0.00 0.000 GB

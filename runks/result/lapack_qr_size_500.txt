@@ -1,0 +1,10 @@
+Time to invert 500x500 matrix: 1.0966 seconds
+Time to invert 500x500 matrix: 1.09497 seconds
+Time to invert 500x500 matrix: 1.10423 seconds
+Time to invert 500x500 matrix: 1.09933 seconds
+Time to invert 500x500 matrix: 1.26311 seconds
+Time to invert 500x500 matrix: 1.22589 seconds
+Time to invert 500x500 matrix: 1.09855 seconds
+Time to invert 500x500 matrix: 1.09476 seconds
+Time to invert 500x500 matrix: 1.09333 seconds
+Time to invert 500x500 matrix: 1.21376 seconds
