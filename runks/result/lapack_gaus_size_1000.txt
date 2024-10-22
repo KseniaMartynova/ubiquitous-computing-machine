@@ -1,0 +1,10 @@
+Time to invert 1000x1000 matrix: 9.17575 seconds
+Time to invert 1000x1000 matrix: 9.28573 seconds
+Time to invert 1000x1000 matrix: 9.1708 seconds
+Time to invert 1000x1000 matrix: 9.26135 seconds
+Time to invert 1000x1000 matrix: 9.22464 seconds
+Time to invert 1000x1000 matrix: 9.16472 seconds
+Time to invert 1000x1000 matrix: 9.31909 seconds
+Time to invert 1000x1000 matrix: 9.17033 seconds
+Time to invert 1000x1000 matrix: 9.17166 seconds
+Time to invert 1000x1000 matrix: 9.26373 seconds

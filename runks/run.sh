@@ -5,27 +5,39 @@ cd result
 
 # Список контейнеров
 containers=(
-    "mkl_lu"
-    "mkl_mul"
+	#num_mul"
+	#num_qr"
+	#num_svd"
+	#num_inv"
+	#num_ch"
+       	#mkl_chol"
+	"mkl_svd"
+	"mkl_qr" 
+   "mkl_lu"
+   "mkl_mul"
+	"lapack_qr"
+	"lapack_svd"
+	"lapack_chol"
+	"lapack_gaus"
     "lapack_mul"
 )
 
 # Размеры матриц
-sizes=(100)
+sizes=(20000)
 
 # Количество запусков для каждого контейнера и размера
 runs=10
 
 # Функция для мониторинга ресурсов
-#monitor_resources() {
-   # container_id=$1
-   # output_file=$2
-   # while [ "$(docker inspect -f '{{.State.Running}}' "$container_id")" == "true" ]; do
-        # Получаем статистику и записываем в файл
-   #     docker stats --no-stream --format "{{.Name}}: CPU: {{.CPUPerc}}, Memory: {{.MemUsage}}" "$container_id" >> "${output_file}_stats.log"
-  #      sleep 1
- #   done
-#}
+monitor_resources() {
+    container_id=$1
+    output_file=$2
+    while [ "$(docker inspect -f '{{.State.Running}}' "$container_id")" == "true" ]; do
+       #  Получаем статистику и записываем в файл
+        docker stats --no-stream --format "{{.Name}}: CPU: {{.CPUPerc}}, Memory: {{.MemUsage}}" "$container_id" >> "${output_file}_stats.log"
+        sleep 1
+    done
+}
 
 # Запуск контейнеров
 for container in "${containers[@]}"; do

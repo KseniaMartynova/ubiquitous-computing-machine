@@ -1,15 +1,34 @@
+Warning: Could not parse line: lapack_gaus_size_5000.txt: Время не найдено
+Warning: Could not parse line: lapack_mul_size_1000.txt: Время не найдено
 Warning: Could not parse line: lapack_mul_size_100.txt: Время не найдено
+Warning: Could not parse line: lapack_mul_size_5000.txt: Время не найдено
 Warning: Could not parse line: lapack_mul_size_500.txt: Время не найдено
+Warning: Could not parse line: lapack_qr_size_5000.txt: Время не найдено
+Warning: Could not parse line: lapack_svd_size_1000.txt: Время не найдено
 Warning: Could not parse line: lapack_svd_size_100.txt: Время не найдено
+Warning: Could not parse line: lapack_svd_size_5000.txt: Время не найдено
 Warning: Could not parse line: lapack_svd_size_500.txt: Время не найдено
 Warning: Could not parse line: mkl_lu_size_100.txt: Время не найдено
+Warning: Could not parse line: mkl_mul_size_1000.txt: Время не найдено
 Warning: Could not parse line: mkl_mul_size_100.txt: Время не найдено
+Warning: Could not parse line: mkl_mul_size_5000.txt: Время не найдено
 Warning: Could not parse line: mkl_mul_size_500.txt: Время не найдено
+Warning: Could not parse line: mkl_svd_size_10000.txt: Время не найдено
+Warning: Could not parse line: mkl_svd_size_1000.txt: Время не найдено
 Warning: Could not parse line: mkl_svd_size_100.txt: Время не найдено
+Warning: Could not parse line: mkl_svd_size_20000.txt: Время не найдено
+Warning: Could not parse line: mkl_svd_size_5000.txt: Время не найдено
 Warning: Could not parse line: mkl_svd_size_500.txt: Время не найдено
+Warning: Could not parse line: num_ch_size_10000.txt: Время не найдено
+Warning: Could not parse line: num_mul_size_10000.txt: Время не найдено
+Warning: Could not parse line: num_mul_size_1000.txt: Время не найдено
 Warning: Could not parse line: num_mul_size_100.txt: Время не найдено
+Warning: Could not parse line: num_mul_size_5000.txt: Время не найдено
 Warning: Could not parse line: num_mul_size_500.txt: Время не найдено
+Warning: Could not parse line: num_qr_size_10000.txt: Время не найдено
+Warning: Could not parse line: num_svd_size_1000.txt: Время не найдено
 Warning: Could not parse line: num_svd_size_100.txt: Время не найдено
+Warning: Could not parse line: num_svd_size_5000.txt: Время не найдено
 Warning: Could not parse line: num_svd_size_500.txt: Время не найдено
 lapack_chol 100 0.00934 0.00 0.000 GB
 lapack_chol 500 0.00688 0.00 0.000 GB
