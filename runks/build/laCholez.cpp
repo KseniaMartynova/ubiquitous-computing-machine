@@ -4,6 +4,8 @@
 #include <chrono>
 #include <cblas.h>
 #include <lapacke.h>
+#include <thread> // Для std::thread::hardware_concurrency
+#include <cstdlib> // Для setenv
 
 // Функция для создания положительно определенной матрицы
 std::vector<double> create_positive_definite_matrix(int n) {
@@ -45,6 +47,11 @@ int main(int argc, char* argv[]) {
 
     // Выделяем память для обратной матрицы
     std::vector<double> inverse_matrix = matrix;
+
+    // Устанавливаем количество потоков для OpenBLAS
+    int num_threads = std::thread::hardware_concurrency();
+    std::cout << "Using " << num_threads << " threads for OpenBLAS." << std::endl;
+    setenv("OPENBLAS_NUM_THREADS", std::to_string(num_threads).c_str(), 1);
 
     // Замеряем время
     auto start = std::chrono::high_resolution_clock::now();

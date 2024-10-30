@@ -1,7 +1,10 @@
 import numpy as np
 import time
 import sys
+from numba import njit
+from scipy.linalg import cholesky, inv
 
+@njit
 def generate_positive_definite_matrix(n):
     # Генерируем случайную матрицу
     A = np.random.rand(n, n)
@@ -17,14 +20,15 @@ def generate_positive_definite_matrix(n):
 def measure_time_for_matrix_inversion(matrix):
     start_time = time.time()
     # Выполняем разложение Холецкого
-    L = np.linalg.cholesky(matrix)
+    L = cholesky(matrix, lower=True)
     # Обращаем нижнюю треугольную матрицу
-    L_inv = np.linalg.inv(L)
+    L_inv = inv(L)
     # Транспонируем и умножаем на себя
     inverted_matrix = np.dot(L_inv.T, L_inv)
     end_time = time.time()
     return inverted_matrix, end_time - start_time
 
+@njit
 def check_inversion_correctness(original_matrix, inverted_matrix):
     # Умножаем исходную матрицу на обратную
     product = np.dot(original_matrix, inverted_matrix)

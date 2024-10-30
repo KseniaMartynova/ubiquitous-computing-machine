@@ -4,6 +4,7 @@
 #include <chrono>
 #include <cblas.h>
 #include <lapacke.h>
+#include <omp.h>
 
 // Функция для создания положительно определенной матрицы
 std::vector<double> create_positive_definite_matrix(int n) {
@@ -61,6 +62,7 @@ bool gauss_jordan_inverse(std::vector<double>& A, int n) {
         }
 
         // Обнуление столбца
+        #pragma omp parallel for
         for (int k = 0; k < n; ++k) {
             if (k != i) {
                 double factor = A[k * n + i];

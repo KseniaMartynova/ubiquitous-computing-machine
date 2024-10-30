@@ -4,6 +4,7 @@
 #include <chrono>
 #include <cblas.h>
 #include <lapacke.h>
+#include <omp.h>
 
 // Функция для создания положительно определенной матрицы
 std::vector<double> create_positive_definite_matrix(int n) {
@@ -53,6 +54,11 @@ int main(int argc, char* argv[]) {
 
     // Выделяем память для рабочего массива
     std::vector<double> work(3 * n);
+
+    // Устанавливаем количество потоков для OpenBLAS
+    int num_threads = omp_get_max_threads();
+    omp_set_num_threads(num_threads);
+    openblas_set_num_threads(num_threads);
 
     // Замеряем время
     auto start = std::chrono::high_resolution_clock::now();

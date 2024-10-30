@@ -1,6 +1,7 @@
 import numpy as np
 import time
 import sys
+from scipy.linalg import pinv
 
 def generate_positive_definite_matrix(n):
     # Генерируем случайную матрицу
@@ -17,14 +18,8 @@ def generate_positive_definite_matrix(n):
 def measure_time_for_svd_inversion(matrix):
     start_time = time.time()
     
-    # Выполняем SVD разложение
-    U, S, V = np.linalg.svd(matrix)
-    
-    # Обращаем сингулярные значения
-    S_inv = np.diag(1.0 / S)
-    
-    # Вычисляем обратную матрицу
-    inverted_matrix = np.dot(V.T, np.dot(S_inv, U.T))
+    # Вычисляем псевдообратную матрицу с использованием scipy.linalg.pinv
+    inverted_matrix = pinv(matrix)
     
     end_time = time.time()
     return inverted_matrix, end_time - start_time

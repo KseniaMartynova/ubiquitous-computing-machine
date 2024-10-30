@@ -5,25 +5,26 @@ cd result
 
 # Список контейнеров
 containers=(
-	#num_mul"
-	#num_qr"
-	#num_svd"
-	#num_inv"
+       	#mkl_chol
+	#mkl_svd"
+	#mkl_qr" 
+	#mkl_lu
+	#mkl_mul
+	#lapack_qr"
+	#lapack_svd"
+	#lapack_chol
+#slapack_gaus"
+	#lapack_mul"
+	#num_mul
+	#num_qr
+	"num_svd"
+	#num_inv
 	#num_ch"
-       	#mkl_chol"
-	"mkl_svd"
-	"mkl_qr" 
-   "mkl_lu"
-   "mkl_mul"
-	"lapack_qr"
-	"lapack_svd"
-	"lapack_chol"
-	"lapack_gaus"
-    "lapack_mul"
 )
 
 # Размеры матриц
 sizes=(20000)
+# sizes=(100 500)
 
 # Количество запусков для каждого контейнера и размера
 runs=10
@@ -50,18 +51,20 @@ for container in "${containers[@]}"; do
 
             # Запускаем контейнер в фоновом режиме и получаем его ID
             container_id=$(docker run -d --rm "$container" "$size")
+            #echo docker run -d --rm "$container" "$size"
+	    
 
-            # Запускаем мониторинг в фоновом режиме
-#            monitor_resources "$container_id" "$output_file" & monitor_pid=$!
+            # # Запускаем мониторинг в фоновом режиме
+            monitor_resources "$container_id" "$output_file" & monitor_pid=$!
 
-            # Ожидаем завершения контейнера и записываем его вывод в файл
+            # # Ожидаем завершения контейнера и записываем его вывод в файл
             docker logs -f "$container_id" >> "$output_file"
 
-            # Ждем завершения контейнера
+            # # Ждем завершения контейнера
             docker wait "$container_id"
 
-            # Останавливаем мониторинг
- #           kill $monitor_pid
+            # # Останавливаем мониторинг
+            kill $monitor_pid
 
             echo "Вывод контейнера $container с размером матрицы $size, запуск номер $i добавлен в $output_file"
         done

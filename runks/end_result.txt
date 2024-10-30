@@ -1,6 +1,8 @@
 Warning: Could not parse line: lapack_gaus_size_5000.txt: Время не найдено
+Warning: Could not parse line: lapack_mul_size_10000.txt: Время не найдено
 Warning: Could not parse line: lapack_mul_size_1000.txt: Время не найдено
 Warning: Could not parse line: lapack_mul_size_100.txt: Время не найдено
+Warning: Could not parse line: lapack_mul_size_20000.txt: Время не найдено
 Warning: Could not parse line: lapack_mul_size_5000.txt: Время не найдено
 Warning: Could not parse line: lapack_mul_size_500.txt: Время не найдено
 Warning: Could not parse line: lapack_qr_size_5000.txt: Время не найдено
@@ -8,42 +10,74 @@ Warning: Could not parse line: lapack_svd_size_1000.txt: Время не най�
 Warning: Could not parse line: lapack_svd_size_100.txt: Время не найдено
 Warning: Could not parse line: lapack_svd_size_5000.txt: Время не найдено
 Warning: Could not parse line: lapack_svd_size_500.txt: Время не найдено
-Warning: Could not parse line: mkl_lu_size_100.txt: Время не найдено
+Warning: Could not parse line: mkl_mul_size_10000.txt: Время не найдено
 Warning: Could not parse line: mkl_mul_size_1000.txt: Время не найдено
 Warning: Could not parse line: mkl_mul_size_100.txt: Время не найдено
+Warning: Could not parse line: mkl_mul_size_20000.txt: Время не найдено
 Warning: Could not parse line: mkl_mul_size_5000.txt: Время не найдено
 Warning: Could not parse line: mkl_mul_size_500.txt: Время не найдено
 Warning: Could not parse line: mkl_svd_size_10000.txt: Время не найдено
 Warning: Could not parse line: mkl_svd_size_1000.txt: Время не найдено
 Warning: Could not parse line: mkl_svd_size_100.txt: Время не найдено
-Warning: Could not parse line: mkl_svd_size_20000.txt: Время не найдено
 Warning: Could not parse line: mkl_svd_size_5000.txt: Время не найдено
 Warning: Could not parse line: mkl_svd_size_500.txt: Время не найдено
-Warning: Could not parse line: num_ch_size_10000.txt: Время не найдено
 Warning: Could not parse line: num_mul_size_10000.txt: Время не найдено
 Warning: Could not parse line: num_mul_size_1000.txt: Время не найдено
 Warning: Could not parse line: num_mul_size_100.txt: Время не найдено
+Warning: Could not parse line: num_mul_size_20000.txt: Время не найдено
 Warning: Could not parse line: num_mul_size_5000.txt: Время не найдено
 Warning: Could not parse line: num_mul_size_500.txt: Время не найдено
-Warning: Could not parse line: num_qr_size_10000.txt: Время не найдено
+Warning: Could not parse line: num_svd_size_10000.txt: Время не найдено
 Warning: Could not parse line: num_svd_size_1000.txt: Время не найдено
 Warning: Could not parse line: num_svd_size_100.txt: Время не найдено
+Warning: Could not parse line: num_svd_size_20000.txt: Время не найдено
 Warning: Could not parse line: num_svd_size_5000.txt: Время не найдено
 Warning: Could not parse line: num_svd_size_500.txt: Время не найдено
-lapack_chol 100 0.00934 0.00 0.000 GB
-lapack_chol 500 0.00688 0.00 0.000 GB
-lapack_gaus 100 0.01533 0.00 0.000 GB
-lapack_gaus 500 1.15124 134.60 0.000 GB
-lapack_qr 100 0.02409 0.00 0.000 GB
-lapack_qr 500 1.13845 247.19 0.000 GB
-mkl_chol 100 0.00222 0.00 0.000 GB
-mkl_chol 500 0.00880 100.21 0.000 GB
-mkl_lu 500 0.01066 0.00 0.000 GB
-mkl_qr 100 0.00931 0.00 0.000 GB
-mkl_qr 500 0.03064 0.00 0.000 GB
-num_ch 100 0.00224 0.00 0.000 GB
-num_ch 500 0.01576 0.00 0.000 GB
-num_inv 100 0.00344 0.00 0.000 GB
-num_inv 500 0.00979 0.00 0.000 GB
-num_qr 100 0.00234 0.00 0.000 GB
-num_qr 500 0.03090 0.00 0.000 GB
+lapack_chol 100 0.01243 0.00 0.000 GB
+lapack_chol 1000 0.03589 0.00 0.000 GB
+lapack_chol 10000 4.39946 1532.12 1.957 GB
+lapack_chol 20000 28.59443 1573.00 7.641 GB
+lapack_chol 500 0.01382 0.00 0.000 GB
+lapack_chol 5000 0.74593 170.39 0.000 GB
+lapack_gaus 100 0.01763 0.00 0.000 GB
+lapack_gaus 1000 9.28572 164.55 0.000 GB
+lapack_gaus 500 1.17359 164.89 0.000 GB
+lapack_qr 100 0.02542 0.00 0.000 GB
+lapack_qr 1000 9.37411 322.58 0.000 GB
+lapack_qr 500 1.36988 277.88 0.000 GB
+mkl_chol 100 0.01417 0.00 0.000 GB
+mkl_chol 1000 0.03413 0.00 0.000 GB
+mkl_chol 10000 2.46188 802.96 2.317 GB
+mkl_chol 20000 18.62029 804.81 9.263 GB
+mkl_chol 500 0.02090 0.00 0.000 GB
+mkl_chol 5000 1.01174 634.94 0.000 GB
+mkl_lu 100 0.01233 0.00 0.000 GB
+mkl_lu 1000 0.04783 0.00 0.000 GB
+mkl_lu 10000 13.86968 813.14 2.461 GB
+mkl_lu 20000 36.52380 812.84 9.540 GB
+mkl_lu 500 0.01203 0.00 0.000 GB
+mkl_lu 5000 2.25745 505.49 0.000 GB
+mkl_qr 100 0.01353 0.00 0.000 GB
+mkl_qr 1000 0.06300 0.00 0.000 GB
+mkl_qr 10000 13.31288 813.14 4.617 GB
+mkl_qr 20000 89.75631 814.33 18.310 GB
+mkl_qr 500 0.02697 0.00 0.000 GB
+mkl_qr 5000 2.17169 807.30 0.000 GB
+num_ch 100 0.00350 301.70 0.000 GB
+num_ch 1000 0.07703 316.80 0.000 GB
+num_ch 10000 10.90559 1591.43 3.147 GB
+num_ch 20000 85.87033 1599.78 12.170 GB
+num_ch 500 0.05347 310.41 0.000 GB
+num_ch 5000 1.58507 1533.74 0.000 GB
+num_inv 100 0.00303 0.00 0.000 GB
+num_inv 1000 0.03994 0.00 0.000 GB
+num_inv 10000 7.13564 1585.96 2.294 GB
+num_inv 20000 53.37349 1588.78 15.380 GB
+num_inv 500 0.01579 0.00 0.000 GB
+num_inv 5000 1.06629 1358.06 0.000 GB
+num_qr 100 0.00345 0.00 0.000 GB
+num_qr 1000 0.12912 0.00 0.000 GB
+num_qr 10000 33.05037 1591.84 4.534 GB
+num_qr 20000 254.78133 1592.41 18.000 GB
+num_qr 500 0.03347 0.00 0.000 GB
+num_qr 5000 4.29481 1282.83 1.159 GB

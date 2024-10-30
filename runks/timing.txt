@@ -1,67 +1,83 @@
-lapack_chol_size_1000.txt: Среднее время 0.18216 секунд
-lapack_chol_size_100.txt: Среднее время 0.00934 секунд
-lapack_chol_size_5000.txt: Среднее время 1.38210 секунд
-lapack_chol_size_500.txt: Среднее время 0.00688 секунд
-lapack_gaus_size_1000.txt: Среднее время 9.22078 секунд
-lapack_gaus_size_100.txt: Среднее время 0.01533 секунд
+lapack_chol_size_10000.txt: Среднее время 4.39946 секунд
+lapack_chol_size_1000.txt: Среднее время 0.03589 секунд
+lapack_chol_size_100.txt: Среднее время 0.01243 секунд
+lapack_chol_size_20000.txt: Среднее время 28.59443 секунд
+lapack_chol_size_5000.txt: Среднее время 0.74593 секунд
+lapack_chol_size_500.txt: Среднее время 0.01382 секунд
+lapack_gaus_size_1000.txt: Среднее время 9.28572 секунд
+lapack_gaus_size_100.txt: Среднее время 0.01763 секунд
 lapack_gaus_size_5000.txt: Время не найдено
-lapack_gaus_size_500.txt: Среднее время 1.15124 секунд
+lapack_gaus_size_500.txt: Среднее время 1.17359 секунд
+lapack_mul_size_10000.txt: Время не найдено
 lapack_mul_size_1000.txt: Время не найдено
 lapack_mul_size_100.txt: Время не найдено
+lapack_mul_size_20000.txt: Время не найдено
 lapack_mul_size_5000.txt: Время не найдено
 lapack_mul_size_500.txt: Время не найдено
-lapack_qr_size_1000.txt: Среднее время 9.63375 секунд
-lapack_qr_size_100.txt: Среднее время 0.02409 секунд
+lapack_qr_size_1000.txt: Среднее время 9.37411 секунд
+lapack_qr_size_100.txt: Среднее время 0.02542 секунд
 lapack_qr_size_5000.txt: Время не найдено
-lapack_qr_size_500.txt: Среднее время 1.13845 секунд
+lapack_qr_size_500.txt: Среднее время 1.36988 секунд
 lapack_svd_size_1000.txt: Время не найдено
 lapack_svd_size_100.txt: Время не найдено
 lapack_svd_size_5000.txt: Время не найдено
 lapack_svd_size_500.txt: Время не найдено
-mkl_chol_size_10000.txt: Среднее время 13.27370 секунд
-mkl_chol_size_1000.txt: Среднее время 0.02879 секунд
-mkl_chol_size_100.txt: Среднее время 0.00222 секунд
-mkl_chol_size_5000.txt: Среднее время 1.71660 секунд
-mkl_chol_size_500.txt: Среднее время 0.00880 секунд
-mkl_lu_size_1000.txt: Среднее время 0.04172 секунд
-mkl_lu_size_100.txt: Время не найдено
-mkl_lu_size_5000.txt: Среднее время 3.13438 секунд
-mkl_lu_size_500.txt: Среднее время 0.01066 секунд
+mkl_chol_size_10000.txt: Среднее время 2.46188 секунд
+mkl_chol_size_1000.txt: Среднее время 0.03413 секунд
+mkl_chol_size_100.txt: Среднее время 0.01417 секунд
+mkl_chol_size_20000.txt: Среднее время 18.62029 секунд
+mkl_chol_size_5000.txt: Среднее время 1.01174 секунд
+mkl_chol_size_500.txt: Среднее время 0.02090 секунд
+mkl_lu_size_10000.txt: Среднее время 13.86968 секунд
+mkl_lu_size_1000.txt: Среднее время 0.04783 секунд
+mkl_lu_size_100.txt: Среднее время 0.01233 секунд
+mkl_lu_size_20000.txt: Среднее время 36.52380 секунд
+mkl_lu_size_5000.txt: Среднее время 2.25745 секунд
+mkl_lu_size_500.txt: Среднее время 0.01203 секунд
+mkl_mul_size_10000.txt: Время не найдено
 mkl_mul_size_1000.txt: Время не найдено
 mkl_mul_size_100.txt: Время не найдено
+mkl_mul_size_20000.txt: Время не найдено
 mkl_mul_size_5000.txt: Время не найдено
 mkl_mul_size_500.txt: Время не найдено
-mkl_qr_size_1000.txt: Среднее время 0.15405 секунд
-mkl_qr_size_100.txt: Среднее время 0.00931 секунд
-mkl_qr_size_5000.txt: Среднее время 8.93463 секунд
-mkl_qr_size_500.txt: Среднее время 0.03064 секунд
+mkl_qr_size_10000.txt: Среднее время 13.31288 секунд
+mkl_qr_size_1000.txt: Среднее время 0.06300 секунд
+mkl_qr_size_100.txt: Среднее время 0.01353 секунд
+mkl_qr_size_20000.txt: Среднее время 89.75631 секунд
+mkl_qr_size_5000.txt: Среднее время 2.17169 секунд
+mkl_qr_size_500.txt: Среднее время 0.02697 секунд
 mkl_svd_size_10000.txt: Время не найдено
 mkl_svd_size_1000.txt: Время не найдено
 mkl_svd_size_100.txt: Время не найдено
-mkl_svd_size_20000.txt: Время не найдено
 mkl_svd_size_5000.txt: Время не найдено
 mkl_svd_size_500.txt: Время не найдено
-num_ch_size_10000.txt: Время не найдено
-num_ch_size_1000.txt: Среднее время 0.04269 секунд
-num_ch_size_100.txt: Среднее время 0.00224 секунд
-num_ch_size_5000.txt: Среднее время 1.62178 секунд
-num_ch_size_500.txt: Среднее время 0.01576 секунд
-num_inv_size_10000.txt: Среднее время 38.02643 секунд
-num_inv_size_1000.txt: Среднее время 0.02434 секунд
-num_inv_size_100.txt: Среднее время 0.00344 секунд
-num_inv_size_5000.txt: Среднее время 1.01302 секунд
-num_inv_size_500.txt: Среднее время 0.00979 секунд
+num_ch_size_10000.txt: Среднее время 10.90559 секунд
+num_ch_size_1000.txt: Среднее время 0.07703 секунд
+num_ch_size_100.txt: Среднее время 0.00350 секунд
+num_ch_size_20000.txt: Среднее время 85.87033 секунд
+num_ch_size_5000.txt: Среднее время 1.58507 секунд
+num_ch_size_500.txt: Среднее время 0.05347 секунд
+num_inv_size_10000.txt: Среднее время 7.13564 секунд
+num_inv_size_1000.txt: Среднее время 0.03994 секунд
+num_inv_size_100.txt: Среднее время 0.00303 секунд
+num_inv_size_20000.txt: Среднее время 53.37349 секунд
+num_inv_size_5000.txt: Среднее время 1.06629 секунд
+num_inv_size_500.txt: Среднее время 0.01579 секунд
 num_mul_size_10000.txt: Время не найдено
 num_mul_size_1000.txt: Время не найдено
 num_mul_size_100.txt: Время не найдено
+num_mul_size_20000.txt: Время не найдено
 num_mul_size_5000.txt: Время не найдено
 num_mul_size_500.txt: Время не найдено
-num_qr_size_10000.txt: Время не найдено
-num_qr_size_1000.txt: Среднее время 0.07941 секунд
-num_qr_size_100.txt: Среднее время 0.00234 секунд
-num_qr_size_5000.txt: Среднее время 3.81693 секунд
-num_qr_size_500.txt: Среднее время 0.03090 секунд
+num_qr_size_10000.txt: Среднее время 33.05037 секунд
+num_qr_size_1000.txt: Среднее время 0.12912 секунд
+num_qr_size_100.txt: Среднее время 0.00345 секунд
+num_qr_size_20000.txt: Среднее время 254.78133 секунд
+num_qr_size_5000.txt: Среднее время 4.29481 секунд
+num_qr_size_500.txt: Среднее время 0.03347 секунд
+num_svd_size_10000.txt: Время не найдено
 num_svd_size_1000.txt: Время не найдено
 num_svd_size_100.txt: Время не найдено
+num_svd_size_20000.txt: Время не найдено
 num_svd_size_5000.txt: Время не найдено
 num_svd_size_500.txt: Время не найдено

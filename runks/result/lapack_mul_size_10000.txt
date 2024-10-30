@@ -1,1 +1,10 @@
-
+Time to multiply 10000x10000 matrices: 3.87351 seconds
+Time to multiply 10000x10000 matrices: 3.90594 seconds
+Time to multiply 10000x10000 matrices: 3.91866 seconds
+Time to multiply 10000x10000 matrices: 3.95805 seconds
+Time to multiply 10000x10000 matrices: 3.93716 seconds
+Time to multiply 10000x10000 matrices: 3.97805 seconds
+Time to multiply 10000x10000 matrices: 3.87111 seconds
+Time to multiply 10000x10000 matrices: 3.93172 seconds
+Time to multiply 10000x10000 matrices: 3.97969 seconds
+Time to multiply 10000x10000 matrices: 4.10087 seconds

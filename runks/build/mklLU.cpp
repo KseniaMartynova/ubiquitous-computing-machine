@@ -4,6 +4,7 @@
 #include <random>
 #include <mkl.h>
 #include <cstdlib> // Для std::atoi
+#include <cmath>   // Для std::abs
 
 void generate_positive_definite_matrix(double* A, int n) {
     std::random_device rd;
@@ -25,6 +26,26 @@ void generate_positive_definite_matrix(double* A, int n) {
     }
 }
 
+bool check_inversion_result(const std::vector<double>& A, const std::vector<double>& A_inv, int n) {
+    std::vector<double> result(n * n, 0.0);
+
+    // Умножение A на A_inv с использованием BLAS
+    cblas_dgemm(CblasRowMajor, CblasNoTrans, CblasNoTrans, n, n, n, 1.0, A.data(), n, A_inv.data(), n, 0.0, result.data(), n);
+
+    // Проверка на близость к единичной матрице
+    double tolerance = 1e-6;
+    for (int i = 0; i < n; ++i) {
+        for (int j = 0; j < n; ++j) {
+            double expected = (i == j) ? 1.0 : 0.0;
+            if (std::abs(result[i * n + j] - expected) > tolerance) {
+                return false;
+            }
+        }
+    }
+
+    return true;
+}
+
 int main(int argc, char* argv[]) {
     if (argc != 2) {
         std::cerr << "Использование: " << argv[0] << " <размер матрицы>" << std::endl;
@@ -41,10 +62,20 @@ int main(int argc, char* argv[]) {
     // Обращение матрицы и замер времени
     std::copy(A.begin(), A.end(), A_inv.begin());
     auto start = std::chrono::high_resolution_clock::now();
+
     // LU разложение
     std::vector<lapack_int> ipiv(n);
     int info = LAPACKE_dgetrf(LAPACK_ROW_MAJOR, n, n, A_inv.data(), n, ipiv.data());
+    if (info != 0) {
+        std::cerr << "Ошибка при выполнении dgetrf: " << info << std::endl;
+        return 1;
+    }
+
     info = LAPACKE_dgetri(LAPACK_ROW_MAJOR, n, A_inv.data(), n, ipiv.data());
+    if (info != 0) {
+        std::cerr << "Ошибка при выполнении dgetri: " << info << std::endl;
+        return 1;
+    }
 
     auto end = std::chrono::high_resolution_clock::now();
     std::chrono::duration<double> diff = end - start;
@@ -52,6 +83,13 @@ int main(int argc, char* argv[]) {
     std::cout << "Время, затраченное на обращение матрицы размерности "
               << n << "x" << n << ": "
               << diff.count() << " секунд" << std::endl;
+
+    // Проверка результата
+    if (check_inversion_result(A, A_inv, n)) {
+        std::cout << "Обращение матрицы выполнено успешно." << std::endl;
+    } else {
+        std::cout << "Ошибка при обращении матрицы." << std::endl;
+    }
 
     return 0;
 }

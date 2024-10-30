@@ -29,14 +29,8 @@ void generate_positive_definite_matrix(double* A, int n) {
 bool check_inversion_result(const std::vector<double>& A, const std::vector<double>& A_inv, int n) {
     std::vector<double> result(n * n, 0.0);
 
-    // Умножение A на A_inv
-    for (int i = 0; i < n; ++i) {
-        for (int j = 0; j < n; ++j) {
-            for (int k = 0; k < n; ++k) {
-                result[i * n + j] += A[i * n + k] * A_inv[k * n + j];
-            }
-        }
-    }
+    // Умножение A на A_inv с использованием BLAS
+    cblas_dgemm(CblasRowMajor, CblasNoTrans, CblasNoTrans, n, n, n, 1.0, A.data(), n, A_inv.data(), n, 0.0, result.data(), n);
 
     // Проверка на близость к единичной матрице
     double tolerance = 1e-6;

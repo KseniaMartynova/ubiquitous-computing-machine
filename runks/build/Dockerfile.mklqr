@@ -1,5 +1,6 @@
 FROM intel/oneapi-basekit:latest 
 COPY mklQR.cpp /usr/share/mkl/mklQR.cpp
 WORKDIR /usr/share/mkl  
-RUN clang++ -o mklqr mklQR.cpp -I${MKLROOT}/include -L${MKLROOT}/lib/intel64 -lmkl_intel_lp64 -lmkl_sequential -lmkl_core -lpthread -lm -ldl
+#RUN clang++ -o mklqr mklQR.cpp -I${MKLROOT}/include -L${MKLROOT}/lib/intel64 -lmkl_intel_lp64 -lmkl_sequential -lmkl_core -lpthread -lm -ldl
+RUN icpx -o mklqr mklQR.cpp -I${MKLROOT}/include -L${MKLROOT}/lib/intel64 -lmkl_intel_lp64 -lmkl_core -lmkl_intel_thread -lpthread -lm -ldl -fopenmp
 ENTRYPOINT ["./mklqr"]
