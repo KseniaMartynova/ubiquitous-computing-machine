@@ -1,0 +1,8 @@
+FROM intel/oneapi-basekit:latest 
+COPY mklSVD_claude.cpp /usr/share/mkl/mklSVD.cpp
+WORKDIR /usr/share/mkl  
+#RUN clang++ -o mklsvd mklSVD.cpp -I${MKLROOT}/include -L${MKLROOT}/lib/intel64 -lmkl_intel_lp64 -lmkl_sequential -lmkl_core -lpthread -lm -ldl
+#RUN icpx -o mklsvd mklSVD.cpp -I${MKLROOT}/include -L${MKLROOT}/lib/intel64 -lmkl_intel_lp64 -lmkl_core -lmkl_intel_thread -lpthread -lm -ldl -fopenmp
+# RUN icpx -o mklsvd mklSVD.cpp -I${MKLROOT}/include -L${MKLROOT}/lib/intel64 -lmkl_intel_lp64 -lmkl_core -lmkl_intel_thread -lpthread -lm -ldl -fopenmp
+RUN icpx -o mklsvd mklSVD.cpp -I/opt/intel/oneapi/mkl/2024.2/include -L/opt/intel/oneapi/mkl/2024.2/lib/intel64 -lmkl_intel_lp64 -lmkl_core -lmkl_intel_thread -lpthread -lm -ldl -qopenmp
+ENTRYPOINT ["./mklsvd"]
