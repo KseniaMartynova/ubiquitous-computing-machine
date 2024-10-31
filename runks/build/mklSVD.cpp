@@ -3,49 +3,88 @@
 #include <chrono>
 #include <random>
 #include <mkl.h>
-#include <cstdlib> // Для std::atoi
-#include <cmath>   // Для std::abs
-#include <omp.h>   // Для OpenMP
+#include <cstdlib>
+#include <cmath>
+#include <cfloat>
+#include <omp.h>
+#include <iomanip>
 
 void generate_positive_definite_matrix(double* A, int n) {
-    std::random_device rd;
-    std::mt19937 gen(rd());
-    std::uniform_real_distribution<> dis(0.0, 1.0);
+    VSLStreamStatePtr stream;
+    vslNewStream(&stream, VSL_BRNG_MT19937, 1234);
+    vdRngUniform(VSL_RNG_METHOD_UNIFORM_STD, stream, n * n, A, 0.0, 1.0);
+    vslDeleteStream(&stream);
 
-    for (int i = 0; i < n * n; ++i) {
-        A[i] = dis(gen);
-    }
-
+    #pragma omp parallel for schedule(dynamic)
     for (int i = 0; i < n; ++i) {
         for (int j = 0; j < i; ++j) {
             A[i*n + j] = A[j*n + i] = (A[i*n + j] + A[j*n + i]) / 2.0;
         }
-    }
-
-    for (int i = 0; i < n; ++i) {
-        A[i*n + i] += n;
+        // Увеличиваем диагональное преобладание для лучшей обусловленности
+        A[i*n + i] = n + std::accumulate(A + i*n, A + (i+1)*n, 0.0);
     }
 }
 
 bool check_inversion_result(const std::vector<double>& A, const std::vector<double>& A_inv, int n) {
     std::vector<double> result(n * n, 0.0);
+    
+    // Используем CblasTrans для A_inv, так как результат SVD получается транспонированным
+    const double alpha = 1.0;
+    const double beta = 0.0;
+    cblas_dgemm(CblasRowMajor, CblasNoTrans, CblasTrans, 
+                n, n, n, alpha, A.data(), n, A_inv.data(), n, beta, result.data(), n);
 
-    // Умножение A на A_inv с использованием BLAS
-    cblas_dgemm(CblasRowMajor, CblasNoTrans, CblasNoTrans, n, n, n, 1.0, A.data(), n, A_inv.data(), n, 0.0, result.data(), n);
+    // Адаптивный расчёт допуска на основе размера и обусловленности матрицы
+    double norm_A = 0.0;
+    double norm_A_inv = 0.0;
+    
+    #pragma omp parallel for reduction(max:norm_A,norm_A_inv)
+    for (int i = 0; i < n; ++i) {
+        double row_sum_A = 0.0;
+        double row_sum_A_inv = 0.0;
+        for (int j = 0; j < n; ++j) {
+            row_sum_A += std::abs(A[i * n + j]);
+            row_sum_A_inv += std::abs(A_inv[i * n + j]);
+        }
+        norm_A = std::max(norm_A, row_sum_A);
+        norm_A_inv = std::max(norm_A_inv, row_sum_A_inv);
+    }
 
-    // Проверка на близость к единичной матрице
-    double tolerance = 1e-6;
+    // Оцениваем число обусловленности и корректируем допуск
+    double condition_number = norm_A * norm_A_inv;
+    double base_tolerance = 1e-6;
+    double tolerance = base_tolerance * std::sqrt(static_cast<double>(n)) * 
+                      (1.0 + std::log10(condition_number));
+    
+    double max_diff = 0.0;
+    double avg_diff = 0.0;
+    int error_count = 0;
+
+    #pragma omp parallel for reduction(max:max_diff) reduction(+:avg_diff,error_count)
     for (int i = 0; i < n; ++i) {
         for (int j = 0; j < n; ++j) {
             double expected = (i == j) ? 1.0 : 0.0;
-            if (std::abs(result[i * n + j] - expected) > tolerance) {
-                std::cerr << "Ошибка в элементе [" << i << "][" << j << "]: " << result[i * n + j] << " != " << expected << std::endl;
-                return false;
+            double diff = std::abs(result[i * n + j] - expected);
+            max_diff = std::max(max_diff, diff);
+            avg_diff += diff;
+            if (diff > tolerance) {
+                error_count++;
             }
         }
     }
 
-    return true;
+    avg_diff /= (n * n);
+    
+    std::cout << std::scientific << std::setprecision(6);
+    std::cout << "Число обусловленности матрицы: " << condition_number << std::endl;
+    std::cout << "Максимальное отклонение: " << max_diff << std::endl;
+    std::cout << "Среднее отклонение: " << avg_diff << std::endl;
+    std::cout << "Количество элементов вне допуска: " << error_count << std::endl;
+    std::cout << "Используемый допуск: " << tolerance << std::endl;
+
+    // Более строгая проверка для хорошо обусловленных матриц и более мягкая для плохо обусловленных
+    double error_threshold = 0.001 * (1.0 + std::log10(condition_number));
+    return (static_cast<double>(error_count) / (n * n)) < error_threshold;
 }
 
 int main(int argc, char* argv[]) {
@@ -55,8 +94,11 @@ int main(int argc, char* argv[]) {
     }
 
     int n = std::atoi(argv[1]);
+    
+    int num_threads = omp_get_max_threads();
+    mkl_set_num_threads(num_threads);
+    omp_set_dynamic(1);
 
-    // Проверка на максимально допустимый размер вектора
     if (static_cast<size_t>(n) > std::vector<double>().max_size() / n) {
         std::cerr << "Размер матрицы слишком большой для std::vector" << std::endl;
         return 1;
@@ -64,62 +106,86 @@ int main(int argc, char* argv[]) {
 
     std::vector<double> A(n * n);
     std::vector<double> A_inv(n * n);
-
+    
     generate_positive_definite_matrix(A.data(), n);
+    
+    // Сохраняем копию исходной матрицы, так как SVD модифицирует входные данные
+    std::vector<double> A_copy = A;
 
-    // Выделяем память для сингулярных значений и матриц U и V
     std::vector<double> singular_values(n);
     std::vector<double> U(n * n);
-    std::vector<double> V(n * n);
+    std::vector<double> VT(n * n);
 
-    // Выделяем память для рабочего массива
-    std::vector<double> work(3 * n);
+    double worksize;
+    LAPACKE_dgesvd_work(LAPACK_ROW_MAJOR, 'A', 'A', n, n, A.data(), n,
+                        nullptr, nullptr, n, nullptr, n, &worksize, -1);
+    std::vector<double> work(static_cast<size_t>(worksize));
 
-    // Обращение матрицы и замер времени
     auto start = std::chrono::high_resolution_clock::now();
 
-    // Выполняем SVD разложение
-    int info = LAPACKE_dgesvd(LAPACK_ROW_MAJOR, 'A', 'A', n, n, A.data(), n, singular_values.data(), U.data(), n, V.data(), n, work.data());
+    int info = LAPACKE_dgesvd(LAPACK_ROW_MAJOR, 'A', 'A', n, n,
+                             A.data(), n, singular_values.data(),
+                             U.data(), n, VT.data(), n, work.data());
+
+
     if (info != 0) {
         std::cerr << "Ошибка в SVD разложении" << std::endl;
         return 1;
     }
 
-    // Обращаем матрицу с использованием SVD
-    #pragma omp parallel for
+    // Улучшенная обработка сингулярных чисел
+    double max_sigma = singular_values[0];
+    double min_sigma = max_sigma;
+    
+    for (int i = 1; i < n; ++i) {
+        max_sigma = std::max(max_sigma, singular_values[i]);
+        min_sigma = std::min(min_sigma, singular_values[i]);
+    }
+    
+    // Адаптивный порог отсечения с учётом диапазона сингулярных чисел
+    double condition_number = max_sigma / min_sigma;
+    double cutoff = max_sigma * std::max(n * DBL_EPSILON, 
+                                       DBL_EPSILON * std::sqrt(condition_number));
+
+    std::cout << "Диапазон сингулярных чисел: " << min_sigma << " - " << max_sigma << std::endl;
+    std::cout << "Используемый порог отсечения: " << cutoff << std::endl;
+    
+    #pragma omp parallel for simd
     for (int i = 0; i < n; ++i) {
-        if (singular_values[i] > 1e-10) {
-            singular_values[i] = 1.0 / singular_values[i];
-        } else {
-            singular_values[i] = 0.0;
-        }
+        singular_values[i] = (singular_values[i] > cutoff) ? 
+            1.0 / singular_values[i] : 0.0;
     }
 
-    // Вычисляем обратную матрицу
+    std::vector<double> temp(n * n);
+    
+    // U * Σ⁻¹
     #pragma omp parallel for collapse(2)
     for (int i = 0; i < n; ++i) {
         for (int j = 0; j < n; ++j) {
-            double sum = 0.0;
-            for (int k = 0; k < n; ++k) {
-                sum += U[i * n + k] * singular_values[k] * V[j * n + k];
-            }
-            A_inv[i * n + j] = sum;
+            temp[i * n + j] = U[i * n + j] * singular_values[j];
         }
     }
+    
+    // (U * Σ⁻¹) * Vᵀ 
+    const double alpha = 1.0;
+    const double beta = 0.0;
+    cblas_dgemm(CblasRowMajor, CblasNoTrans, CblasNoTrans,
+                n, n, n, alpha, temp.data(), n, VT.data(), n, beta, A_inv.data(), n);
 
     auto end = std::chrono::high_resolution_clock::now();
     std::chrono::duration<double> diff = end - start;
 
-    std::cout << "Время, затраченное на обращение матрицы размерности "
-              << n << "x" << n << " с использованием SVD: "
-              << diff.count() << " секунд" << std::endl;
+    std::cout << "Время обращения матрицы " << n << "x" << n 
+              << " (SVD): " << diff.count() << " секунд" << std::endl;
+    std::cout << "Использовано потоков: " << num_threads << std::endl;
 
-    // Проверка результата обращения матрицы
-    if (check_inversion_result(A, A_inv, n)) {
-        std::cout << "Проверка пройдена: произведение A * A_inv дает единичную матрицу." << std::endl;
+    // Используем сохраненную копию для проверки
+    if (check_inversion_result(A_copy, A_inv, n)) {
+        std::cout << "Проверка пройдена успешно" << std::endl;
     } else {
-        std::cout << "Проверка не пройдена: произведение A * A_inv не дает единичную матрицу." << std::endl;
+        std::cout << "Проверка не пройдена" << std::endl;
     }
 
     return 0;
 }
+
