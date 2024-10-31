@@ -7,7 +7,7 @@
 #include <cmath>
 #include <cfloat>
 #include <omp.h>
-#include <iomanip>  // Для форматированного вывода
+#include <iomanip>
 
 void generate_positive_definite_matrix(double* A, int n) {
     VSLStreamStatePtr stream;
@@ -15,7 +15,6 @@ void generate_positive_definite_matrix(double* A, int n) {
     vdRngUniform(VSL_RNG_METHOD_UNIFORM_STD, stream, n * n, A, 0.0, 1.0);
     vslDeleteStream(&stream);
 
-    // Улучшенное создание положительно определённой матрицы
     #pragma omp parallel for schedule(dynamic)
     for (int i = 0; i < n; ++i) {
         for (int j = 0; j < i; ++j) {
@@ -29,10 +28,10 @@ void generate_positive_definite_matrix(double* A, int n) {
 bool check_inversion_result(const std::vector<double>& A, const std::vector<double>& A_inv, int n) {
     std::vector<double> result(n * n, 0.0);
     
-    // Используем более точное матричное умножение с двойной точностью
+    // Используем CblasTrans для A_inv, так как результат SVD получается транспонированным
     const double alpha = 1.0;
     const double beta = 0.0;
-    cblas_dgemm(CblasRowMajor, CblasNoTrans, CblasNoTrans, 
+    cblas_dgemm(CblasRowMajor, CblasNoTrans, CblasTrans, 
                 n, n, n, alpha, A.data(), n, A_inv.data(), n, beta, result.data(), n);
 
     // Адаптивный расчёт допуска на основе размера и обусловленности матрицы
@@ -109,6 +108,9 @@ int main(int argc, char* argv[]) {
     std::vector<double> A_inv(n * n);
     
     generate_positive_definite_matrix(A.data(), n);
+    
+    // Сохраняем копию исходной матрицы, так как SVD модифицирует входные данные
+    std::vector<double> A_copy = A;
 
     std::vector<double> singular_values(n);
     std::vector<double> U(n * n);
@@ -124,6 +126,7 @@ int main(int argc, char* argv[]) {
     int info = LAPACKE_dgesvd(LAPACK_ROW_MAJOR, 'A', 'A', n, n,
                              A.data(), n, singular_values.data(),
                              U.data(), n, VT.data(), n, work.data());
+
 
     if (info != 0) {
         std::cerr << "Ошибка в SVD разложении" << std::endl;
@@ -155,7 +158,7 @@ int main(int argc, char* argv[]) {
 
     std::vector<double> temp(n * n);
     
-    // U * Σ⁻¹ с улучшенной точностью
+    // U * Σ⁻¹
     #pragma omp parallel for collapse(2)
     for (int i = 0; i < n; ++i) {
         for (int j = 0; j < n; ++j) {
@@ -163,7 +166,7 @@ int main(int argc, char* argv[]) {
         }
     }
     
-    // (U * Σ⁻¹) * Vᵀ с явными параметрами точности
+    // (U * Σ⁻¹) * Vᵀ 
     const double alpha = 1.0;
     const double beta = 0.0;
     cblas_dgemm(CblasRowMajor, CblasNoTrans, CblasNoTrans,
@@ -176,7 +179,8 @@ int main(int argc, char* argv[]) {
               << " (SVD): " << diff.count() << " секунд" << std::endl;
     std::cout << "Использовано потоков: " << num_threads << std::endl;
 
-    if (check_inversion_result(A, A_inv, n)) {
+    // Используем сохраненную копию для проверки
+    if (check_inversion_result(A_copy, A_inv, n)) {
         std::cout << "Проверка пройдена успешно" << std::endl;
     } else {
         std::cout << "Проверка не пройдена" << std::endl;
@@ -184,3 +188,4 @@ int main(int argc, char* argv[]) {
 
     return 0;
 }
+
