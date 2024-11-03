@@ -6,7 +6,7 @@ cd result
 # Список контейнеров
 containers=(
        	#mkl_chol
-	#mkl_svd"
+	"mkl_svd"
 	#mkl_qr" 
 	#mkl_lu
 	#mkl_mul
@@ -17,13 +17,13 @@ containers=(
 	#lapack_mul"
 	#num_mul
 	#num_qr
-	"num_svd"
+	#num_svd
 	#num_inv
 	#num_ch"
 )
 
 # Размеры матриц
-sizes=(20000)
+sizes=(100 500 1000 5000 10000 20000)
 # sizes=(100 500)
 
 # Количество запусков для каждого контейнера и размера
