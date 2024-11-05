@@ -3,42 +3,40 @@
 #include <random>
 #include <chrono>
 #include <cblas.h>
-#include <lapacke.h>
 #include <omp.h>
 
 // Функция для создания положительно определенной матрицы
-std::vector<double> create_positive_definite_matrix(int n) {
-    std::vector<double> matrix(n * n);
+void generate_positive_definite_matrix(double* A, int n) {
     std::random_device rd;
     std::mt19937 gen(rd());
     std::uniform_real_distribution<> dis(0.0, 1.0);
 
-    // Заполняем матрицу случайными числами
-    for (int i = 0; i < n; ++i) {
-        for (int j = 0; j < n; ++j) {
-            matrix[i * n + j] = dis(gen);
-        }
+    for (int i = 0; i < n * n; ++i) {
+        A[i] = dis(gen);
     }
 
-    // Делаем матрицу симметричной
     for (int i = 0; i < n; ++i) {
         for (int j = 0; j < i; ++j) {
-            matrix[j * n + i] = matrix[i * n + j];
+            A[i * n + j] = A[j * n + i] = (A[i * n + j] + A[j * n + i]) / 2.0;
         }
+        A[i * n + i] += n;
     }
-
-    // Добавляем к диагональным элементам, чтобы сделать матрицу положительно определенной
-    for (int i = 0; i < n; ++i) {
-        matrix[i * n + i] += n;
-    }
-
-    return matrix;
 }
 
-// Функция для обращения матрицы методом Гаусса-Жордана
-bool gauss_jordan_inverse(std::vector<double>& A, int n) {
-    std::vector<double> A_inv(n * n);
+// Функция для вывода матрицы
+//void print_matrix(double* A, int n, const std::string& label) {
+//    std::cout << label << ":\n";
+//    for (int i = 0; i < n; ++i) {
+//        for (int j = 0; j < n; ++j) {
+//            std::cout << A[i * n + j] << " ";
+//        }
+//        std::cout << "\n";
+//    }
+//    std::cout << "\n";
+//}
 
+// Функция для обращения матрицы методом Гаусса-Жордана
+void gauss_jordan_inversion(double* A, double* A_inv, int n) {
     // Создаем единичную матрицу
     for (int i = 0; i < n; ++i) {
         for (int j = 0; j < n; ++j) {
@@ -46,12 +44,15 @@ bool gauss_jordan_inverse(std::vector<double>& A, int n) {
         }
     }
 
+    // Выводим исходную матрицу
+  //  print_matrix(A, n, "Исходная матрица");
+
     // Прямой ход Гаусса-Жордана
     for (int i = 0; i < n; ++i) {
         // Проверка на ненулевой элемент на диагонали
         if (A[i * n + i] == 0) {
             std::cerr << "Матрица вырождена, обращение невозможно." << std::endl;
-            return false;
+            return;
         }
 
         // Нормализация строки
@@ -60,6 +61,9 @@ bool gauss_jordan_inverse(std::vector<double>& A, int n) {
             A[i * n + j] /= divisor;
             A_inv[i * n + j] /= divisor;
         }
+
+        // Вывод промежуточной матрицы после нормализации
+    //    print_matrix(A, n, "Матрица после нормализации строки " + std::to_string(i));
 
         // Обнуление столбца
         #pragma omp parallel for
@@ -72,38 +76,66 @@ bool gauss_jordan_inverse(std::vector<double>& A, int n) {
                 }
             }
         }
+
+        // Вывод промежуточной матрицы после обнуления столбца
+      //  print_matrix(A, n, "Матрица после обнуления столбца " + std::to_string(i));
     }
+}
 
-    // Копируем обратную матрицу в исходную матрицу
-    std::copy(A_inv.begin(), A_inv.end(), A.begin());
+// Функция для проверки корректности обращения матрицы
+bool check_inversion_correctness(double* A, double* A_inv, int n) {
+    std::vector<double> result(n * n, 0.0);
+    cblas_dgemm(CblasRowMajor, CblasNoTrans, CblasNoTrans, n, n, n, 1.0, A, n, A_inv, n, 0.0, result.data(), n);
 
+    for (int i = 0; i < n; ++i) {
+        for (int j = 0; j < n; ++j) {
+            double expected = (i == j) ? 1.0 : 0.0;
+            if (std::abs(result[i * n + j] - expected) > 1) {
+                return false;
+            }
+        }
+    }
     return true;
 }
 
 int main(int argc, char* argv[]) {
     if (argc != 2) {
-        std::cerr << "Usage: " << argv[0] << " <matrix_size>" << std::endl;
+        std::cerr << "Использование: " << argv[0] << " <размер матрицы>" << std::endl;
         return 1;
     }
 
-    int n = std::stoi(argv[1]);
-    std::vector<double> matrix = create_positive_definite_matrix(n);
+    int n = std::atoi(argv[1]);
+
+    // Устанавливаем количество потоков для OpenBLAS
+    int num_threads = omp_get_max_threads();
+    openblas_set_num_threads(num_threads);
+
+    std::vector<double> A(n * n);
+    std::vector<double> A_inv(n * n);
+
+    generate_positive_definite_matrix(A.data(), n);
 
     // Замеряем время
     auto start = std::chrono::high_resolution_clock::now();
 
     // Обращаем матрицу методом Гаусса-Жордана
-    bool success = gauss_jordan_inverse(matrix, n);
+    gauss_jordan_inversion(A.data(), A_inv.data(), n);
 
     auto end = std::chrono::high_resolution_clock::now();
     std::chrono::duration<double> diff = end - start;
 
-    if (success) {
-        std::cout << "Time to invert " << n << "x" << n << " matrix: " 
-                  << diff.count() << " seconds" << std::endl;
+    std::cout << "Время обращения матрицы " << n << "x" << n 
+              << " (метод Гаусса-Жордана): " << diff.count() << " секунд" << std::endl;
+   // std::cout << "Использовано потоков: " << num_threads << std::endl;
+
+    // Выводим обратную матрицу
+   // print_matrix(A_inv.data(), n, "Обратная матрица");
+
+    // Проверка корректности обращения матрицы
+    if (check_inversion_correctness(A.data(), A_inv.data(), n)) {
+        std::cout << "Проверка пройдена успешно" << std::endl;
     } else {
-        std::cerr << "Matrix inversion failed." << std::endl;
-        return 1;
+        std::cout << "Проверка не пройдена" << std::endl;
     }
 
     return 0;

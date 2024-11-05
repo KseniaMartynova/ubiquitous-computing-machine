@@ -9,5 +9,5 @@ RUN apt-get update && apt-get install -y \
         && rm -rf /var/lib/apt/lists/*
 WORKDIR /usr/share/lapack  
 COPY laGAUS_JORDAN.cpp /usr/share/lapack/laGAUS_JORDAN.cpp
-RUN g++ -o lagaus laGAUS_JORDAN.cpp -lopenblas -llapacke -lm -lpthread
+RUN g++ -o lagaus laGAUS_JORDAN.cpp -fopenmp -lopenblas -llapacke -lm -lpthread
 ENTRYPOINT ["./lagaus"] 
