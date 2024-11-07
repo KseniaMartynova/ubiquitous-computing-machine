@@ -1,0 +1,3 @@
+Using 16 threads for OpenBLAS.
+Time to invert 20000x20000 matrix: 61325.8 seconds
+Using 16 threads for OpenBLAS.
