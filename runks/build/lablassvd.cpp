@@ -71,6 +71,7 @@ int main(int argc, char* argv[]) {
     }
 
     // Обращаем матрицу с использованием SVD
+    #pragma omp parallel for
     for (int i = 0; i < n; ++i) {
         if (singular_values[i] > 1e-10) {
             singular_values[i] = 1.0 / singular_values[i];
@@ -80,6 +81,7 @@ int main(int argc, char* argv[]) {
     }
 
     // Вычисляем обратную матрицу
+    #pragma omp parallel for
     for (int i = 0; i < n; ++i) {
         for (int j = 0; j < n; ++j) {
             double sum = 0.0;

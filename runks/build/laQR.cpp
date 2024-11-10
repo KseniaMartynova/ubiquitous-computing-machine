@@ -4,7 +4,7 @@
 #include <chrono>
 #include <cblas.h>
 #include <lapacke.h>
-#include <thread> // Для std::thread::hardware_concurrency
+#include <omp.h>
 
 // Функция для создания положительно определенной матрицы
 std::vector<double> create_positive_definite_matrix(int n) {
@@ -65,6 +65,7 @@ bool qr_inverse(std::vector<double>& A, int n) {
 
     // Получаем обратную матрицу
     std::vector<double> A_inv(n * n);
+    #pragma omp parallel for
     for (int i = 0; i < n; ++i) {
         for (int j = 0; j < n; ++j) {
             A_inv[i * n + j] = 0.0;
@@ -90,7 +91,7 @@ int main(int argc, char* argv[]) {
     std::vector<double> matrix = create_positive_definite_matrix(n);
 
     // Устанавливаем количество потоков для OpenBLAS
-    int num_threads = std::thread::hardware_concurrency();
+    int num_threads = omp_get_max_threads();
     std::cout << "Using " << num_threads << " threads for OpenBLAS." << std::endl;
     setenv("OPENBLAS_NUM_THREADS", std::to_string(num_threads).c_str(), 1);
 

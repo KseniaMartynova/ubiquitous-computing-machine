@@ -1,3 +1,10 @@
 Time to invert 5000x5000 matrix using SVD: 1187.12 seconds
 Time to invert 5000x5000 matrix using SVD: 1170.75 seconds
 Time to invert 5000x5000 matrix using SVD: 1149.02 seconds
+Time to invert 5000x5000 matrix using SVD: 1183.57 seconds
+Time to invert 5000x5000 matrix using SVD: 1179.73 seconds
+Time to invert 5000x5000 matrix using SVD: 1206.12 seconds
+Time to invert 5000x5000 matrix using SVD: 1188.47 seconds
+Time to invert 5000x5000 matrix using SVD: 1157.75 seconds
+Time to invert 5000x5000 matrix using SVD: 1213.09 seconds
+Time to invert 5000x5000 matrix using SVD: 1161.22 seconds
