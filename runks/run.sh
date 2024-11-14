@@ -13,8 +13,8 @@ containers=(
 	#lapack_qr
 	#lapack_svd
 	#lapack_chol
-	"lapack_gaus"
-	#lapack_mul"
+	#lapack_gaus"
+	"lapack_mul"
 	#num_mul
 	#num_qr
 	#num_svd
@@ -23,7 +23,7 @@ containers=(
 )
 
 # Размеры матриц
-sizes=(100 500 1000 5000 10000 20000)
+sizes=(100)
 # sizes=(100 500)
 
 # Количество запусков для каждого контейнера и размера
