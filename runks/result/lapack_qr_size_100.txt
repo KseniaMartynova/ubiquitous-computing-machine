@@ -1,31 +1,3 @@
-Time to invert 100x100 matrix: 0.0227389 seconds
-Time to invert 100x100 matrix: 0.0225497 seconds
-Time to invert 100x100 matrix: 0.0237047 seconds
-Time to invert 100x100 matrix: 0.0254448 seconds
-Time to invert 100x100 matrix: 0.026681 seconds
-Time to invert 100x100 matrix: 0.0252782 seconds
-Time to invert 100x100 matrix: 0.0236622 seconds
-Time to invert 100x100 matrix: 0.0246787 seconds
-Using 16 threads for OpenBLAS.
-Time to invert 100x100 matrix: 0.0319304 seconds
-Using 16 threads for OpenBLAS.
-Time to invert 100x100 matrix: 0.016236 seconds
-Using 16 threads for OpenBLAS.
-Time to invert 100x100 matrix: 0.0255897 seconds
-Using 16 threads for OpenBLAS.
-Time to invert 100x100 matrix: 0.0271193 seconds
-Using 16 threads for OpenBLAS.
-Time to invert 100x100 matrix: 0.0303569 seconds
-Using 16 threads for OpenBLAS.
-Time to invert 100x100 matrix: 0.0251802 seconds
-Using 16 threads for OpenBLAS.
-Time to invert 100x100 matrix: 0.0272037 seconds
-Using 16 threads for OpenBLAS.
-Time to invert 100x100 matrix: 0.0254539 seconds
-Using 16 threads for OpenBLAS.
-Time to invert 100x100 matrix: 0.025269 seconds
-Using 16 threads for OpenBLAS.
-Time to invert 100x100 matrix: 0.0284062 seconds
 Using 16 threads for OpenBLAS.
 Time to invert 100x100 matrix: 0.0602146 seconds
 Using 16 threads for OpenBLAS.
