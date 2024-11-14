@@ -1,0 +1,10 @@
+Time to multiply 100x100 matrices: 0.000161083 seconds
+Time to multiply 100x100 matrices: 8.4429e-05 seconds 
+Time to multiply 100x100 matrices: 8.421e-05 seconds 
+Time to multiply 100x100 matrices: 8.5445e-05 seconds
+Time to multiply 100x100 matrices: 8.6047e-05 seconds
+Time to multiply 100x100 matrices: 7.6913e-05 seconds
+Time to multiply 100x100 matrices: 8.4095e-05 seconds 
+Time to multiply 100x100 matrices: 7.8607e-05 seconds
+Time to multiply 100x100 matrices: 8.2573e-05 seconds
+Time to multiply 100x100 matrices: 7.9643e-05 seconds  
