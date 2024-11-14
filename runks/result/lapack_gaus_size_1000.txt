@@ -1,13 +1,3 @@
-Time to invert 1000x1000 matrix: 9.35325 seconds
-Time to invert 1000x1000 matrix: 9.29402 seconds
-Time to invert 1000x1000 matrix: 9.27836 seconds
-Time to invert 1000x1000 matrix: 9.26815 seconds
-Time to invert 1000x1000 matrix: 9.26809 seconds
-Time to invert 1000x1000 matrix: 9.28606 seconds
-Time to invert 1000x1000 matrix: 9.24678 seconds
-Time to invert 1000x1000 matrix: 9.28877 seconds
-Time to invert 1000x1000 matrix: 9.26519 seconds
-Time to invert 1000x1000 matrix: 9.30856 seconds
 Время обращения матрицы 1000x1000 (метод Гаусса-Жордана): 0.86272 секунд
 Проверка пройдена успешно
 Время обращения матрицы 1000x1000 (метод Гаусса-Жордана): 0.825451 секунд
