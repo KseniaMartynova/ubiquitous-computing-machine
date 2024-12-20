@@ -1,13 +1,3 @@
-Time to invert 1000x1000 matrix using SVD: 9.61738 seconds
-Time to invert 1000x1000 matrix using SVD: 9.42162 seconds
-Time to invert 1000x1000 matrix using SVD: 9.48883 seconds
-Time to invert 1000x1000 matrix using SVD: 9.40169 seconds
-Time to invert 1000x1000 matrix using SVD: 9.38855 seconds
-Time to invert 1000x1000 matrix using SVD: 9.41986 seconds
-Time to invert 1000x1000 matrix using SVD: 9.51491 seconds
-Time to invert 1000x1000 matrix using SVD: 9.44361 seconds
-Time to invert 1000x1000 matrix using SVD: 9.51509 seconds
-Time to invert 1000x1000 matrix using SVD: 9.39734 seconds
 Time to invert 1000x1000 matrix using SVD: 4.39002 seconds
 Time to invert 1000x1000 matrix using SVD: 4.05707 seconds
 Time to invert 1000x1000 matrix using SVD: 4.12322 seconds
