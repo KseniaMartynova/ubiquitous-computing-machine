@@ -1,4 +1,4 @@
-FROM intel/oneapi-basekit:latest 
+FROM intel/oneapi-basekit:2025.0.0-0-devel-ubuntu22.04 
 COPY mklCho.cpp /usr/share/mkl/mklCho.cpp
 WORKDIR /usr/share/mkl  
 # RUN clang++ -o mklcho mklCho.cpp -I${MKLROOT}/include -L${MKLROOT}/lib/intel64 -lmkl_intel_lp64 -lmkl_sequential -lmkl_core -lpthread -lm -ldl

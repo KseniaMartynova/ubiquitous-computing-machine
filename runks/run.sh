@@ -14,7 +14,7 @@ containers=(
 	#lapack_svd
 	#lapack_chol
 	#lapack_gaus"
-	"lapack_mul"
+	"lapack_svd_woomp"
 	#num_mul
 	#num_qr
 	#num_svd

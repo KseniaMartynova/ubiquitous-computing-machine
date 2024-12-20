@@ -5,7 +5,6 @@
 #include <cblas.h>
 #include <omp.h>
 
-
 // Функция для создания положительно определенной матрицы
 void generate_positive_definite_matrix(double* A, int n) {
     std::random_device rd;
@@ -49,12 +48,11 @@ void gauss_jordan_inversion(double* A, double* A_inv, int n) {
   //  print_matrix(A, n, "Исходная матрица");
 
     // Прямой ход Гаусса-Жордана
-    #pragma omp parallel for
     for (int i = 0; i < n; ++i) {
         // Проверка на ненулевой элемент на диагонали
         if (A[i * n + i] == 0) {
             std::cerr << "Матрица вырождена, обращение невозможно." << std::endl;
-            //return;
+            return;
         }
 
         // Нормализация строки
@@ -68,7 +66,7 @@ void gauss_jordan_inversion(double* A, double* A_inv, int n) {
     //    print_matrix(A, n, "Матрица после нормализации строки " + std::to_string(i));
 
         // Обнуление столбца
-//        #pragma omp parallel for
+        #pragma omp parallel for
         for (int k = 0; k < n; ++k) {
             if (k != i) {
                 double factor = A[k * n + i];
