@@ -1,0 +1,10 @@
+Time to invert 500x500 matrix using SVD: 1.36429 seconds
+Time to invert 500x500 matrix using SVD: 1.36441 seconds
+Time to invert 500x500 matrix using SVD: 1.32471 seconds
+Time to invert 500x500 matrix using SVD: 1.34604 seconds
+Time to invert 500x500 matrix using SVD: 1.34056 seconds
+Time to invert 500x500 matrix using SVD: 1.3314 seconds
+Time to invert 500x500 matrix using SVD: 1.31746 seconds
+Time to invert 500x500 matrix using SVD: 1.32709 seconds
+Time to invert 500x500 matrix using SVD: 1.2956 seconds
+Time to invert 500x500 matrix using SVD: 1.34901 seconds
