@@ -1,0 +1,10 @@
+Time to invert 5000x5000 matrix: 1653.12 seconds
+Time to invert 5000x5000 matrix: 1652.63 seconds
+Time to invert 5000x5000 matrix: 1653.33 seconds
+Time to invert 5000x5000 matrix: 1649.3 seconds
+Time to invert 5000x5000 matrix: 1655.69 seconds
+Time to invert 5000x5000 matrix: 1654.12 seconds
+Time to invert 5000x5000 matrix: 1659.8 seconds
+Time to invert 5000x5000 matrix: 1651.24 seconds
+Time to invert 5000x5000 matrix: 1650.15 seconds
+Time to invert 5000x5000 matrix: 1653.8 seconds
