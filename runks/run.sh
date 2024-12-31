@@ -12,10 +12,10 @@ containers=(
 	#mkl_mul
 	#lapack_qr
 	#lapack_svd
-	#lapack_chol
+	"lapack_chol"
 	#lapack_gaus"
 	#lapack_svd_wo_omp"
-	"lapack_qr_wo_omp"
+	#lapack_qr_wo_omp"
 	#num_mul
 	#num_qr
 	#num_svd
