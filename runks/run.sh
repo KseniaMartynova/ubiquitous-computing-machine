@@ -10,9 +10,9 @@ containers=(
 	#mkl_qr" 
 	#mkl_lu
 	#mkl_mul
-	#lapack_qr
+	"lapack_mul"
 	#lapack_svd
-	"lapack_chol"
+	#lapack_chol"
 	#lapack_gaus"
 	#lapack_svd_wo_omp"
 	#lapack_qr_wo_omp"

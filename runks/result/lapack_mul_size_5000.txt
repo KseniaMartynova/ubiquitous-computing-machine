@@ -1,0 +1,10 @@
+Time to multiply 5000x5000 matrices: 0.411029 seconds
+Time to multiply 5000x5000 matrices: 0.435508 seconds
+Time to multiply 5000x5000 matrices: 0.396904 seconds
+Time to multiply 5000x5000 matrices: 0.440014 seconds
+Time to multiply 5000x5000 matrices: 0.420711 seconds
+Time to multiply 5000x5000 matrices: 0.410974 seconds
+Time to multiply 5000x5000 matrices: 0.419728 seconds
+Time to multiply 5000x5000 matrices: 0.43067 seconds
+Time to multiply 5000x5000 matrices: 0.449988 seconds
+Time to multiply 5000x5000 matrices: 0.425273 seconds
