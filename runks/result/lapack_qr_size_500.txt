@@ -18,3 +18,23 @@ Using 16 threads for OpenBLAS.
 Time to invert 500x500 matrix: 0.418697 seconds
 Using 16 threads for OpenBLAS.
 Time to invert 500x500 matrix: 0.418249 seconds
+Using 16 threads for OpenBLAS.
+Time to invert 500x500 matrix: 0.429098 seconds
+Using 16 threads for OpenBLAS.
+Time to invert 500x500 matrix: 0.43249 seconds
+Using 16 threads for OpenBLAS.
+Time to invert 500x500 matrix: 0.416147 seconds
+Using 16 threads for OpenBLAS.
+Time to invert 500x500 matrix: 0.42983 seconds
+Using 16 threads for OpenBLAS.
+Time to invert 500x500 matrix: 0.423022 seconds
+Using 16 threads for OpenBLAS.
+Time to invert 500x500 matrix: 0.429998 seconds
+Using 16 threads for OpenBLAS.
+Time to invert 500x500 matrix: 0.42638 seconds
+Using 16 threads for OpenBLAS.
+Time to invert 500x500 matrix: 0.420964 seconds
+Using 16 threads for OpenBLAS.
+Time to invert 500x500 matrix: 0.420196 seconds
+Using 16 threads for OpenBLAS.
+Time to invert 500x500 matrix: 0.429896 seconds

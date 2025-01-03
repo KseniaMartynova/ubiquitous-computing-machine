@@ -18,3 +18,23 @@ Using 16 threads for OpenBLAS.
 Time to invert 1000x1000 matrix: 2.93627 seconds
 Using 16 threads for OpenBLAS.
 Time to invert 1000x1000 matrix: 2.88613 seconds
+Using 16 threads for OpenBLAS.
+Time to invert 1000x1000 matrix: 2.94091 seconds
+Using 16 threads for OpenBLAS.
+Time to invert 1000x1000 matrix: 2.77883 seconds
+Using 16 threads for OpenBLAS.
+Time to invert 1000x1000 matrix: 2.78278 seconds
+Using 16 threads for OpenBLAS.
+Time to invert 1000x1000 matrix: 2.79692 seconds
+Using 16 threads for OpenBLAS.
+Time to invert 1000x1000 matrix: 2.78885 seconds
+Using 16 threads for OpenBLAS.
+Time to invert 1000x1000 matrix: 2.83887 seconds
+Using 16 threads for OpenBLAS.
+Time to invert 1000x1000 matrix: 2.79219 seconds
+Using 16 threads for OpenBLAS.
+Time to invert 1000x1000 matrix: 2.79196 seconds
+Using 16 threads for OpenBLAS.
+Time to invert 1000x1000 matrix: 2.78507 seconds
+Using 16 threads for OpenBLAS.
+Time to invert 1000x1000 matrix: 2.8028 seconds
