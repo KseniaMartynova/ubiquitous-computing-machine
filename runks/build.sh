@@ -20,9 +20,9 @@ echo "Building Lapack-OpenBlas Docker containers..."
 
 # clang
 #build_container lapack_qr" "Dockerfile.laqr"
-build_container "lapack_svd" "Dockerfile.lasvd"
-#build_container lapack_chol" "Dockerfile.lachol"
-#build_container lapack_mul" "Dockerfile.lamul"
+build_container "mkl_qr" "Dockerfile.mklqr"
+build_container "mkl_svd" "Dockerfile.mklsvd"
+build_container "mkl_lu" "Dockerfile.mkllu"
 #build_container lapack_qr" "Dockerfile.laqr"
 #build_container lapack_gaus_no_omp" "Dockerfile.lagaus"
 #build_container lapack_svd_wo_omp" "Dockerfile.lasvd_withoutOMP"
