@@ -1,1 +1,3 @@
 Time to invert 20000x20000 matrix using SVD: 131113 seconds
+Time to invert 20000x20000 matrix using SVD: 129168 seconds
+Time to invert 20000x20000 matrix using SVD: 130478 seconds

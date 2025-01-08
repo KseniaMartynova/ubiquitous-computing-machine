@@ -8,3 +8,13 @@ Time to invert 100x100 matrix using SVD: 0.0816716 seconds
 Time to invert 100x100 matrix using SVD: 0.0928487 seconds
 Time to invert 100x100 matrix using SVD: 0.0989834 seconds
 Time to invert 100x100 matrix using SVD: 0.0961165 seconds
+Time to invert 100x100 matrix using SVD: 0.0867239 seconds
+Time to invert 100x100 matrix using SVD: 0.0869203 seconds
+Time to invert 100x100 matrix using SVD: 0.092083 seconds
+Time to invert 100x100 matrix using SVD: 0.103811 seconds
+Time to invert 100x100 matrix using SVD: 0.0943382 seconds
+Time to invert 100x100 matrix using SVD: 0.0989958 seconds
+Time to invert 100x100 matrix using SVD: 0.0902916 seconds
+Time to invert 100x100 matrix using SVD: 0.0908054 seconds
+Time to invert 100x100 matrix using SVD: 0.085517 seconds
+Time to invert 100x100 matrix using SVD: 0.0818249 seconds

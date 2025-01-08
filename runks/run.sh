@@ -11,7 +11,7 @@ containers=(
 	#mkl_lu
 	#mkl_mul
 	#lapack_mul"
-	"lapack_qr"
+	"lapack_svd"
 	#lapack_chol"
 	#lapack_gaus"
 	#lapack_svd_wo_omp"
