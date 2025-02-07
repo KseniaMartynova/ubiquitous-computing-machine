@@ -1,9 +1,7 @@
 import numpy as np
 import time
 import sys
-from numba import njit
 
-@njit
 def generate_positive_definite_matrix(n):
     # Генерируем случайную матрицу
     A = np.random.rand(n, n)
@@ -16,9 +14,17 @@ def generate_positive_definite_matrix(n):
     
     return A
 
-@njit
 def matrix_multiplication(matrix1, matrix2):
-    return np.dot(matrix1, matrix2)
+    n = matrix1.shape[0]
+    result = np.zeros((n, n))  # Инициализируем результирующую матрицу нулями
+    
+    # Вручную умножаем матрицы
+    for i in range(n):  # Проходим по строкам первой матрицы
+        for j in range(n):  # Проходим по столбцам второй матрицы
+            for k in range(n):  # Вычисляем скалярное произведение
+                result[i, j] += matrix1[i, k] * matrix2[k, j]
+    
+    return result
 
 def measure_time_for_matrix_multiplication(matrix1, matrix2):
     start_time = time.time()
