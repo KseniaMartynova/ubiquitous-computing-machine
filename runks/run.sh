@@ -6,11 +6,11 @@ cd result
 # Список контейнеров
 containers=(
        	#mkl_chol"
-	"mkl_svd"
-	"mkl_qr" 
-	"mkl_lu"
+	#mkl_svd"
+	#mkl_qr" 
+	#mkl_lu"
 	#mkl_mul"
-	#lapack_mul"
+	"la_svd"
 	#lapack_svd"
 	#lapack_chol"
 	#lapack_gaus"

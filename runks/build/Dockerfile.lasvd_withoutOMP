@@ -8,6 +8,6 @@ RUN apt-get update && apt-get install -y \
         liblapacke-dev \
         && rm -rf /var/lib/apt/lists/*
 WORKDIR /usr/share/lapack
-COPY lablassvd_withoutOMP.cpp /usr/share/lapack/lablassvd_withoutOMP.cpp
-RUN g++ -o lablassvd_wO lablassvd_withoutOMP.cpp -fopenmp -lopenblas -llapacke -lm -lpthread
+COPY la0.cpp /usr/share/lapack/la0.cpp
+RUN g++ -o lablassvd_wO la0.cpp -fopenmp -lopenblas -llapacke -lm -lpthread
 ENTRYPOINT ["./lablassvd_wO"]
