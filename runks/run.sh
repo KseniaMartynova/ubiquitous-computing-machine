@@ -10,7 +10,7 @@ containers=(
 	#mkl_qr" 
 	#mkl_lu"
 	#mkl_mul"
-	"la_svd"
+	"lasvd_without_o"
 	#lapack_svd"
 	#lapack_chol"
 	#lapack_gaus"
@@ -24,7 +24,7 @@ containers=(
 )
 
 # Размеры матриц
-sizes=(100 500 1000 5000 10000 20000)
+sizes=(10000 20000)
 # sizes=(100 500)
 
 # Количество запусков для каждого контейнера и размера
