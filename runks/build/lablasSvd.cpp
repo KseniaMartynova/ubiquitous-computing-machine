@@ -141,4 +141,10 @@ int main(int argc, char* argv[]) {
     auto inv_duration = std::chrono::duration<double>(inv_end - inv_start);
     auto total_duration = svd_duration + inv_duration;
 
-    std::cout << "Время
+    std::cout << "Время выполнения SVD: " << svd_duration.count() << " s\n"
+              << "Время выполнения инверсии: " << inv_duration.count() << " s\n"
+              << "Общее время: " << total_duration.count() << " s\n"
+              << "Ошибка инверсии: " << error << std::endl;
+
+    return 0;
+}
