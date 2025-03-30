@@ -1,20 +1,40 @@
-Time to invert 10000x10000 matrix using SVD: 14139 seconds
-Time to invert 10000x10000 matrix using SVD: 14816.1 seconds
-Time to invert 10000x10000 matrix using SVD: 14701.5 seconds
-Time to invert 10000x10000 matrix using SVD: 14537.7 seconds
-Time to invert 10000x10000 matrix using SVD: 14462.6 seconds
-Time to invert 10000x10000 matrix using SVD: 14905.1 seconds
-Time to invert 10000x10000 matrix using SVD: 15195 seconds
-Time to invert 10000x10000 matrix using SVD: 14668 seconds
-Time to invert 10000x10000 matrix using SVD: 14597.7 seconds
-Time to invert 10000x10000 matrix using SVD: 14663.7 seconds
-Time to invert 10000x10000 matrix using SVD: 14414.9 seconds
-Time to invert 10000x10000 matrix using SVD: 14648.8 seconds
-Time to invert 10000x10000 matrix using SVD: 14460.5 seconds
-Time to invert 10000x10000 matrix using SVD: 14839.9 seconds
-Time to invert 10000x10000 matrix using SVD: 14398.2 seconds
-Time to invert 10000x10000 matrix using SVD: 14516.7 seconds
-Time to invert 10000x10000 matrix using SVD: 14332.6 seconds
-Time to invert 10000x10000 matrix using SVD: 14398.7 seconds
-Time to invert 10000x10000 matrix using SVD: 14427 seconds
-Time to invert 10000x10000 matrix using SVD: 14481.7 seconds
+Время выполнения SVD: 9251.92 s
+Время выполнения инверсии: 4.39288 s
+Общее время: 9256.31 s
+Ошибка инверсии: 2333.77
+Время выполнения SVD: 9175.67 s
+Время выполнения инверсии: 4.43556 s
+Общее время: 9180.1 s
+Ошибка инверсии: 2336
+Время выполнения SVD: 9125.37 s
+Время выполнения инверсии: 4.86605 s
+Общее время: 9130.23 s
+Ошибка инверсии: 2332.69
+Время выполнения SVD: 9115.34 s
+Время выполнения инверсии: 4.41302 s
+Общее время: 9119.75 s
+Ошибка инверсии: 2335.69
+Время выполнения SVD: 9178.44 s
+Время выполнения инверсии: 5.58614 s
+Общее время: 9184.03 s
+Ошибка инверсии: 2334.82
+Время выполнения SVD: 9132.49 s
+Время выполнения инверсии: 4.42739 s
+Общее время: 9136.91 s
+Ошибка инверсии: 2334.67
+Время выполнения SVD: 9132.81 s
+Время выполнения инверсии: 4.41365 s
+Общее время: 9137.22 s
+Ошибка инверсии: 2333
+Время выполнения SVD: 9110.25 s
+Время выполнения инверсии: 4.48774 s
+Общее время: 9114.73 s
+Ошибка инверсии: 2334.1
+Время выполнения SVD: 9338.97 s
+Время выполнения инверсии: 4.89231 s
+Общее время: 9343.86 s
+Ошибка инверсии: 2333.77
+Время выполнения SVD: 9204.09 s
+Время выполнения инверсии: 4.59609 s
+Общее время: 9208.69 s
+Ошибка инверсии: 2333.54
