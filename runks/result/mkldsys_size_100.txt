@@ -1,0 +1,20 @@
+Matrix size: 512x512
+Inversion time: 0.0177874 seconds
+Matrix size: 512x512
+Inversion time: 0.023001 seconds
+Matrix size: 512x512
+Inversion time: 0.021762 seconds
+Matrix size: 512x512
+Inversion time: 0.0244847 seconds
+Matrix size: 512x512
+Inversion time: 0.0203005 seconds
+Matrix size: 512x512
+Inversion time: 0.0217351 seconds
+Matrix size: 512x512
+Inversion time: 0.0190329 seconds
+Matrix size: 512x512
+Inversion time: 0.022893 seconds
+Matrix size: 512x512
+Inversion time: 0.0191215 seconds
+Matrix size: 512x512
+Inversion time: 0.0204745 seconds
