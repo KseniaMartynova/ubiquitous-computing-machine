@@ -1,4 +1,0 @@
-Time to invert 100x100 matrix: 0.00946227 seconds
-Maximum error in inverse verification: 1.9984e-15
-Time to invert 100x100 matrix: 0.0138526 seconds
-Maximum error in inverse verification: 1.22125e-15

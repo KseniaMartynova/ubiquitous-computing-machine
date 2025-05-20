@@ -1,9 +1,0 @@
-Matrix size: 100x100
-Time for LU decomposition and inversion: 0.0327903 seconds
-Maximum error in inverse verification: 1.11022e-15
-Matrix size: 100x100
-Time for LU decomposition and inversion: 0.0110109 seconds
-Maximum error in inverse verification: 9.99201e-16
-Matrix size: 100x100
-Time for LU decomposition and inversion: 0.018997 seconds
-Maximum error in inverse verification: 1.33227e-15
