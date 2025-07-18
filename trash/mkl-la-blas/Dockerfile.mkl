@@ -1,9 +1,0 @@
-FROM intel/oneapi-basekit:latest 
-COPY mkl.cpp /mkl_openblas_lapack/mkl.cpp
-COPY openblas.cpp /mkl_openblas_lapack/openblas.cpp
-COPY lapack.cpp /mkl_openblas_lapack/lapack.cpp 
-WORKDIR /mkl_openblas_lapack
-RUN icpx -qmkl mkl.cpp -o mkl 
-RUN icpx -qmkl openblas.cpp -o oopn
-RUN icpx -qmkl lapack.cpp -o lapa 
-CMD ["./mkl"] 
