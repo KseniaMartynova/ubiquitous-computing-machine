@@ -1,2 +1,0 @@
-CPU: 2x Intel(R) Xeon(R) Gold 6334 CPU @ 3.60GHz
-RAM: 512 GB; Samsung M393A8G40AB2-CWE PC4-25600
