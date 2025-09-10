@@ -30,7 +30,10 @@ git clone https://github.com/KseniaMartynova/ubiquitous-computing-machine
 ```
 bash build.sh
 ```
-
+3. Осталось самое простое, запустить файл [run.sh](runks/run.sh), который запускает измерения операций.
+```
+bash run.sh
+```
 (для запуска: bash run_lapack.sh | tee -a result_openBLAS_LAPACK_docker.log)
 ## Intel Math Kernel Library (MKL)
 Библиотека Intel Math Kernel Library (MKL) — это набор высокопроизводительных математических функций, оптимизированных для работы на процессорах Intel. 
