@@ -24,32 +24,24 @@
 - Эта библиотека поддерживает многопоточность, что позволяет эффективно использовать многоядерные процессоры. Функции MKL автоматически распределяют вычисления между ядрами, что уменьшает время выполнения задач.
 - Может быть использована в сочетании с другими библиотеками, такими как BLAS (Basic Linear Algebra Subprograms), LAPACK (Linear Algebra Package), FFTW (Fastest Fourier Transform in the West) и другими. Это обеспечивает высокую производительность и совместимость.
 
-1. Итак, скачаем образ из официального dockerhub intel.
+1. Итак, скачаем образ из официального dockerhub intel (я использую версию: intel/oneapi-basekit:2025.0.1-0-devel-ubuntu22.04).
 ```
-docker pull intel/oneapi-basekit
+docker pull intel/oneapi-basekit:2025.0.1-0-devel-ubuntu22.04
 ```
-2. Далее создадим dockerfile, в котором содержится все, что нам нужно для дальнейших вычислений, например, сама программа, которая производит обращение положительно определенной матрицы и замеряет время ее обращения.
+2. Далее соберем dockerfile, в котором содержится все, что нам нужно для дальнейших вычислений, например, сама программа, которая производит обращение положительно определенной матрицы и замеряет время ее обращения.
 ```
-docker build -t intel/oneapi-basekit:latest -f Dockerfile.mkl .
+docker build -t intel/oneapi-basekit:2025.0.1-0-devel-ubuntu22.04 -f Dockerfile.mkl .
 ```
 3. Для единичного запуска программы мы можем запустить контейнер и внутри уже ввести размер матрицы.
 ```
-docker run --rm -ti -v mkl:/usr/share intel/oneapi-basekit:latest bash
+docker run --rm -ti -v mkl:/usr/share intel/oneapi-basekit:2025.0.1-0-devel-ubuntu22.04 bash
 
 ./mkl
 ```
 Вместо третьего пункта на самом деле можно сделать следующее и сразу ввести размер матрицы, не заходя в контейнер:
 ```
-docker run intel/oneapi-basekit 200
-```
-Для более точного результата лучше несколько раз подсчитать время обращения матрицы. Напишем скрипт на shell. Он десять раз запускает контейнер и записывает результаты в файл.
-Вот запуск этого скрипта:
-```
-bash mkrun.sh | tee -a resmkl.txt
-```
-Результаты представлены в самом низу. 
-
-![image](https://github.com/user-attachments/assets/548f12dd-041b-474c-a4e1-e538c6dee991)
+docker run intel/oneapi-basekit:2025.0.1-0-devel-ubuntu22.04 200
+``` 
 
 ## OpenBLAS_-_LAPACK
 LAPACK (Linear Algebra Package). 
@@ -71,13 +63,6 @@ docker build -t lapack:latest -f Dockerfile.lablas .
 ```
 docker run lapack  200
 ```
-Но здесь нам тоже нужно будет несколько раз запустить обращение матрицы для более точного результата. Поэтому запустим скрипт, он какой же как для mkl.
-```
-bash larun.sh | tee -a reslablas.txt
-```
-Разультаты представлены в самом низу.
-
-![image](https://github.com/user-attachments/assets/10aaa2e4-12e2-46af-b0bd-0d0dfadc5336)
 
 ## NumPy
 - NumPy предоставляет мощные возможности для индексирования и среза массивов, включая многомерное индексирование, логическое индексирование и комбинированные срезы.
@@ -91,11 +76,6 @@ docker build -t num:latest -f Dockerfile.num .
 ```
 docker run num 200
 ```
-И с помощью скрипта сделаем несколько запусков:
-```
-bash numrun.sh | tee -a resnum.txt
-```
-![image](https://github.com/user-attachments/assets/ceb46548-4d0d-47fd-bb38-b89180d8307b)
 
 ## Eigen
 Eigen — это C++ библиотека для линейной алгебры, которая предоставляет высокопроизводительные и легковесные решения для работы с матрицами и векторами. 
@@ -113,14 +93,6 @@ docker build -t eigen:latest -f Dockerfile.Eigen .
 ```
 docker run eigen 200
 ```
-И снова используем скрипт, который 10 раз запустит обращение матрицы нужного нам размера и запишет результаты в файл.
-```
-bash eirun.sh | tee -a resei.txt
-```
-Результаты запуска на таком то железе, с такой то убунтой и докером представлены внизу.
-
-![image](https://github.com/user-attachments/assets/83d79fc8-e46b-453e-983d-b7e45516de7e)
-
 ## Armadillo
 Библиотека Armadillo — это высокопроизводительная C++ библиотека для линейной алгебры, которая предоставляет удобный интерфейс для работы с матрицами и векторами.
 
@@ -136,26 +108,12 @@ docker build -t armadillo:latest -f Dockerfile.arm .
 
 docker run armadillo 200
 ```
-Так как нам нужно запустить его несколько раз и записать результаты запуска в файл, воспользуемся скриптом:
-```
-bash armrun.sh | tee -a resarm.txt
-```
-
-![armadillo](https://github.com/user-attachments/assets/9dc4e79c-1797-4879-9938-c4a4dbde961b)
-
 
 ## CUDA_cuBLAS_и_cuSOLVER
-```
-docker build -t cudaks -f Dockerfile.cuda .
-```
-2. Единичный запуск с нужным размером матрицы.
-```
-docker run cudaks 200
-```
-И с помощью скрипта сделаем несколько запусков:
-```
-bash cudarun.sh | tee -a rescuda.txt
-```
+CUDA (Compute Unified Device Architecture) — параллельная вычислительная платформа и модель программирования, разработанная компанией NVIDIA. Позволяет использовать графические процессоры (GPU) не только для рендеринга графики, но и для вычислений общего назначения.
+CuBLAS (CUDA Basic Linear Algebra Subprograms) — библиотека, которая реализует подпрограммы базовой линейной алгебры (BLAS) поверх времени выполнения NVIDIA CUDA. Она позволяет получить доступ к вычислительным ресурсам графических процессоров (GPU) NVIDIA. 
+cuSolver — библиотека линейной алгебры для NVIDIA CUDA, основанная на библиотеках cuBLAS и cuSPARSE. Она обеспечивает GPU-ускоренные реализации решателей для плотных и разреженных матриц.
+
 ## Результаты
 
 
