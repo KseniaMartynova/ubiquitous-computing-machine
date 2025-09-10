@@ -79,7 +79,7 @@ OpenBLAS (Open Basic Linear Algebra Subprograms).
   
 Для использования LAPACK и OpenBLAS вместе, обычно необходимо сначала установить OpenBLAS, а затем сконфигурировать и установить LAPACK так, чтобы он использовал OpenBLAS в качестве библиотеки BLAS. 
 
-1. Итак, построим образ с помощью dockerfile, в который мы предварительно положим пакеты для устновки lapack и openblas.
+1. Итак, сделаем dockerfile на основании официального gcc:12.4 из [dockerhub gcc](https://hub.docker.com/_/gcc), в который мы предварительно положим пакеты для устновки lapack и openblas.
 ```
 docker build -t lapack:latest -f Dockerfile.lablas .
 ```
