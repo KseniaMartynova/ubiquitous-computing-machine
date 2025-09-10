@@ -18,15 +18,21 @@ build_container() {
 # Lapack-OpenBlas
 echo "Building Lapack-OpenBlas Docker containers..."
 
-# clang
-#build_container lapack_qr" "Dockerfile.laqr"
-build_container "mkl_qr" "Dockerfile.mklqr"
+build_container "lapack_svd" "Dockerfile.lasvd"
+build_container "lapack_chol" "Dockerfile.lachol"
+build_container "lapack_lu" "Dockerfile.lapackLU"
+build_container "lapack_mul" "Dockerfile.lamul"
+
+build_container "mkl_chol" "Dockerfile.mklcho"
 build_container "mkl_svd" "Dockerfile.mklsvd"
 build_container "mkl_lu" "Dockerfile.mkllu"
-#build_container lapack_qr" "Dockerfile.laqr"
-#build_container lapack_gaus_no_omp" "Dockerfile.lagaus"
-#build_container lapack_svd_wo_omp" "Dockerfile.lasvd_withoutOMP"
-#build_container lapack_qr_wo_omp" "Dockerfile.laqr_withoutOMP"
+build_container "mkl_mul" "Dockerfile.mklmul"
+
+build_container "num_cho" "Dockerfile.numcho"
+build_container "num_lu" "Dockerfile.numlu"
+build_container "num_mul" "Dockerfile.nummul"
+build_container "num_svd" "Dockerfile.numsvd"
+
 
 cd ../
 echo "All containers built successfully!"
