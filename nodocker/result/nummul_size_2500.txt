@@ -1,0 +1,70 @@
+Traceback (most recent call last):
+  File "/home/ksenia/ksenia/ubiquitous-computing-machine/nodocker/result/../nummul.py", line 4, in <module>
+    from numba import njit
+ModuleNotFoundError: No module named 'numba'
+--------------------------------------
+Traceback (most recent call last):
+  File "/home/ksenia/ksenia/ubiquitous-computing-machine/nodocker/result/../nummul.py", line 4, in <module>
+    from numba import njit
+ModuleNotFoundError: No module named 'numba'
+--------------------------------------
+Traceback (most recent call last):
+  File "/home/ksenia/ksenia/ubiquitous-computing-machine/nodocker/result/../nummul.py", line 4, in <module>
+    from numba import njit
+ModuleNotFoundError: No module named 'numba'
+--------------------------------------
+Traceback (most recent call last):
+  File "/home/ksenia/ksenia/ubiquitous-computing-machine/nodocker/result/../nummul.py", line 4, in <module>
+    from numba import njit
+ModuleNotFoundError: No module named 'numba'
+--------------------------------------
+Traceback (most recent call last):
+  File "/home/ksenia/ksenia/ubiquitous-computing-machine/nodocker/result/../nummul.py", line 4, in <module>
+    from numba import njit
+ModuleNotFoundError: No module named 'numba'
+--------------------------------------
+Traceback (most recent call last):
+  File "/home/ksenia/ksenia/ubiquitous-computing-machine/nodocker/result/../nummul.py", line 4, in <module>
+    from numba import njit
+ModuleNotFoundError: No module named 'numba'
+--------------------------------------
+Traceback (most recent call last):
+  File "/home/ksenia/ksenia/ubiquitous-computing-machine/nodocker/result/../nummul.py", line 4, in <module>
+    from numba import njit
+ModuleNotFoundError: No module named 'numba'
+--------------------------------------
+Traceback (most recent call last):
+  File "/home/ksenia/ksenia/ubiquitous-computing-machine/nodocker/result/../nummul.py", line 4, in <module>
+    from numba import njit
+ModuleNotFoundError: No module named 'numba'
+--------------------------------------
+Traceback (most recent call last):
+  File "/home/ksenia/ksenia/ubiquitous-computing-machine/nodocker/result/../nummul.py", line 4, in <module>
+    from numba import njit
+ModuleNotFoundError: No module named 'numba'
+--------------------------------------
+Traceback (most recent call last):
+  File "/home/ksenia/ksenia/ubiquitous-computing-machine/nodocker/result/../nummul.py", line 4, in <module>
+    from numba import njit
+ModuleNotFoundError: No module named 'numba'
+--------------------------------------
+Время, затраченное на умножение матриц размерности 2500x2500: 0.466422 секунд
+--------------------------------------
+Время, затраченное на умножение матриц размерности 2500x2500: 0.432430 секунд
+--------------------------------------
+Время, затраченное на умножение матриц размерности 2500x2500: 0.434020 секунд
+--------------------------------------
+Время, затраченное на умножение матриц размерности 2500x2500: 0.407701 секунд
+--------------------------------------
+Время, затраченное на умножение матриц размерности 2500x2500: 0.404602 секунд
+--------------------------------------
+Время, затраченное на умножение матриц размерности 2500x2500: 0.429935 секунд
+--------------------------------------
+Время, затраченное на умножение матриц размерности 2500x2500: 0.405225 секунд
+--------------------------------------
+Время, затраченное на умножение матриц размерности 2500x2500: 0.420042 секунд
+--------------------------------------
+Время, затраченное на умножение матриц размерности 2500x2500: 0.395943 секунд
+--------------------------------------
+Время, затраченное на умножение матриц размерности 2500x2500: 0.446995 секунд
+--------------------------------------

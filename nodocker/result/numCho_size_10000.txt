@@ -1,0 +1,60 @@
+Time: 1.790613s
+Symmetric: Yes
+Positive definite: Yes
+Decomposition: Success
+Verification: Valid
+--------------------------------------
+Time: 1.866867s
+Symmetric: Yes
+Positive definite: Yes
+Decomposition: Success
+Verification: Valid
+--------------------------------------
+Time: 1.841034s
+Symmetric: Yes
+Positive definite: Yes
+Decomposition: Success
+Verification: Valid
+--------------------------------------
+Time: 1.814115s
+Symmetric: Yes
+Positive definite: Yes
+Decomposition: Success
+Verification: Valid
+--------------------------------------
+Time: 2.021258s
+Symmetric: Yes
+Positive definite: Yes
+Decomposition: Success
+Verification: Valid
+--------------------------------------
+Time: 2.348508s
+Symmetric: Yes
+Positive definite: Yes
+Decomposition: Success
+Verification: Valid
+--------------------------------------
+Time: 2.039882s
+Symmetric: Yes
+Positive definite: Yes
+Decomposition: Success
+Verification: Valid
+--------------------------------------
+Time: 3.544796s
+Symmetric: Yes
+Positive definite: Yes
+Decomposition: Success
+Verification: Valid
+--------------------------------------
+Time: 4.527719s
+Symmetric: Yes
+Positive definite: Yes
+Decomposition: Success
+Verification: Valid
+--------------------------------------
+Time: 1.807416s
+Symmetric: Yes
+Positive definite: Yes
+Decomposition: Success
+Verification: Valid
+--------------------------------------
