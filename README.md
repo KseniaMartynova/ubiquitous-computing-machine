@@ -3,7 +3,7 @@
 - [Введение](#Введение)
 - [Начало работы](#Начало_работы)
 - [Продолжение работы](#Продолжение_работы)
-- 1. [MKL](##Intel_Math_Kernel_Library (MKL))
+- 1._[MKL](##Intel_Math_Kernel_Library (MKL))
 - 2. [OpenBLAS - LAPACK](#OpenBLAS_-_LAPACK)
 - 3. [NumPy](#NumPy)
 - 4. [Eigen](#Eigen)
