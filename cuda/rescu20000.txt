@@ -1,3 +1,0 @@
-Running docker run cuda 20000
-CUDA API failed at line 108 with error: out of memory (2)
-CUDA API failed at line 108 with error: out of memory (2)
