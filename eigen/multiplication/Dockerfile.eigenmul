@@ -1,7 +1,0 @@
-FROM gcc:latest
-RUN apt-get update && apt-get upgrade && apt-get install sudo && apt-get install nano \
-    libeigen3-dev
-COPY eimul.cpp /usr/share/myapp/eimul.cpp 
-WORKDIR /usr/share/myapp
-RUN g++ -I /usr/include/eigen3/ eimul.cpp -o eimul
-ENTRYPOINT ["./eimul"]
