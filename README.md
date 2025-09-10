@@ -25,6 +25,7 @@
 git clone https://github.com/KseniaMartynova/ubiquitous-computing-machine
 ```
 2. Файл [build.sh](build.sh) содержит в себе возможность запустить сборку всех контейнеров одновременно, подробнее про сборку будет ниже в подразделах. 
+
 Как все мы знаем запустить файл bash можно так:
 ```
 bash build.sh
