@@ -66,7 +66,7 @@ docker run --rm -ti -v mkl:/usr/share intel/oneapi-basekit:2025.0.1-0-devel-ubun
 ```
 docker run intel/oneapi-basekit:2025.0.1-0-devel-ubuntu22.04 200
 ``` 
-
+Использование контейнера в данном случае оправдан: вам не нужно устанавливать никакие зависимости, кроме непосредственно докер образа.
 #### OpenBLAS_-_LAPACK
 LAPACK (Linear Algebra Package). 
 
