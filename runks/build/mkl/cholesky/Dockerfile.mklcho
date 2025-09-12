@@ -1,0 +1,5 @@
+FROM intel/oneapi-basekit:2025.0.1-0-devel-ubuntu22.04
+COPY mklCho.cpp /usr/share/mkl/mklCho.cpp
+WORKDIR /usr/share/mkl  
+RUN icpx -o mklcho mklCho.cpp -I${MKLROOT}/include -L${MKLROOT}/lib/intel64 -lmkl_intel_lp64 -lmkl_core -lmkl_intel_thread -lpthread -lm -ldl -fopenmp
+ENTRYPOINT ["./mklcho"]
