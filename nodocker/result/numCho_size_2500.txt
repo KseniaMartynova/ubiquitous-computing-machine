@@ -1,60 +1,13 @@
-Time: 0.072771s
-Symmetric: Yes
-Positive definite: Yes
-Decomposition: Success
-Verification: Valid
---------------------------------------
-Time: 0.074723s
-Symmetric: Yes
-Positive definite: Yes
-Decomposition: Success
-Verification: Valid
---------------------------------------
-Time: 0.078291s
-Symmetric: Yes
-Positive definite: Yes
-Decomposition: Success
-Verification: Valid
---------------------------------------
-Time: 0.302264s
-Symmetric: Yes
-Positive definite: Yes
-Decomposition: Success
-Verification: Valid
---------------------------------------
-Time: 0.080348s
-Symmetric: Yes
-Positive definite: Yes
-Decomposition: Success
-Verification: Valid
---------------------------------------
-Time: 0.072512s
-Symmetric: Yes
-Positive definite: Yes
-Decomposition: Success
-Verification: Valid
---------------------------------------
-Time: 0.071276s
-Symmetric: Yes
-Positive definite: Yes
-Decomposition: Success
-Verification: Valid
---------------------------------------
-Time: 0.072778s
-Symmetric: Yes
-Positive definite: Yes
-Decomposition: Success
-Verification: Valid
---------------------------------------
-Time: 0.282600s
-Symmetric: Yes
-Positive definite: Yes
-Decomposition: Success
-Verification: Valid
---------------------------------------
-Time: 0.087876s
-Symmetric: Yes
-Positive definite: Yes
-Decomposition: Success
-Verification: Valid
---------------------------------------
+| Размер матрицы | Реализация | Среднее (с) | Кол-во измерений |
+| ----: | :---- | ----: | ----: | 
+| 2500 | Numpy | 0.072771| 10 |
+| 2500 | Numpy | 0.074723| 10 |
+| 2500 | Numpy | 0.078291| 10 |
+| 2500 | Numpy | 0.302264| 10 |
+| 2500 | Numpy | 0.080348| 10 |
+| 2500 | Numpy | 0.072512| 10 |
+| 2500 | Numpy | 0.071276| 10 |
+| 2500 | Numpy | 0.072778| 10 |
+| 2500 | Numpy | 0.282600| 10 |
+| 2500 | Numpy | 0.087876| 10 |
+
