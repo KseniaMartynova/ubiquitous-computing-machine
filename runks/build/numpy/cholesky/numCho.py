@@ -1,55 +1,89 @@
 import numpy as np
-import sys
 import time
+import sys
 
-def generate_spd_matrix(n):
-    """Генерация положительно определенной симметричной матрицы"""
+def generate_positive_definite_matrix(n):
+    """
+    Генерация положительно определенной матрицы размера n x n
+    """
+    # Генерируем случайную матрицу
     A = np.random.rand(n, n)
-    return A @ A.T + np.eye(n)*0.01  # Добавляем диагональное смещение для стабильности
+    
+    # Делаем матрицу симметричной
+    A = 0.5 * (A + A.T)
+    
+    # Добавляем к диагонали для гарантии положительной определенности
+    A += n * np.eye(n)
+    
+    return A
 
-def is_positive_definite(matrix):
-    """Проверка положительной определенности через собственные значения"""
-    return np.all(np.linalg.eigvalsh(matrix) > 0)
+def invert_matrix_with_cholesky(matrix):
+    """
+    Обращение матрицы через разложение Холецкого
+    """
+    # Выполняем разложение Холецкого: A = L * L^T
+    L = np.linalg.cholesky(matrix)
+    
+    # Обращаем нижнюю треугольную матрицу L
+    L_inv = np.linalg.inv(L)
+    
+    # Вычисляем A^(-1) = (L * L^T)^(-1) = (L^T)^(-1) * L^(-1)
+    A_inv = L_inv.T @ L_inv
+    
+    return A_inv
+
+def check_inversion_correctness(original_matrix, inverted_matrix):
+    """
+    Проверка корректности обращения матрицы
+    """
+    # Умножаем исходную матрицу на обратную
+    product = original_matrix @ inverted_matrix
+    
+    # Вычисляем отклонение от единичной матрицы
+    n = original_matrix.shape[0]
+    identity = np.eye(n)
+    error = np.max(np.abs(product - identity))
+    
+    return error < 1e-10
 
 def main():
+    """
+    Основная функция для измерения времени обращения матрицы
+    """
+    if len(sys.argv) != 2:
+        print("Usage: python cholesky.py <matrix_size>")
+        sys.exit(1)
+    
     try:
         n = int(sys.argv[1])
         if n <= 0:
-            raise ValueError
-    except (IndexError, ValueError):
-        print("Usage: python cholesky.py <matrix_size>")
+            raise ValueError("Matrix size must be positive")
+    except ValueError as e:
+        print(f"Error: {e}")
         sys.exit(1)
-
-    # Генерация и проверка матрицы
-    matrix = generate_spd_matrix(n)
     
-    # Проверка симметричности
-    symmetric = np.allclose(matrix, matrix.T)
+    # Генерируем положительно определенную матрицу
+    matrix = generate_positive_definite_matrix(n)
     
-    # Проверка положительной определенности
-    pd_check = is_positive_definite(matrix)
-    
-    # Выполнение разложения
+    # Засекаем время начала
     start_time = time.time()
-    try:
-        L = np.linalg.cholesky(matrix)
-        decomposition_success = True
-    except np.linalg.LinAlgError:
-        decomposition_success = False
+    
+    # Обращаем матрицу с использованием разложения Холецкого
+    inverted_matrix = invert_matrix_with_cholesky(matrix)
+    
+    # Засекаем время окончания
     end_time = time.time()
+    elapsed_time = end_time - start_time
+    
+    # Проверяем корректность обращения
+    is_correct = check_inversion_correctness(matrix, inverted_matrix)
+    
+    # Выводим результаты
+    # print(f"Matrix size: {n}x{n}")
+    # print(f"Time: {elapsed_time:.6f} seconds")
+    # print(f"Verification: {'PASSED' if is_correct else 'FAILED'}")
 
-    # Верификация результата
-    verification = False
-    if decomposition_success:
-        reconstructed = L @ L.T
-        verification = np.allclose(matrix, reconstructed, atol=1e-8)
-
-    # Вывод результатов
-    print(f"Time: {end_time - start_time:.6f}s")
-    print(f"Symmetric: {'Yes' if symmetric else 'No'}")
-    print(f"Positive definite: {'Yes' if pd_check else 'No'}")
-    print(f"Decomposition: {'Success' if decomposition_success else 'Failed'}")
-    print(f"Verification: {'Valid' if verification else 'Invalid'}")
-
+    print(f"{n},{elapsed_time:.6f},{'PASSED' if is_correct else 'FAILED'},N/A")
+    
 if __name__ == "__main__":
     main()
