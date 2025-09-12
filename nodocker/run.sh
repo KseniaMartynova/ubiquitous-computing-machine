@@ -5,7 +5,7 @@ cd result
 
 # Список Python скриптов
 scripts=(
-    "numINV.py"
+    "numCho.py"
 )
 
 # Размеры матриц
