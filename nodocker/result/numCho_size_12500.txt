@@ -1,60 +1,14 @@
-Time: 5.344239s
-Symmetric: Yes
-Positive definite: Yes
-Decomposition: Success
-Verification: Valid
---------------------------------------
-Time: 3.810341s
-Symmetric: Yes
-Positive definite: Yes
-Decomposition: Success
-Verification: Valid
---------------------------------------
-Time: 3.492067s
-Symmetric: Yes
-Positive definite: Yes
-Decomposition: Success
-Verification: Valid
---------------------------------------
-Time: 2.774096s
-Symmetric: Yes
-Positive definite: Yes
-Decomposition: Success
-Verification: Valid
---------------------------------------
-Time: 2.763406s
-Symmetric: Yes
-Positive definite: Yes
-Decomposition: Success
-Verification: Valid
---------------------------------------
-Time: 3.089589s
-Symmetric: Yes
-Positive definite: Yes
-Decomposition: Success
-Verification: Valid
---------------------------------------
-Time: 2.942382s
-Symmetric: Yes
-Positive definite: Yes
-Decomposition: Success
-Verification: Valid
---------------------------------------
-Time: 3.184055s
-Symmetric: Yes
-Positive definite: Yes
-Decomposition: Success
-Verification: Valid
---------------------------------------
-Time: 3.044404s
-Symmetric: Yes
-Positive definite: Yes
-Decomposition: Success
-Verification: Valid
---------------------------------------
-Time: 3.077950s
-Symmetric: Yes
-Positive definite: Yes
-Decomposition: Success
-Verification: Valid
---------------------------------------
+## Numpy 12500 Cholesky
+| Размер матрицы | Реализация | Среднее (с) | Кол-во измерений |
+| ----: | ----: | ----: | ----: | 
+| 2500 | Numpy | 5.344239 | 10 |
+| 2500 | Numpy | 3.810341 | 10 |
+| 2500 | Numpy | 3.492067 | 10 |
+| 2500 | Numpy | 2.774096 | 10 |
+| 2500 | Numpy | 2.763406 | 10 |
+| 2500 | Numpy | 3.089589 | 10 |
+| 2500 | Numpy | 2.942382 | 10 |
+| 2500 | Numpy | 3.184055 | 10 |
+| 2500 | Numpy | 3.044404 | 10 |
+| 2500 | Numpy | 3.077950 | 10 |
+
