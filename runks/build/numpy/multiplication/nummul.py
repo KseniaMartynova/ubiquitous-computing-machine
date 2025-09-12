@@ -1,42 +1,65 @@
 import numpy as np
 import time
 import sys
-from numba import njit
 
-@njit
 def generate_positive_definite_matrix(n):
+    """
+    Генерация положительно определенной матрицы размера n x n
+    """
     # Генерируем случайную матрицу
     A = np.random.rand(n, n)
     
-    # Создаем симметричную матрицу
+    # Делаем матрицу симметричной
     A = 0.5 * (A + A.T)
     
-    # Добавляем небольшое положительное число к диагонали для обеспечения положительной определенности
+    # Добавляем к диагонали для гарантии положительной определенности
     A += n * np.eye(n)
     
     return A
 
-@njit
-def matrix_multiplication(matrix1, matrix2):
-    return np.dot(matrix1, matrix2)
-
-def measure_time_for_matrix_multiplication(matrix1, matrix2):
+def main():
+    """
+    Основная функция для измерения времени умножения матриц
+    """
+    if len(sys.argv) != 2:
+        print("Usage: python multiply.py <matrix_size>")
+        sys.exit(1)
+    
+    try:
+        n = int(sys.argv[1])
+        if n <= 0:
+            raise ValueError("Matrix size must be positive")
+    except ValueError as e:
+        print(f"Error: {e}")
+        sys.exit(1)
+    
+    # Генерируем две положительно определенные матрицы
+    matrix_a = generate_positive_definite_matrix(n)
+    matrix_b = generate_positive_definite_matrix(n)
+    
+    # Засекаем время начала
     start_time = time.time()
-    result_matrix = matrix_multiplication(matrix1, matrix2)
+    
+    # Умножаем матрицы с использованием NumPy
+    result = np.matmul(matrix_a, matrix_b)
+    # Альтернативные варианты умножения:
+    # result = matrix_a @ matrix_b
+    # result = np.dot(matrix_a, matrix_b)
+    
+    # Засекаем время окончания
     end_time = time.time()
-    return result_matrix, end_time - start_time
+    elapsed_time = end_time - start_time
+    
+    # Выводим результаты
+    # print(f"Matrix size: {n}x{n}")
+    # print(f"Time: {elapsed_time:.6f} seconds")
+    
+    # Расчёт теоретической пиковой производительности
+    # flops = 2.0 * n**3  # количество операций с плавающей точкой
+    # gflops = flops / (elapsed_time * 1e9)
+    # print(f"Performance: {gflops:.4f} GFLOPS")
 
-# Проверка наличия аргумента командной строки
-if len(sys.argv) != 2:
-    print("Использование: python script.py <размер матрицы>")
-    sys.exit(1)
-
-n = int(sys.argv[1])  # Размер матрицы
-
-# Генерируем две положительно определенные матрицы
-matrix1 = generate_positive_definite_matrix(n)
-matrix2 = generate_positive_definite_matrix(n)
-
-# Замер времени для умножения матриц
-result_matrix, elapsed_time = measure_time_for_matrix_multiplication(matrix1, matrix2)
-print(f"Время, затраченное на умножение матриц размерности {n}x{n}: {elapsed_time:.6f} секунд") 
+    print(f"{n},{elapsed_time:.6f},N/A,N/A")
+    
+if __name__ == "__main__":
+    main()
