@@ -3,44 +3,72 @@ import time
 import sys
 
 def generate_positive_definite_matrix(n):
+    """
+    Генерация положительно определенной матрицы размера n x n
+    """
     # Генерируем случайную матрицу
     A = np.random.rand(n, n)
     
-    # Создаем симметричную матрицу
+    # Делаем матрицу симметричной
     A = 0.5 * (A + A.T)
     
-    # Добавляем небольшое положительное число к диагонали для обеспечения положительной определенности
+    # Добавляем к диагонали для гарантии положительной определенности
     A += n * np.eye(n)
     
     return A
 
-def measure_time_for_matrix_inversion(matrix):
-    start_time = time.time()
-    inverted_matrix = np.linalg.inv(matrix)
-    end_time = time.time()
-    return inverted_matrix, end_time - start_time
-
 def check_inversion_correctness(original_matrix, inverted_matrix):
+    """
+    Проверка корректности обращения матрицы
+    """
     # Умножаем исходную матрицу на обратную
-    product = np.dot(original_matrix, inverted_matrix)
+    product = original_matrix @ inverted_matrix
     
-    # Сравниваем с единичной матрицей
-    identity_matrix = np.eye(original_matrix.shape[0])
-    return np.allclose(product, identity_matrix)
+    # Вычисляем отклонение от единичной матрицы
+    n = original_matrix.shape[0]
+    identity = np.eye(n)
+    error = np.max(np.abs(product - identity))
+    
+    return error < 1e-10
 
-# Проверка наличия аргумента командной строки
-if len(sys.argv) != 2:
-    print("Использование: python script.py <размер матрицы>")
-    sys.exit(1)
+def main():
+    """
+    Основная функция для измерения времени обращения матрицы
+    """
+    if len(sys.argv) != 2:
+        print("Usage: python inverse.py <matrix_size>")
+        sys.exit(1)
+    
+    try:
+        n = int(sys.argv[1])
+        if n <= 0:
+            raise ValueError("Matrix size must be positive")
+    except ValueError as e:
+        print(f"Error: {e}")
+        sys.exit(1)
+    
+    # Генерируем положительно определенную матрицу
+    matrix = generate_positive_definite_matrix(n)
+    
+    # Засекаем время начала
+    start_time = time.time()
+    
+    # Обращаем матрицу с использованием встроенной функции numpy
+    inverted_matrix = np.linalg.inv(matrix)
+    
+    # Засекаем время окончания
+    end_time = time.time()
+    elapsed_time = end_time - start_time
+    
+    # Проверяем корректность обращения
+    is_correct = check_inversion_correctness(matrix, inverted_matrix)
+    
+    # Выводим результаты
+    # print(f"Matrix size: {n}x{n}")
+    # print(f"Time: {elapsed_time:.6f} seconds")
+    # print(f"Verification: {'PASSED' if is_correct else 'FAILED'}")
 
-n = int(sys.argv[1])  # Размер матрицы
-positive_definite_matrix = generate_positive_definite_matrix(n)
-
-
-# Замер времени для обращения матрицы
-inverted_matrix, elapsed_time = measure_time_for_matrix_inversion(positive_definite_matrix)
-print(f"Время, затраченное на обращение матрицы: {elapsed_time:.6f} секунд")
-
-# Проверка корректности обращения матрицы
-is_correct = check_inversion_correctness(positive_definite_matrix, inverted_matrix)
-print("Корректность обращения матрицы:", is_correct)
+    print(f"{n},{elapsed_time:.6f},{'PASSED' if is_correct else 'FAILED'},N/A")
+    
+if __name__ == "__main__":
+    main()
