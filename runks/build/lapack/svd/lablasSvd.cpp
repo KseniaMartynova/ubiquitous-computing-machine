@@ -5,6 +5,9 @@
 #include <cblas.h>
 #include <lapacke.h>
 #include <omp.h>
+#include <algorithm>
+#include <cmath>
+#include <cstdlib>
 
 // Функция для генерации симметричной положительно определенной матрицы
 std::vector<double> create_spd_matrix(int n) {
@@ -18,16 +21,36 @@ std::vector<double> create_spd_matrix(int n) {
     for (int i = 0; i < n * n; ++i) 
         B[i] = dis(gen);
 
-    // Вычисляем A = B * B^T + n*I (column-major)
+    // Вычисляем A = B * B^T + n*I (row-major)
     std::vector<double> A(n * n, 0.0);
-    cblas_dgemm(CblasColMajor, CblasNoTrans, CblasTrans, 
+    cblas_dgemm(CblasRowMajor, CblasNoTrans, CblasTrans, 
                 n, n, n, 1.0, B.data(), n, B.data(), n, 0.0, A.data(), n);
     
     #pragma omp parallel for
     for (int i = 0; i < n; ++i) 
-        A[i + i * n] += n;
+        A[i * n + i] += n;
 
     return A;
+}
+
+// Функция для проверки корректности обращения
+bool verify_inversion(const std::vector<double>& A, const std::vector<double>& A_inv, int n) {
+    std::vector<double> result(n * n, 0.0);
+    
+    // A * A_inv должно быть близко к единичной матрице
+    cblas_dgemm(CblasRowMajor, CblasNoTrans, CblasNoTrans, 
+                n, n, n, 1.0, A.data(), n, A_inv.data(), n, 0.0, result.data(), n);
+    
+    double max_error = 0.0;
+    for (int i = 0; i < n; ++i) {
+        for (int j = 0; j < n; ++j) {
+            double expected = (i == j) ? 1.0 : 0.0;
+            double error = std::abs(result[i * n + j] - expected);
+            max_error = std::max(max_error, error);
+        }
+    }
+    
+    return max_error < 1e-10;
 }
 
 int main(int argc, char* argv[]) {
@@ -37,26 +60,32 @@ int main(int argc, char* argv[]) {
     }
 
     const int n = std::stoi(argv[1]);
+    if (n <= 0) {
+        std::cerr << "Matrix size must be positive" << std::endl;
+        return 1;
+    }
 
-    // Установка количества потоков для BLAS (если поддерживается)
-    // char* env_var = "OMP_NUM_THREADS";
-    // setenv(env_var, "4", 1); // Пример для 4 потоков
-    // Для MKL можно использовать mkl_set_num_threads()
-    // Для OpenBLAS можно использовать openblas_set_num_threads()
+    // Установка количества потоков для OpenBLAS и OpenMP
+    // int num_threads = omp_get_max_threads();
+    // openblas_set_num_threads(num_threads);
+    // std::cout << "Using " << num_threads << " threads" << std::endl;
 
     // Генерация исходной матрицы
     std::vector<double> A = create_spd_matrix(n);
+    std::vector<double> A_orig = A;  // Сохраняем оригинальную матрицу
 
     // SVD параметры
-    std::vector<double> S(n), U(n * n), VT(n * n);
+    std::vector<double> S(n);        // Сингулярные значения
+    std::vector<double> U(n * n);    // Левые сингулярные векторы
+    std::vector<double> VT(n * n);   // Правые сингулярные векторы (транспонированные)
+    
+    // Определяем оптимальный размер рабочего массива
     int lwork = -1;
     double lwork_query;
-
-    // Запрос оптимального размера рабочего массива
-    int info_query = LAPACKE_dgesvd_work(
-        LAPACK_COL_MAJOR, 
-        'A', 
-        'A', 
+    int info = LAPACKE_dgesvd_work(
+        LAPACK_ROW_MAJOR, 
+        'A',    // Все левые сингулярные векторы
+        'A',    // Все правые сингулярные векторы
         n, n, 
         A.data(), n, 
         S.data(), 
@@ -66,18 +95,20 @@ int main(int argc, char* argv[]) {
         lwork
     );
 
-    if (info_query != 0) {
-        std::cerr << "LWORK query failed: " << info_query << std::endl;
+    if (info != 0) {
+        std::cerr << "LWORK query failed: " << info << std::endl;
         return 1;
     }
 
     lwork = static_cast<int>(lwork_query);
     std::vector<double> work(lwork);
 
-    // Выполняем SVD
+    // Засекаем время для SVD-разложения
     auto svd_start = std::chrono::high_resolution_clock::now();
-    int info = LAPACKE_dgesvd_work(
-        LAPACK_COL_MAJOR, 
+    
+    // Выполняем SVD
+    info = LAPACKE_dgesvd_work(
+        LAPACK_ROW_MAJOR, 
         'A', 'A', 
         n, n, 
         A.data(), n, 
@@ -87,6 +118,7 @@ int main(int argc, char* argv[]) {
         work.data(), 
         lwork
     );
+    
     auto svd_end = std::chrono::high_resolution_clock::now();
 
     if (info != 0) {
@@ -94,57 +126,58 @@ int main(int argc, char* argv[]) {
         return 1;
     }
 
-    // Масштабируем строки VT (столбцы V) на 1/S[i] с параллелизацией
+    // Определяем порог для отсечения малых сингулярных значений
+    double max_sv = *std::max_element(S.begin(), S.end());
+    double threshold = max_sv * n * std::numeric_limits<double>::epsilon();
+    
+    // Инвертируем сингулярные значения с параллелизацией
     #pragma omp parallel for
     for (int i = 0; i < n; ++i) 
-        cblas_dscal(n, 1.0 / S[i], &VT[i], n);
+        S[i] = (S[i] > threshold) ? 1.0 / S[i] : 0.0;
+
+    // Масштабируем строки VT (столбцы V) на 1/S[i]
+    #pragma omp parallel for
+    for (int i = 0; i < n; ++i) {
+        for (int j = 0; j < n; ++j) {
+            VT[i * n + j] *= S[i];
+        }
+    }
 
     // Вычисляем A_inv = V * S^{-1} * U^T = VT^T * U^T
     auto inv_start = std::chrono::high_resolution_clock::now();
     std::vector<double> A_inv(n * n);
     cblas_dgemm(
-        CblasColMajor, 
+        CblasRowMajor, 
         CblasTrans,     // VT^T = V
         CblasTrans,     // U^T
         n, n, n, 
         1.0, 
-        VT.data(), n,   // V (column-major)
-        U.data(), n,    // U^T (column-major)
+        VT.data(), n,   // V (row-major)
+        U.data(), n,    // U^T (row-major)
         0.0, 
         A_inv.data(), n
     );
     auto inv_end = std::chrono::high_resolution_clock::now();
 
-    // Проверка ошибки инверсии: A * A_inv - I
-    std::vector<double> residual(n * n);
-    cblas_dgemm(
-        CblasColMajor, 
-        CblasNoTrans, 
-        CblasNoTrans, 
-        n, n, n, 
-        1.0, 
-        A.data(), n, 
-        A_inv.data(), n, 
-        -1.0, 
-        residual.data(), n
-    );
-
-    #pragma omp parallel for
-    for (int i = 0; i < n; ++i) 
-        residual[i + i * n] += 1.0;
-
-    // Вычисляем ошибку инверсии
-    double error = cblas_dnrm2(n * n, residual.data(), 1);
-
-    // Вывод времени выполнения
+    // Вычисляем время выполнения
     auto svd_duration = std::chrono::duration<double>(svd_end - svd_start);
     auto inv_duration = std::chrono::duration<double>(inv_end - inv_start);
     auto total_duration = svd_duration + inv_duration;
 
-    std::cout << "Время выполнения SVD: " << svd_duration.count() << " s\n"
-              << "Время выполнения инверсии: " << inv_duration.count() << " s\n"
-              << "Общее время: " << total_duration.count() << " s\n"
-              << "Ошибка инверсии: " << error << std::endl;
+    // Проверяем корректность обращения
+    bool is_correct = verify_inversion(A_orig, A_inv, n);
+
+    // Выводим результаты
+    // std::cout << "Matrix size: " << n << "x" << n << std::endl;
+    // std::cout << "SVD time: " << svd_duration.count() << " seconds" << std::endl;
+    // std::cout << "Inversion time: " << inv_duration.count() << " seconds" << std::endl;
+    // std::cout << "Total time: " << total_duration.count() << " seconds" << std::endl;
+    // std::cout << "Verification: " << (is_correct ? "PASSED" : "FAILED") << std::endl;
+
+    std::cout << n << "," << svd_duration.count() << "," 
+    << inv_duration.count() << "," << total_duration.count() << "," 
+    // << (is_correct ? "PASSED" : "FAILED") << "," << num_threads << std::endl;
+    << (is_correct ? "PASSED" : "FAILED") << "," << "N/A" << std::endl;
 
     return 0;
 }
