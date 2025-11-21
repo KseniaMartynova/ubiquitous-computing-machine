@@ -5,7 +5,7 @@ cd result
 
 # Список Python скриптов
 scripts=(
-    "nummul.py"
+    "numSVD.py"
 )
 
 # Размеры матриц
