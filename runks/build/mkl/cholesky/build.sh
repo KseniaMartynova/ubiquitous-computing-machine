@@ -1,7 +1,7 @@
 #!/bin/bash
 # Build the Docker container
 
-cd build
+
 
 # Function to build Docker container with error handling
 build_container() {
