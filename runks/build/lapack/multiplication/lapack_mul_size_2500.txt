@@ -1,0 +1,10 @@
+Time to multiply 2500x2500 matrices: 0.169258 seconds
+Time to multiply 2500x2500 matrices: 0.108753 seconds
+Time to multiply 2500x2500 matrices: 0.0963012 seconds
+Time to multiply 2500x2500 matrices: 0.0992351 seconds
+Time to multiply 2500x2500 matrices: 0.122303 seconds
+Time to multiply 2500x2500 matrices: 0.174314 seconds
+Time to multiply 2500x2500 matrices: 0.0966562 seconds
+Time to multiply 2500x2500 matrices: 0.12687 seconds
+Time to multiply 2500x2500 matrices: 0.0961267 seconds
+Time to multiply 2500x2500 matrices: 0.0972923 seconds

@@ -18,7 +18,7 @@ build_container() {
 # Lapack-OpenBlas
 echo "Building Lapack-OpenBlas Docker containers..."
 
-build_container "lapack_mul" "Dockerfile.lasvd"
+build_container "lapack_mul" "Dockerfile.lamul"
 
 
 cd ../

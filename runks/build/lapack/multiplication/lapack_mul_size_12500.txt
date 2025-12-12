@@ -1,0 +1,10 @@
+Time to multiply 12500x12500 matrices: 10.6411 seconds
+Time to multiply 12500x12500 matrices: 10.426 seconds
+Time to multiply 12500x12500 matrices: 10.307 seconds
+Time to multiply 12500x12500 matrices: 10.1783 seconds
+Time to multiply 12500x12500 matrices: 10.4257 seconds
+Time to multiply 12500x12500 matrices: 10.6751 seconds
+Time to multiply 12500x12500 matrices: 10.383 seconds
+Time to multiply 12500x12500 matrices: 10.4658 seconds
+Time to multiply 12500x12500 matrices: 10.5843 seconds
+Time to multiply 12500x12500 matrices: 10.7253 seconds

@@ -1,0 +1,10 @@
+Time to multiply 20000x20000 matrices: 40.9862 seconds
+Time to multiply 20000x20000 matrices: 40.5077 seconds
+Time to multiply 20000x20000 matrices: 41.9451 seconds
+Time to multiply 20000x20000 matrices: 40.7533 seconds
+Time to multiply 20000x20000 matrices: 39.7476 seconds
+Time to multiply 20000x20000 matrices: 40.323 seconds
+Time to multiply 20000x20000 matrices: 40.0931 seconds
+Time to multiply 20000x20000 matrices: 41.7752 seconds
+Time to multiply 20000x20000 matrices: 41.5213 seconds
+Time to multiply 20000x20000 matrices: 40.3179 seconds

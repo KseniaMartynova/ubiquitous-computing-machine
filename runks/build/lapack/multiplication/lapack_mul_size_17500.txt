@@ -1,0 +1,10 @@
+Time to multiply 17500x17500 matrices: 28.5947 seconds
+Time to multiply 17500x17500 matrices: 28.0536 seconds
+Time to multiply 17500x17500 matrices: 28.1415 seconds
+Time to multiply 17500x17500 matrices: 28.0545 seconds
+Time to multiply 17500x17500 matrices: 27.9674 seconds
+Time to multiply 17500x17500 matrices: 28.4115 seconds
+Time to multiply 17500x17500 matrices: 27.7986 seconds
+Time to multiply 17500x17500 matrices: 28.0103 seconds
+Time to multiply 17500x17500 matrices: 27.5733 seconds
+Time to multiply 17500x17500 matrices: 27.4313 seconds

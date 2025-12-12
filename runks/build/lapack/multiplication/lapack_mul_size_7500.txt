@@ -1,0 +1,10 @@
+Time to multiply 7500x7500 matrices: 2.27936 seconds
+Time to multiply 7500x7500 matrices: 2.22157 seconds
+Time to multiply 7500x7500 matrices: 2.21251 seconds
+Time to multiply 7500x7500 matrices: 2.17245 seconds
+Time to multiply 7500x7500 matrices: 2.03116 seconds
+Time to multiply 7500x7500 matrices: 2.12117 seconds
+Time to multiply 7500x7500 matrices: 2.17352 seconds
+Time to multiply 7500x7500 matrices: 2.1829 seconds
+Time to multiply 7500x7500 matrices: 2.19435 seconds
+Time to multiply 7500x7500 matrices: 2.22709 seconds
