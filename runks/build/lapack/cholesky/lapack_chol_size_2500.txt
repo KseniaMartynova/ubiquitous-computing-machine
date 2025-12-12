@@ -1,0 +1,20 @@
+Using 16 threads for OpenBLAS.
+Time to invert 2500x2500 matrix: 0.166002 seconds
+Using 16 threads for OpenBLAS.
+Time to invert 2500x2500 matrix: 0.166995 seconds
+Using 16 threads for OpenBLAS.
+Time to invert 2500x2500 matrix: 0.215275 seconds
+Using 16 threads for OpenBLAS.
+Time to invert 2500x2500 matrix: 0.419684 seconds
+Using 16 threads for OpenBLAS.
+Time to invert 2500x2500 matrix: 0.538275 seconds
+Using 16 threads for OpenBLAS.
+Time to invert 2500x2500 matrix: 0.16805 seconds
+Using 16 threads for OpenBLAS.
+Time to invert 2500x2500 matrix: 0.171671 seconds
+Using 16 threads for OpenBLAS.
+Time to invert 2500x2500 matrix: 0.15405 seconds
+Using 16 threads for OpenBLAS.
+Time to invert 2500x2500 matrix: 0.198149 seconds
+Using 16 threads for OpenBLAS.
+Time to invert 2500x2500 matrix: 0.171442 seconds

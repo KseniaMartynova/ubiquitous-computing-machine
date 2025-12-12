@@ -1,0 +1,20 @@
+Using 16 threads for OpenBLAS.
+Time to invert 7500x7500 matrix: 2.5542 seconds
+Using 16 threads for OpenBLAS.
+Time to invert 7500x7500 matrix: 2.50013 seconds
+Using 16 threads for OpenBLAS.
+Time to invert 7500x7500 matrix: 2.58695 seconds
+Using 16 threads for OpenBLAS.
+Time to invert 7500x7500 matrix: 3.19869 seconds
+Using 16 threads for OpenBLAS.
+Time to invert 7500x7500 matrix: 2.60079 seconds
+Using 16 threads for OpenBLAS.
+Time to invert 7500x7500 matrix: 2.60826 seconds
+Using 16 threads for OpenBLAS.
+Time to invert 7500x7500 matrix: 2.55122 seconds
+Using 16 threads for OpenBLAS.
+Time to invert 7500x7500 matrix: 2.83284 seconds
+Using 16 threads for OpenBLAS.
+Time to invert 7500x7500 matrix: 2.68953 seconds
+Using 16 threads for OpenBLAS.
+Time to invert 7500x7500 matrix: 2.5707 seconds
