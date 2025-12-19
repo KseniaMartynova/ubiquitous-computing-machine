@@ -18,7 +18,7 @@ build_container() {
 # Lapack-OpenBlas
 
 
-build_container "num_chol" "Dockerfile.mklmul"
+build_container "num_chol" "Dockerfile.numcho"
 
 
 cd ../
