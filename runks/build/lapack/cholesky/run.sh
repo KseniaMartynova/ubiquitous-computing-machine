@@ -24,10 +24,8 @@ for container in "${containers[@]}"; do
             container_id=$(docker run -d --rm "$container" "$size")
             #echo docker run -d --rm "$container" "$size"
 	    
-
-            # # Запускаем мониторинг в фоновом режиме
  
-            # # Ожидаем завершения контейнера и записываем его вывод в файл
+			 # Ожидаем завершения контейнера и записываем его вывод в файл
             docker logs -f "$container_id" >> "$output_file"
 
             # # Ждем завершения контейнера
