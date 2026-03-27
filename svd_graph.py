@@ -2,9 +2,6 @@ import numpy as np
 import matplotlib.pyplot as plt
 from scipy.optimize import curve_fit
 
-# ------------------------------
-# Данные (ваши, без изменений)
-# ------------------------------
 n = np.array([2500, 5000, 7500, 10000, 12500, 15000, 17500, 20000])
 t_lapack = np.array([60.21673, 650.5187, 2580.303, 9180.931,
                      21366.27,37578.62, 59812.61, 77667.0666666667])
@@ -13,11 +10,8 @@ t_mkl = np.array([3.923012, 22.79345, 66.035, 148.6872, 283.1378,
 t_numpy = np.array([4.0902652, 23.3812648, 71.6479205, 155.0051727,
                     286.7739594, 478.8662646, 741.2522805, 1085.51084751])
 
-# ------------------------------
-# Подготовка данных для регрессии MKL (исключаем первое значение)
-# ------------------------------
-# Индексы, которые будем использовать для MKL (все, кроме первого)
-mkl_indices = np.arange(0, len(n))   # используем точки со 2-й по последнюю
+
+mkl_indices = np.arange(0, len(n))   
 n_mkl = n[mkl_indices]
 t_mkl_fit = t_mkl[mkl_indices]       # времена для регрессии
 
@@ -25,12 +19,11 @@ t_mkl_fit = t_mkl[mkl_indices]       # времена для регрессии
 def linear_log_model(log_n, log_a, c):
     return log_a + c * log_n
 
-# Логарифмируем все данные (для LAPACK и NumPy используем все точки)
+# Логарифмируем все данные 
 log_n_all = np.log(n)
 log_t_lapack = np.log(t_lapack)
 log_t_numpy = np.log(t_numpy)
 
-# Для MKL используем только отобранные индексы
 log_n_mkl = np.log(n_mkl)
 log_t_mkl = np.log(t_mkl_fit)
 
@@ -48,34 +41,26 @@ print(f"Показатель степени (LAPACK): {c_lapack:.3f}")
 print(f"Показатель степени (MKL):    {c_mkl:.3f}")
 print(f"Показатель степени (NumPy):  {c_numpy:.3f}")
 
-# ------------------------------
-# Построение графика (полностью в вашем стиле)
-# ------------------------------
 plt.figure(figsize=(14, 8))
 plt.xscale('log')
 plt.yscale('log')
 
-# Настройка делений и подписей осей (убираем 0 из Y, заменяем на 0.1)
 plt.xticks(
     ticks=[2500, 5000, 7500, 10000, 12500, 15000, 17500, 20000],
     labels=['2.5k', '5k', '7.5k', '10k', '12.5k', '15k', '17.5k', '20k'],
     fontsize=10
 )
-# Вместо 0 ставим 0.1, остальное оставляем как у вас (можно добавить промежуточные метки)
-
 plt.yticks(
     ticks=[0.01, 0.025,0.05,0.09,0.16,0.3,0.5,1,1.7, 3, 5, 10, 20, 40, 70,100],
     labels=['0.01', '0.025','0.05','0.09','0.16','0.3','0.5','1','1.7','3', '5', '10', '20','40', '70','100'],
     fontsize=10
 )
 
-# Точки данных (все, включая первую точку MKL)
 plt.scatter(n, t_lapack, color='green', label='LAPACK (измерения)', zorder=5)
 plt.scatter(n, t_mkl, color='purple', marker='s', label='MKL (измерения)', zorder=5)
 plt.scatter(n, t_numpy, color='blue', marker='^', label='NumPy (измерения)', zorder=5)
 
-# Аппроксимационные кривые (для MKL строим только по точкам, использованным в регрессии,
-# но отображаем на всём диапазоне)
+# Аппроксимационные кривые (для MKL строим только по точкам, использованным в регрессии, но отображаем на всём диапазоне)
 n_fit = np.linspace(2000, 21000, 500)
 plt.plot(n_fit, a_lapack * n_fit**c_lapack, '--', color='green', alpha=0.7,
          label=f'LAPACK: $T(n) = n^{{{c_lapack:.2f}}}$')
@@ -84,7 +69,7 @@ plt.plot(n_fit, a_mkl * n_fit**c_mkl, '--', color='purple', alpha=0.7,
 plt.plot(n_fit, a_numpy * n_fit**c_numpy, '--', color='blue', alpha=0.7,
          label=f'NumPy: $T(n) = n^{{{c_numpy:.2f}}}$')
 
-# Подписи точек (немного подкорректировал вертикальное смещение, чтобы не налезали)
+# Подписи точек
 for x, y1, y2, y3 in zip(n, t_lapack, t_mkl, t_numpy):
     plt.text(x, y1*1.4, f'{y1:.1f}s', ha='center', va='bottom',
              color='green', fontsize=8, fontweight='bold')
@@ -93,7 +78,7 @@ for x, y1, y2, y3 in zip(n, t_lapack, t_mkl, t_numpy):
     plt.text(x, y3*1.4, f'{y3:.1f}s', ha='center', va='bottom',
              color='blue', fontsize=8, fontweight='bold')
 
-# Оформление
+
 plt.xlabel('Размер матрицы ($n$)', fontsize=12, labelpad=10)
 plt.ylabel('Время (с)', fontsize=12, labelpad=10)
 plt.title('Аппроксимация времени обращения SVD (линейная регрессия в log-log)',
