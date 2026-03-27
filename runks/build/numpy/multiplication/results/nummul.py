@@ -42,22 +42,11 @@ def main():
     
     # Умножаем матрицы с использованием NumPy
     result = np.matmul(matrix_a, matrix_b)
-    # Альтернативные варианты умножения:
-    # result = matrix_a @ matrix_b
-    # result = np.dot(matrix_a, matrix_b)
     
     # Засекаем время окончания
     end_time = time.time()
     elapsed_time = end_time - start_time
     
-    # Выводим результаты
-    # print(f"Matrix size: {n}x{n}")
-    # print(f"Time: {elapsed_time:.6f} seconds")
-    
-    # Расчёт теоретической пиковой производительности
-    # flops = 2.0 * n**3  # количество операций с плавающей точкой
-    # gflops = flops / (elapsed_time * 1e9)
-    # print(f"Performance: {gflops:.4f} GFLOPS")
 
     print(f"{n},{elapsed_time:.6f},N/A,N/A")
     
