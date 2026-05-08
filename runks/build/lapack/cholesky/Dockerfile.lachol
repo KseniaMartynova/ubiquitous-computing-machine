@@ -3,7 +3,7 @@ RUN apt-get update && apt-get install -y \
         make \
         cmake \  
         git \  
-        libopenblas-dev \ 
+        libopenblas-dev=0.3.20+ds-1 \ 
         liblapack-dev \
         liblapacke-dev \
         && rm -rf /var/lib/apt/lists/*
