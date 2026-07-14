@@ -167,17 +167,8 @@ int main(int argc, char* argv[]) {
     // Проверяем корректность обращения
     bool is_correct = verify_inversion(A_orig, A_inv, n);
 
-    // Выводим результаты
-    // std::cout << "Matrix size: " << n << "x" << n << std::endl;
-    // std::cout << "SVD time: " << svd_duration.count() << " seconds" << std::endl;
-    // std::cout << "Inversion time: " << inv_duration.count() << " seconds" << std::endl;
-    // std::cout << "Total time: " << total_duration.count() << " seconds" << std::endl;
-    // std::cout << "Verification: " << (is_correct ? "PASSED" : "FAILED") << std::endl;
-
-    std::cout << n << "," << svd_duration.count() << "," 
-    << inv_duration.count() << "," << total_duration.count() << "," 
-    // << (is_correct ? "PASSED" : "FAILED") << "," << num_threads << std::endl;
-    << (is_correct ? "PASSED" : "FAILED") << "," << "N/A" << std::endl;
+    std::cout << "Time to svd " << n << "x" << n << " matrices: " 
+              << elapsed.count() << " s" << std::endl;
 
     return 0;
 }
