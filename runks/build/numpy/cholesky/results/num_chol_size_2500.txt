@@ -1,10 +1,10 @@
-2500,2.197987,PASSED,N/A
-2500,0.313061,PASSED,N/A
-2500,0.603296,PASSED,N/A
-2500,0.315093,PASSED,N/A
-2500,0.324557,PASSED,N/A
-2500,0.310820,PASSED,N/A
-2500,0.312618,PASSED,N/A
-2500,0.316392,PASSED,N/A
-2500,0.314026,PASSED,N/A
-2500,0.678972,PASSED,N/A
+Time to invert 2500x2500 matrix: 2.197987 s
+Time to invert 2500x2500 matrix: 0.313061 s
+Time to invert 2500x2500 matrix: 0.603296 s
+Time to invert 2500x2500 matrix: 0.315093 s
+Time to invert 2500x2500 matrix: 0.324557 s
+Time to invert 2500x2500 matrix: 0.310820 s
+Time to invert 2500x2500 matrix: 0.312618 s
+Time to invert 2500x2500 matrix: 0.316392 s
+Time to invert 2500x2500 matrix: 0.314026 s
+Time to invert 2500x2500 matrix: 0.678972 s
