@@ -92,8 +92,7 @@ def main():
     # Проверяем корректность обращения
     is_correct = check_inversion_correctness(matrix, inverted_matrix)
     
-    # Выводим результаты в том же формате, как в примерах
-    print(f"{n},{elapsed_time:.6f},{'PASSED' if is_correct else 'FAILED'},N/A")
+    print(f"Time to multiply {n}x{n} matrices: {elapsed_time:.6f} s")
     
 if __name__ == "__main__":
     main()
