@@ -1,10 +1,10 @@
-7500,5.62629,PASSED,16
-7500,7.51128,PASSED,16
-7500,6.03804,PASSED,16
-7500,6.20748,PASSED,16
-7500,7.55376,PASSED,16
-7500,5.57808,PASSED,16
-7500,10.7838,PASSED,16
-7500,5.62317,PASSED,16
-7500,5.74272,PASSED,16
-7500,6.64299,PASSED,16
+Time to lu 7500x7500 matrices: 5.62629 s
+Time to lu 7500x7500 matrices: 7.51128 s
+Time to lu 7500x7500 matrices: 6.03804 s
+Time to lu 7500x7500 matrices: 6.20748 s
+Time to lu 7500x7500 matrices: 7.55376 s
+Time to lu 7500x7500 matrices: 5.57808 s
+Time to lu 7500x7500 matrices: 10.7838 s
+Time to lu 7500x7500 matrices: 5.62317 s
+Time to lu 7500x7500 matrices: 5.74272 s
+Time to lu 7500x7500 matrices: 6.64299 s
