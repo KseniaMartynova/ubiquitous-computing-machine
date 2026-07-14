@@ -88,16 +88,8 @@ int main(int argc, char* argv[]) {
     auto end = std::chrono::high_resolution_clock::now();
     std::chrono::duration<double> diff = end - start;
 
-    std::cout << "Время, затраченное на обращение матрицы размерности "
-              << n << "x" << n << ": "
-              << diff.count() << " секунд" << std::endl;
-
-    // Проверка результата
-    if (check_inversion_result(A, A_inv, n)) {
-        std::cout << "Обращение матрицы прошло правильно." << std::endl;
-    } else {
-        std::cout << "Обращение матрицы прошло неправильно." << std::endl;
-    }
+    std::cout << "Time to invert " << n << "x" << n << " matrices: " 
+              << elapsed.count() << " s" << std::endl;
 
     return 0;
 }
