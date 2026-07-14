@@ -3,13 +3,23 @@ import matplotlib.pyplot as plt
 from scipy.optimize import curve_fit
 import os
 import glob
+# ------------------------------------------------------------
+# ОПРЕДЕЛЯЕМ БАЗОВУЮ ДИРЕКТОРИЮ 
+# ------------------------------------------------------------
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 # ------------------------------------------------------------
-# ПАПКИ С РЕЗУЛЬТАТАМИ
+# ПАПКИ С РЕЗУЛЬТАТАМИ 
 # ------------------------------------------------------------
-LAPACK_DIR = "runks/build/lapack/multiplication/results/"
-MKL_DIR    = "runks/build/mkl/multiplication/results/"
-NUMPY_DIR  = "runks/build/numpy/multiplication/results/"
+LAPACK_DIR = os.path.join(BASE_DIR, "runks", "build", "lapack", "lu", "results")
+MKL_DIR    = os.path.join(BASE_DIR, "runks", "build", "mkl", "lu", "results")
+NUMPY_DIR  = os.path.join(BASE_DIR, "runks", "build", "numpy", "lu", "results")
+
+PREFIXES = {
+    'LAPACK': 'lapack',
+    'MKL':    'mkl',
+    'NumPy':  'num'      
+}
 
 # ------------------------------------------------------------
 # ЧТЕНИЕ ДАННЫХ ИЗ ФАЙЛОВ
