@@ -92,7 +92,7 @@ def main():
     # Проверяем корректность обращения
     is_correct = check_inversion_correctness(matrix, inverted_matrix)
     
-    print(f"Time to multiply {n}x{n} matrices: {elapsed_time:.6f} s")
+    print(f"Time to lu {n}x{n} matrices: {elapsed_time:.6f} s")
     
 if __name__ == "__main__":
     main()
