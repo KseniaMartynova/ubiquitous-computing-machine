@@ -110,6 +110,24 @@ print(f"Показатель степени (MKL):    {c_mkl:.3f}")
 print(f"Показатель степени (NumPy):  {c_numpy:.3f}")
 
 # ------------------------------------------------------------
+# РАСЧЁТ R²
+# ------------------------------------------------------------
+def compute_r2(n, t_obs, a, c):
+    """ коэффициент детерминации R² для модели t = a * n^c."""
+    t_pred = a * n**c
+    ss_res = np.sum((t_obs - t_pred) ** 2)
+    ss_tot = np.sum((t_obs - np.mean(t_obs)) ** 2)
+    return 1 - ss_res / ss_tot
+
+r2_lapack = compute_r2(n_lapack, t_lapack, a_lapack, c_lapack)
+r2_mkl    = compute_r2(n_mkl,    t_mkl,    a_mkl,    c_mkl)
+r2_numpy  = compute_r2(n_numpy,  t_numpy,  a_numpy,  c_numpy)
+
+print(f"R² (LAPACK): {r2_lapack:.4f}")
+print(f"R² (MKL):    {r2_mkl:.4f}")
+print(f"R² (NumPy):  {r2_numpy:.4f}")
+
+# ------------------------------------------------------------
 # ПОСТРОЕНИЕ ГРАФИКА
 # ------------------------------------------------------------
 plt.figure(figsize=(14, 8))
