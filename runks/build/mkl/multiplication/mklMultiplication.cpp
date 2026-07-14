@@ -49,9 +49,9 @@ int main(int argc, char* argv[]) {
     auto end = std::chrono::high_resolution_clock::now();
     std::chrono::duration<double> diff = end - start;
 
-    std::cout << "Время, затраченное на умножение матриц размерности "
-              << n << "x" << n << ": "
-              << diff.count() << " секунд" << std::endl;
+    // Вывод в требуемом формате
+    std::cout << "Time to multiply " << n << "x" << n << " matrices: " 
+              << elapsed.count() << " s" << std::endl;
 
     return 0;
 }
