@@ -1,10 +1,10 @@
-12500,9.377952,N/A,N/A
-12500,8.392488,N/A,N/A
-12500,9.202095,N/A,N/A
-12500,9.316319,N/A,N/A
-12500,8.765449,N/A,N/A
-12500,9.283812,N/A,N/A
-12500,8.334160,N/A,N/A
-12500,8.437482,N/A,N/A
-12500,8.771524,N/A,N/A
-12500,9.282821,N/A,N/A
+Time to multiply 12500x12500 matrix: 9.377952 s
+Time to multiply 12500x12500 matrix: 8.392488 s
+Time to multiply 12500x12500 matrix: 9.202095 s
+Time to multiply 12500x12500 matrix: 9.316319 s
+Time to multiply 12500x12500 matrix: 8.765449 s
+Time to multiply 12500x12500 matrix: 9.283812 s
+Time to multiply 12500x12500 matrix: 8.334160 s
+Time to multiply 12500x12500 matrix: 8.437482 s
+Time to multiply 12500x12500 matrix: 8.771524 s
+Time to multiply 12500x12500 matrix: 9.282821 s
