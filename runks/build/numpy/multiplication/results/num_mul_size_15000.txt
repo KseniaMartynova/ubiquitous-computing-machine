@@ -1,10 +1,10 @@
-15000,16.248180,N/A,N/A
-15000,15.876527,N/A,N/A
-15000,15.503304,N/A,N/A
-15000,16.434231,N/A,N/A
-15000,15.638348,N/A,N/A
-15000,14.929245,N/A,N/A
-15000,16.519374,N/A,N/A
-15000,16.447883,N/A,N/A
-15000,15.285100,N/A,N/A
-15000,16.009950,N/A,N/A
+Time to multiply 15000x15000 matrix: 16.248180 s
+Time to multiply 15000x15000 matrix: 15.876527 s
+Time to multiply 15000x15000 matrix: 15.503304 s
+Time to multiply 15000x15000 matrix: 16.434231 s
+Time to multiply 15000x15000 matrix: 15.638348 s
+Time to multiply 15000x15000 matrix: 14.929245 s
+Time to multiply 15000x15000 matrix: 16.519374 s
+Time to multiply 15000x15000 matrix: 16.447883 s
+Time to multiply 15000x15000 matrix: 15.285100 s
+Time to multiply 15000x15000 matrix: 16.009950 s
