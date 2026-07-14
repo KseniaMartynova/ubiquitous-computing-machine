@@ -77,13 +77,8 @@ def main():
     
     # Проверяем корректность обращения
     is_correct = check_inversion_correctness(matrix, inverted_matrix)
-    
-    # Выводим результаты
-    # print(f"Matrix size: {n}x{n}")
-    # print(f"Time: {elapsed_time:.6f} seconds")
-    # print(f"Verification: {'PASSED' if is_correct else 'FAILED'}")
 
-    print(f"{n},{elapsed_time:.6f},{'PASSED' if is_correct else 'FAILED'},N/A")
+    print(f"Time to invert {n}x{n} matrices: {elapsed_time:.6f} s")
     
 if __name__ == "__main__":
     main()
