@@ -107,6 +107,24 @@ print(f"Показатель степени (MKL):    {c_mkl:.3f}")
 print(f"Показатель степени (NumPy):  {c_numpy:.3f}")
 
 # ------------------------------------------------------------
+# РАСЧЁТ R² 
+# ------------------------------------------------------------
+def compute_r2(n, t_obs, a, c):
+    """Коэффициент детерминации для модели t = a * n^c."""
+    t_pred = a * n**c
+    ss_res = np.sum((t_obs - t_pred) ** 2)
+    ss_tot = np.sum((t_obs - np.mean(t_obs)) ** 2)
+    return 1 - ss_res / ss_tot
+
+r2_lapack = compute_r2(n_lapack, t_lapack, a_lapack, c_lapack)
+r2_mkl    = compute_r2(n_mkl,    t_mkl,    a_mkl,    c_mkl)
+r2_numpy  = compute_r2(n_numpy,  t_numpy,  a_numpy,  c_numpy)
+
+print(f"R² (LAPACK): {r2_lapack:.4f}")
+print(f"R² (MKL):    {r2_mkl:.4f}")
+print(f"R² (NumPy):  {r2_numpy:.4f}")
+
+# ------------------------------------------------------------
 # ПОСТРОЕНИЕ ГРАФИКА
 # ------------------------------------------------------------
 plt.figure(figsize=(14, 8))
@@ -128,7 +146,7 @@ plt.yticks(
 
 plt.scatter(n_lapack, t_lapack, color='green', label='LAPACK', zorder=5)
 plt.scatter(n_mkl,    t_mkl,    color='purple', marker='s', label='MKL', zorder=5)
-plt.scatter(n_numpy,  t_numpy,  color='blue', marker='^', label='NumPy, zorder=5)
+plt.scatter(n_numpy,  t_numpy,  color='blue', marker='^', label='NumPy', zorder=5)
 
 n_fit = np.linspace(2000, 21000, 500)
 plt.plot(n_fit, a_lapack * n_fit**c_lapack, '--', color='green')
@@ -145,7 +163,7 @@ for x, y1, y2, y3 in zip(n_lapack, t_lapack, t_mkl, t_numpy):
 
 plt.xlabel('Размер матрицы ($n$)', fontsize=12, labelpad=10)
 plt.ylabel('Время (с)', fontsize=12, labelpad=10)
-plt.title('Аппроксимация времени LU-обращения (линейная регрессия в log-log),
+plt.title('Аппроксимация времени LU-обращения (линейная регрессия в log-log)',
           fontsize=14, pad=15)
 plt.legend(fontsize=10, loc='upper left')
 plt.grid(True, linestyle='--', alpha=0.5, which='both')
