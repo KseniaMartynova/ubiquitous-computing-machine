@@ -21,7 +21,7 @@ NUMPY_DIR  = os.path.join(BASE_DIR, "runks", "build", "numpy", "lu", "results")
 PREFIXES = {
     'LAPACK': 'lapack',
     'MKL':    'mkl',
-    'NumPy':  'num'      # или 'numpy' – проверьте, как у вас реально называются файлы
+    'NumPy':  'num'     
 }
 
 # ------------------------------------------------------------
