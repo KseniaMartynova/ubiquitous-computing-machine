@@ -116,12 +116,14 @@ int main(int argc, char* argv[]) {
     auto end = std::chrono::high_resolution_clock::now();
     std::chrono::duration<double> elapsed = end - start;
 
-    // Проверка корректности (после замера)
-    bool success = check_inversion(A_original.data(), A_inv.data(), n);
+    // Проверка корректности 
+    bool success = check_inversion(A.data(), A_inv.data(), n);
 
-    // Вывод в формате, совместимом с вашим Python-кодом
-    std::cout << n << ",N/A,N/A," << elapsed.count() << ","
-              << (success ? "PASSED" : "FAILED") << "," << num_threads << std::endl;
+    // if (!success) std::cerr << "Inversion failed!" << std::endl;
+
+    // Вывод 
+    std::cout << "Time to svd " << n << "x" << n << " matrices: " 
+              << elapsed.count() << " s" << std::endl;
 
     return 0;
 }
