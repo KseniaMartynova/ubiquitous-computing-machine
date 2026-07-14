@@ -1,10 +1,10 @@
-7500,2.204512,N/A,N/A
-7500,1.598831,N/A,N/A
-7500,1.658633,N/A,N/A
-7500,1.601726,N/A,N/A
-7500,1.536719,N/A,N/A
-7500,1.577076,N/A,N/A
-7500,1.565006,N/A,N/A
-7500,1.798182,N/A,N/A
-7500,2.400027,N/A,N/A
-7500,2.208092,N/A,N/A
+Time to multiply 7500x7500 matrices: 2.204512 s
+Time to multiply 7500x7500 matrices: 1.598831 s
+Time to multiply 7500x7500 matrices: 1.658633 s
+Time to multiply 7500x7500 matrices: 1.601726 s
+Time to multiply 7500x7500 matrices: 1.536719 s
+Time to multiply 7500x7500 matrices: 1.577076 s
+Time to multiply 7500x7500 matrices: 1.565006 s
+Time to multiply 7500x7500 matrices: 1.798182 s
+Time to multiply 7500x7500 matrices: 2.400027 s
+Time to multiply 7500x7500 matrices: 2.208092 s
