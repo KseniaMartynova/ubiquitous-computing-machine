@@ -3,6 +3,8 @@ import matplotlib.pyplot as plt
 from scipy.optimize import curve_fit
 import os
 import glob
+import re
+
 # ------------------------------------------------------------
 # ОПРЕДЕЛЯЕМ БАЗОВУЮ ДИРЕКТОРИЮ 
 # ------------------------------------------------------------
@@ -11,10 +13,11 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 # ------------------------------------------------------------
 # ПАПКИ С РЕЗУЛЬТАТАМИ 
 # ------------------------------------------------------------
-LAPACK_DIR = os.path.join(BASE_DIR, "runks", "build", "lapack", "lu", "results")
-MKL_DIR    = os.path.join(BASE_DIR, "runks", "build", "mkl", "lu", "results")
-NUMPY_DIR  = os.path.join(BASE_DIR, "runks", "build", "numpy", "lu", "results")
+LAPACK_DIR = os.path.join(BASE_DIR, "runks", "build", "lapack", "multiplication", "results")
+MKL_DIR    = os.path.join(BASE_DIR, "runks", "build", "mkl", "multiplication", "results")
+NUMPY_DIR  = os.path.join(BASE_DIR, "runks", "build", "numpy", "multiplication", "results")
 
+# Префиксы имён файлов
 PREFIXES = {
     'LAPACK': 'lapack',
     'MKL':    'mkl',
@@ -22,57 +25,80 @@ PREFIXES = {
 }
 
 # ------------------------------------------------------------
-# ЧТЕНИЕ ДАННЫХ ИЗ ФАЙЛОВ
+# ЧТЕНИЕ ДАННЫХ ИЗ ФАЙЛОВ 
 # ------------------------------------------------------------
 def read_times(directory, prefix):
     """
-    Считывает размеры матриц и времена из файлов вида:
+    Считывает размеры матриц и средние времена из файлов вида:
         <prefix>_mul_size_<N>.txt
-    Возвращает отсортированные массивы (n, time).
+    Возвращает отсортированные массивы (n, avg_time).
     """
+    if not os.path.isdir(directory):
+        raise FileNotFoundError(f"Директория не существует: {directory}")
+    
     pattern = os.path.join(directory, f"{prefix}_mul_size_*.txt")
     files = glob.glob(pattern)
     if not files:
-        raise FileNotFoundError(f"Не найдены файлы по шаблону: {pattern}")
-
+        raise FileNotFoundError(
+            f"Не найдены файлы по шаблону: {pattern}\n"
+            f"Проверьте, что в папке {directory} есть файлы типа {prefix}_mul_size_2500.txt"
+        )
+    
     sizes = []
-    times = []
+    avg_times = []
+    
     for fpath in files:
-        # Извлекаем размер из имени файла (между "size_" и ".txt")
         basename = os.path.basename(fpath)
         size_str = basename.split("_size_")[1].replace(".txt", "")
         n_val = int(size_str)
-        with open(fpath, "r") as f:
-            t_val = float(f.read().strip())
+        
+        with open(fpath, "r", encoding="utf-8") as f:
+            content = f.read()
+            # Ищем все числа вида ": число s"
+            values = re.findall(r":\s*([\d.]+)\s*s", content)
+            if not values:
+                # Если формат не совпадает, пробуем прочитать всё содержимое как одно число
+                try:
+                    single_val = float(content.strip())
+                    values = [str(single_val)]
+                except ValueError:
+                    raise ValueError(f"Не удалось извлечь время из файла {fpath}")
+            
+            # Преобразуем строки в числа
+            float_vals = [float(v) for v in values]
+            
+            # ВЫВОД ВСЕХ ЗНАЧЕНИЙ, по которым будет считаться среднее
+            print(f"{basename}: значения = {float_vals}")
+            
+            # Вычисляем среднее арифметическое
+            avg_val = np.mean(float_vals)
+        
         sizes.append(n_val)
-        times.append(t_val)
-
+        avg_times.append(avg_val)
+    
     # Сортируем по размеру матрицы
     order = np.argsort(sizes)
     n_sorted = np.array(sizes)[order]
-    t_sorted = np.array(times)[order]
+    t_sorted = np.array(avg_times)[order]
     return n_sorted, t_sorted
 
-# Читаем данные для трёх библиотек
-n_lapack, t_lapack = read_times(LAPACK_DIR, "lapack")
-n_mkl,    t_mkl    = read_times(MKL_DIR,    "mkl")
-n_numpy,  t_numpy  = read_times(NUMPY_DIR,  "numpy")
+# Читаем данные для трёх библиотек 
+n_lapack, t_lapack = read_times(LAPACK_DIR, PREFIXES['LAPACK'])
+n_mkl,    t_mkl    = read_times(MKL_DIR,    PREFIXES['MKL'])
+n_numpy,  t_numpy  = read_times(NUMPY_DIR,  PREFIXES['NumPy'])
 
-
-print("Загруженные данные (LAPACK):", list(zip(n_lapack, t_lapack)))
+print("\nЗагруженные данные (LAPACK):", list(zip(n_lapack, t_lapack)))
 print("Загруженные данные (MKL):",    list(zip(n_mkl, t_mkl)))
 print("Загруженные данные (NumPy):",  list(zip(n_numpy, t_numpy)))
 
 # ------------------------------------------------------------
 # АППРОКСИМАЦИЯ 
 # ------------------------------------------------------------
-# Для LAPACK и NumPy используем все точки
 log_n_lapack = np.log(n_lapack)
 log_t_lapack = np.log(t_lapack)
 
 log_n_numpy = np.log(n_numpy)
 log_t_numpy = np.log(t_numpy)
-
 
 log_n_mkl = np.log(n_mkl)
 log_t_mkl = np.log(t_mkl)
@@ -89,7 +115,7 @@ a_lapack, c_lapack = np.exp(params_lapack[0]), params_lapack[1]
 a_mkl,    c_mkl    = np.exp(params_mkl[0]),    params_mkl[1]
 a_numpy,  c_numpy  = np.exp(params_numpy[0]),  params_numpy[1]
 
-print(f"Показатель степени (LAPACK): {c_lapack:.3f}")
+print(f"\nПоказатель степени (LAPACK): {c_lapack:.3f}")
 print(f"Показатель степени (MKL):    {c_mkl:.3f}")
 print(f"Показатель степени (NumPy):  {c_numpy:.3f}")
 
@@ -115,18 +141,15 @@ plt.yticks(
 )
 
 # Точки измерений
-plt.scatter(n_lapack, t_lapack, color='green', label='LAPACK (измерения)', zorder=5)
-plt.scatter(n_mkl,    t_mkl,    color='purple', marker='s', label='MKL (измерения)', zorder=5)
-plt.scatter(n_numpy,  t_numpy,  color='brown', marker='^', label='NumPy (измерения)', zorder=5)
+plt.scatter(n_lapack, t_lapack, color='green', label='LAPACK', zorder=5)
+plt.scatter(n_mkl,    t_mkl,    color='purple', marker='s', label='MKL', zorder=5)
+plt.scatter(n_numpy,  t_numpy,  color='blue', marker='^', label='NumPy ', zorder=5)
 
 # Аппроксимирующие кривые
 n_fit = np.linspace(2000, 21000, 500)
-plt.plot(n_fit, a_lapack * n_fit**c_lapack, '--', color='green', alpha=0.7,
-         label=f'LAPACK: $T(n) = n^{{{c_lapack:.2f}}}$')
-plt.plot(n_fit, a_mkl    * n_fit**c_mkl,    '--', color='purple', alpha=0.7,
-         label=f'MKL: $T(n) = n^{{{c_mkl:.2f}}}$')
-plt.plot(n_fit, a_numpy  * n_fit**c_numpy,  '--', color='brown', alpha=0.7,
-         label=f'NumPy: $T(n) = n^{{{c_numpy:.2f}}}$')
+plt.plot(n_fit, a_lapack * n_fit**c_lapack, '--', color='green')
+plt.plot(n_fit, a_mkl    * n_fit**c_mkl,    '--', color='purple')
+plt.plot(n_fit, a_numpy  * n_fit**c_numpy,  '--', color='blue')
 
 # Подписи значений времени около точек
 for x, y1, y2, y3 in zip(n_lapack, t_lapack, t_mkl, t_numpy):
@@ -135,12 +158,11 @@ for x, y1, y2, y3 in zip(n_lapack, t_lapack, t_mkl, t_numpy):
     plt.text(x, y2*0.6, f'{y2:.1f}s', ha='center', va='top',
              color='purple', fontsize=8, fontweight='bold')
     plt.text(x, y3*1.4, f'{y3:.1f}s', ha='center', va='bottom',
-             color='brown', fontsize=8, fontweight='bold')
+             color='blue', fontsize=8, fontweight='bold')
 
 plt.xlabel('Размер матрицы ($n$)', fontsize=12, labelpad=10)
 plt.ylabel('Время (с)', fontsize=12, labelpad=10)
-plt.title('Аппроксимация времени умножения (линейная регрессия в log-log)',
-          fontsize=14, pad=15)
+plt.title('Аппроксимация времени умножения матриц (линейная регрессия в log-log)', fontsize=14, pad=15)
 plt.legend(fontsize=10, loc='upper left')
 plt.grid(True, linestyle='--', alpha=0.5, which='both')
 
