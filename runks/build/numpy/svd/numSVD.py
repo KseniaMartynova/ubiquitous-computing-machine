@@ -33,16 +33,16 @@ def check_inversion_correctness(original_matrix, inverted_matrix):
     return np.allclose(product, identity_matrix)
 
 # Проверка наличия аргумента командной строки
-if len(sys.argv) != 2:
-    print("Использование: python script.py <размер матрицы>")
-    sys.exit(1)
+#if len(sys.argv) != 2:
+ #   print("Использование: python script.py <размер матрицы>")
+ #   sys.exit(1)
 
 n = int(sys.argv[1])  # Размер матрицы
 positive_definite_matrix = generate_positive_definite_matrix(n)
 
 # Замер времени для обращения матрицы с использованием SVD
 inverted_matrix, elapsed_time = measure_time_for_svd_inversion(positive_definite_matrix)
-print(f"Время, затраченное на обращение матрицы с использованием SVD: {elapsed_time:.6f} секунд")
+print(f"Time to svd {n}x{n} matrices: {elapsed_time:.6f} s")
 
 # Проверка корректности обращения матрицы
 is_correct = check_inversion_correctness(positive_definite_matrix, inverted_matrix)
