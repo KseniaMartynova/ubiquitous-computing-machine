@@ -22,12 +22,14 @@ def parse_times_robust(filepath, discard_first=True):
 # Размеры матриц
 sizes = [2500, 5000, 7500, 10000, 12500, 15000, 17500, 20000]
 
-# Относительные пути к папкам с результатами (от корня проекта)
-LAPACK_DIR = "runks/build/lapack/lu/results/"
-MKL_DIR    = "runks/build/mkl/lu/results/"
-NUMPY_DIR  = "runks/build/numpy/lu/results/"
 
-# Имена файлов строятся динамически, например: lapack_svd_size_2500.txt
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
+LAPACK_DIR = os.path.join(BASE_DIR, "runks", "build", "lapack", "lu", "results")
+MKL_DIR    = os.path.join(BASE_DIR, "runks", "build", "mkl", "lu", "results")
+NUMPY_DIR  = os.path.join(BASE_DIR, "runks", "build", "numpy", "lu", "results")
+
+
 data = { 'LAPACK': {'sizes': [], 'medians': [], 'q1': [], 'q3': []},
          'MKL':    {'sizes': [], 'medians': [], 'q1': [], 'q3': []},
          'NumPy':  {'sizes': [], 'medians': [], 'q1': [], 'q3': []} }
@@ -36,12 +38,13 @@ data = { 'LAPACK': {'sizes': [], 'medians': [], 'q1': [], 'q3': []},
 lib_config = {
     'LAPACK': (LAPACK_DIR, 'lapack'),
     'MKL':    (MKL_DIR, 'mkl'),
-    'NumPy':  (NUMPY_DIR, 'num')
+    'NumPy':  (NUMPY_DIR, 'num')   
 }
 
 for size in sizes:
     for lib, (directory, prefix) in lib_config.items():
-        filepath = os.path.join(directory, f"{prefix}_svd_size_{size}.txt")
+
+        filepath = os.path.join(directory, f"{prefix}_lu_size_{size}.txt")
         try:
             median, q1, q3, _ = parse_times_robust(filepath)
             data[lib]['sizes'].append(size)
@@ -58,8 +61,8 @@ plt.xscale('linear')
 plt.yscale('log')
 
 plt.yticks(
-    ticks=[0.1, 0.15, 0.3, 0.47, 0.9, 1.5, 2.0, 3.0, 4, 5, 6.6, 10, 25, 35, 54, 80, 100, 150, 250, 500, 750, 1000, 1500],
-    labels=['0.1', '0.15', '0.3', '0.47', '0.9', '1.5', '2.0', '3.0', '4', '5', '6.6', '10', '25', '35', '54', '80', '100', '150', '250', '500', '750', '1000', '1500'],
+    ticks=[0.1, 0.15,0.3,0.47,0.9,1.5,2.0, 3.0,  4,  5,6.6,10, 25,35, 54, 80, 100, 150, 250, 500, 750, 1000,1500, 3000,5000,6500],
+    labels=['0.1', '0.15','0.3','0.47','0.9','1.5','2.0', '3.0',  '4',  '5','6.6','10', '25','35', '54', '80', '100', '150', '250', '500', '750', '1000', '1500', '3000','5000','6500'],
     fontsize=10
 )
 
