@@ -1,10 +1,10 @@
-2500,0.10441,PASSED,8
-2500,0.104941,PASSED,8
-2500,0.132195,PASSED,8
-2500,0.128489,PASSED,8
-2500,0.134154,PASSED,8
-2500,0.105496,PASSED,8
-2500,0.13355,PASSED,8
-2500,0.104992,PASSED,8
-2500,0.109762,PASSED,8
-2500,0.124277,PASSED,8
+Time to lu 2500x2500 matrices: 0.10441 s
+Time to lu 2500x2500 matrices: 0.104941 s
+Time to lu 2500x2500 matrices: 0.132195 s
+Time to lu 2500x2500 matrices: 0.128489 s
+Time to lu 2500x2500 matrices: 0.134154 s
+Time to lu 2500x2500 matrices: 0.105496 s
+Time to lu 2500x2500 matrices: 0.13355 s
+Time to lu 2500x2500 matrices: 0.104992 s
+Time to lu 2500x2500 matrices: 0.109762 s
+Time to lu 2500x2500 matrices: 0.124277 s
