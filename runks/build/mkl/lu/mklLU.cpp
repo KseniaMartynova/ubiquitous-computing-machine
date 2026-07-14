@@ -101,19 +101,10 @@ int main(int argc, char* argv[]) {
     // Проверяем результат
     bool is_correct = verify_inversion(A, A_inv, n);
 
-    // Выводим результаты
-    // std::cout << "Matrix size: " << n << "x" << n << std::endl;
-    // std::cout << "Time: " << elapsed.count() << " seconds" << std::endl;
-    // std::cout << "Verification: " << (is_correct ? "PASSED" : "FAILED") << std::endl;
-    // std::cout << "Threads used: " << num_threads << std::endl;
+    // if (!success) std::cerr << "Inversion failed!" << std::endl;
 
-    // std::cout << n << "," << elapsed.count() << "," 
-    // << (success ? "PASSED" : "FAILED") << "," 
-    // << num_threads << std::endl;
-
-    std::cout << n << "," << elapsed.count() << "," 
-    << (is_correct ? "PASSED" : "FAILED") << "," 
-    << num_threads << std::endl;
+    std::cout << "Time to lu " << n << "x" << n << " matrices: " 
+              << elapsed.count() << " s" << std::endl;
 
     return 0;
 }
