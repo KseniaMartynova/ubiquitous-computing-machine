@@ -48,7 +48,7 @@ def main():
     elapsed_time = end_time - start_time
     
 
-    print(f"{n},{elapsed_time:.6f},N/A,N/A")
+    print(f"Time to multiply {n}x{n} matrices: {elapsed_time:.6f} s")
     
 if __name__ == "__main__":
     main()
