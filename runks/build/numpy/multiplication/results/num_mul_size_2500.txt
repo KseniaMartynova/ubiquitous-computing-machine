@@ -1,10 +1,10 @@
-2500,0.069103,N/A,N/A
-2500,0.070023,N/A,N/A
-2500,0.067159,N/A,N/A
-2500,0.065981,N/A,N/A
-2500,0.069471,N/A,N/A
-2500,0.068437,N/A,N/A
-2500,0.066770,N/A,N/A
-2500,0.065698,N/A,N/A
-2500,0.078942,N/A,N/A
-2500,0.066638,N/A,N/A
+Time to multiply 2500x2500 matrices: 0.069103 s
+Time to multiply 2500x2500 matrices: 0.070023 s
+Time to multiply 2500x2500 matrices: 0.067159 s
+Time to multiply 2500x2500 matrices: 0.065981 s
+Time to multiply 2500x2500 matrices: 0.069471 s
+Time to multiply 2500x2500 matrices: 0.068437 s
+Time to multiply 2500x2500 matrices: 0.066770 s
+Time to multiply 2500x2500 matrices: 0.065698 s
+Time to multiply 2500x2500 matrices: 0.078942 s
+Time to multiply 2500x2500 matrices: 0.066638 s
