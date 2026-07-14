@@ -1,10 +1,11 @@
-5000,N/A,N/A,9.40088,PASSED,8
-5000,N/A,N/A,9.60124,PASSED,8
-5000,N/A,N/A,10.62,PASSED,8
-5000,N/A,N/A,9.59877,PASSED,8
-5000,N/A,N/A,9.51463,PASSED,8
-5000,N/A,N/A,10.9277,PASSED,8
-5000,N/A,N/A,9.71178,PASSED,8
-5000,N/A,N/A,9.58002,PASSED,8
-5000,N/A,N/A,10.2982,PASSED,8
-5000,N/A,N/A,9.5273,PASSED,8
+Time to svd 5000x5000 matrices: 9.40088 s
+Time to svd 5000x5000 matrices: 9.60124 s
+Time to svd 5000x5000 matrices: 10.62 s
+Time to svd 5000x5000 matrices: 9.59877 s
+Time to svd 5000x5000 matrices: 9.51463 s
+Time to svd 5000x5000 matrices: 10.9277 s
+Time to svd 5000x5000 matrices: 9.71178 s
+Time to svd 5000x5000 matrices: 9.58002 s
+Time to svd 5000x5000 matrices: 10.2982 s
+Time to svd 5000x5000 matrices: 9.5273 s
+
