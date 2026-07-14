@@ -17,7 +17,6 @@ LAPACK_DIR = os.path.join(BASE_DIR, "runks", "build", "lapack", "lu", "results")
 MKL_DIR    = os.path.join(BASE_DIR, "runks", "build", "mkl", "lu", "results")
 NUMPY_DIR  = os.path.join(BASE_DIR, "runks", "build", "numpy", "lu", "results")
 
-# Префиксы имён файлов: lapack_lu_size_<N>.txt, mkl_lu_size_<N>.txt, num_lu_size_<N>.txt
 PREFIXES = {
     'LAPACK': 'lapack',
     'MKL':    'mkl',
