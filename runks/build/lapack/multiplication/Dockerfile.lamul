@@ -1,4 +1,7 @@
 FROM gcc:12.4   
+ENV OPENBLAS_NUM_THREADS=16
+ENV OMP_NUM_THREADS=16
+
 RUN apt-get update && apt-get install -y \
         make \
         cmake \  
