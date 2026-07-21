@@ -1,51 +1,29 @@
 import numpy as np
 import time
 import sys
-from scipy import linalg  # Adding scipy import for LU decomposition
+from scipy.linalg.lapack import dgetrf, dgetri   # прямой доступ к LAPACK-функциям
 
 def generate_positive_definite_matrix(n):
-    """
-    Генерация положительно определенной матрицы размера n x n
-    """
-    # Генерируем случайную матрицу
     A = np.random.rand(n, n)
-    
-    # Делаем матрицу симметричной
     A = 0.5 * (A + A.T)
-    
-    # Добавляем к диагонали для гарантии положительной определенности
     A += n * np.eye(n)
-    
     return A
 
 def invert_matrix_with_lu(matrix):
     """
-    Обращение матрицы с использованием LU-разложения
+    Обращение матрицы через LU-разложение с использованием LAPACK (dgetrf + dgetri).
+    Аналогично вызовам LAPACKE_dgetrf + LAPACKE_dgetri в C-тестах.
     """
-    # Используем scipy.linalg.lu вместо np.linalg.lu
-    P, L, U = linalg.lu(matrix)
-    
     n = matrix.shape[0]
-    identity = np.eye(n)
-    A_inv = np.zeros((n, n))
-    
-    # Решаем n систем линейных уравнений для каждого столбца единичной матрицы
-    for i in range(n):
-        # Решаем L * y = P.T * e_i для y методом прямой подстановки
-        y = np.zeros(n)
-        b = P.T @ identity[:, i]
-        for j in range(n):
-            y[j] = b[j] - L[j, :j] @ y[:j]
-        
-        # Решаем U * x = y для x методом обратной подстановки
-        x = np.zeros(n)
-        for j in range(n-1, -1, -1):
-            x[j] = (y[j] - U[j, j+1:] @ x[j+1:]) / U[j, j]
-        
-        A_inv[:, i] = x
-    
-    return A_inv
-
+    # LU-факторизация, overwrite_a=1 разрешает перезапись входной матрицы для скорости
+    lu, piv, info = dgetrf(matrix, overwrite_a=1)
+    if info != 0:
+        raise np.linalg.LinAlgError("LU factorization failed")
+    # Вычисление обратной матрицы из LU-факторов (перезаписывает lu)
+    inv, info = dgetri(lu, piv, overwrite_lu=1)
+    if info != 0:
+        raise np.linalg.LinAlgError("Inverse computation failed")
+    return inv
 def check_inversion_correctness(original_matrix, inverted_matrix):
     """
     Проверка корректности обращения матрицы
