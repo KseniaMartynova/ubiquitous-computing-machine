@@ -15,14 +15,23 @@ def generate_positive_definite_matrix(n):
     
     return A
 
+from scipy.linalg import svd
+
 def measure_time_for_svd_inversion(matrix):
     start_time = time.time()
     
-    # Вычисляем псевдообратную матрицу с использованием scipy.linalg.pinv
-    inverted_matrix = pinv(matrix)
+    # Явное SVD с выбором алгоритма divide and conquer
+    U, s, Vt = svd(matrix, lapack_driver='gesdd')
+    
+    # Порог для отсечения малых сингулярных чисел
+    threshold = np.finfo(float).eps * max(matrix.shape) * np.max(s)
+    s_inv = np.where(s > threshold, 1.0 / s, 0.0)
+    
+    # Псевдообратная матрица = V^T^T * diag(s_inv) * U^T
+    inverted = Vt.T @ np.diag(s_inv) @ U.T
     
     end_time = time.time()
-    return inverted_matrix, end_time - start_time
+    return inverted, end_time - start_time
 
 def check_inversion_correctness(original_matrix, inverted_matrix):
     # Умножаем исходную матрицу на обратную
