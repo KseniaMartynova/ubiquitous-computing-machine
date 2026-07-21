@@ -1,13 +1,19 @@
-FROM gcc:12.4   
+FROM gcc:12.4
+
+# Единое количество потоков для всех экспериментов
+ENV OPENBLAS_NUM_THREADS=16
+ENV OMP_NUM_THREADS=16
+
 RUN apt-get update && apt-get install -y \
         make \
-        cmake \  
-        git \  
-        libopenblas-dev=0.3.20+ds-1 \ 
+        cmake \
+        git \
+        libopenblas-dev=0.3.20+ds-1 \
         liblapack-dev \
         liblapacke-dev \
         && rm -rf /var/lib/apt/lists/*
-WORKDIR /usr/share/lapack  
+
+WORKDIR /usr/share/lapack
 COPY laCholez.cpp /usr/share/lapack/laCholez.cpp
 RUN g++ -o laCholez laCholez.cpp -lopenblas -llapacke -lm -lpthread
-ENTRYPOINT ["./laCholez"] 
+ENTRYPOINT ["./laCholez"]
