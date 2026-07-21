@@ -74,50 +74,21 @@ int main(int argc, char* argv[]) {
     std::vector<double> A = create_spd_matrix(n);
     std::vector<double> A_orig = A;  // Сохраняем оригинальную матрицу
 
-    // SVD параметры
-    std::vector<double> S(n);        // Сингулярные значения
-    std::vector<double> U(n * n);    // Левые сингулярные векторы
-    std::vector<double> VT(n * n);   // Правые сингулярные векторы (транспонированные)
+        // SVD параметры
+    std::vector<double> S(n);        // сингулярные значения
+    std::vector<double> U(n * n);    // левые сингулярные векторы
+    std::vector<double> VT(n * n);   // правые сингулярные векторы (транспонированные)
     
-    // Определяем оптимальный размер рабочего массива
-    int lwork = -1;
-    double lwork_query;
-    int info = LAPACKE_dgesvd_work(
-        LAPACK_ROW_MAJOR, 
-        'A',    // Все левые сингулярные векторы
-        'A',    // Все правые сингулярные векторы
-        n, n, 
-        A.data(), n, 
-        S.data(), 
-        U.data(), n, 
-        VT.data(), n, 
-        &lwork_query, 
-        lwork
-    );
-
-    if (info != 0) {
-        std::cerr << "LWORK query failed: " << info << std::endl;
-        return 1;
-    }
-
-    lwork = static_cast<int>(lwork_query);
+    // Рабочий массив для dgesdd: минимальный размер lwork ≥ 4*n + n*n (см. документацию)
+    int lwork = 4 * n + n * n;
     std::vector<double> work(lwork);
-
-    // Засекаем время для SVD-разложения
+    std::vector<int> iwork(8 * n);   // целочисленный рабочий массив для dgesdd
+    
     auto svd_start = std::chrono::high_resolution_clock::now();
     
-    // Выполняем SVD
-    info = LAPACKE_dgesvd_work(
-        LAPACK_ROW_MAJOR, 
-        'A', 'A', 
-        n, n, 
-        A.data(), n, 
-        S.data(), 
-        U.data(), n, 
-        VT.data(), n, 
-        work.data(), 
-        lwork
-    );
+    int info = LAPACKE_dgesdd(LAPACK_ROW_MAJOR, 'A', n, n,
+                              A.data(), n, S.data(), U.data(), n,
+                              VT.data(), n);
     
     auto svd_end = std::chrono::high_resolution_clock::now();
 
