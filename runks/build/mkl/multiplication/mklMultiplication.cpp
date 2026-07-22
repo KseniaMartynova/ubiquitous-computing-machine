@@ -51,7 +51,7 @@ int main(int argc, char* argv[]) {
 
     // Вывод в требуемом формате
     std::cout << "Time to multiply " << n << "x" << n << " matrices: " 
-              << elapsed.count() << " s" << std::endl;
+              << diff.count() << " s" << std::endl;
 
     return 0;
 }
