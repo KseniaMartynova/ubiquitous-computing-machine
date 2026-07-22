@@ -1,7 +1,7 @@
 FROM python:3.9 
-ENV OPENBLAS_NUM_THREADS=16
-ENV MKL_NUM_THREADS=16
-ENV OMP_NUM_THREADS=16
+ENV OPENBLAS_NUM_THREADS=1
+ENV MKL_NUM_THREADS=1
+ENV OMP_NUM_THREADS=1
 COPY requirements.txt . 
 RUN pip install --no-cache-dir -r requirements.txt
 COPY numSVD.py /usr/share/num/numSVD.py    
