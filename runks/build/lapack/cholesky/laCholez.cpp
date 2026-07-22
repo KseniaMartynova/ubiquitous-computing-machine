@@ -51,7 +51,7 @@ int main(int argc, char* argv[]) {
     // Устанавливаем количество потоков для OpenBLAS
     int num_threads = std::thread::hardware_concurrency();
     std::cout << "Using " << num_threads << " threads for OpenBLAS." << std::endl;
-    setenv("OPENBLAS_NUM_THREADS", std::to_string(num_threads).c_str(), 1);
+    openblas_set_num_threads(num_threads);
 
     // Замеряем время
     auto start = std::chrono::high_resolution_clock::now();
