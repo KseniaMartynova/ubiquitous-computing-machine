@@ -6,9 +6,9 @@ RUN apt-get update && apt-get install -y \
         make \
         cmake \  
         git \  
-        libopenblas-dev=0.3.20+ds-1 \ 
-        liblapack-dev \
-        liblapacke-dev \
+        libopenblas-dev=0.3.21+ds-4 \ 
+        liblapack-dev=3.11.0-2 \
+        liblapacke-dev=3.11.0-2 \
         && rm -rf /var/lib/apt/lists/*
 WORKDIR /usr/share/lapack  
 COPY lablasSvd.cpp /usr/share/lapack/lablasSvd.cpp
