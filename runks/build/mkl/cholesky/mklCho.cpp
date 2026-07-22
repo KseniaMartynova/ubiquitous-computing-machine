@@ -89,7 +89,7 @@ int main(int argc, char* argv[]) {
     std::chrono::duration<double> diff = end - start;
 
     std::cout << "Time to invert " << n << "x" << n << " matrices: " 
-              << elapsed.count() << " s" << std::endl;
+          << diff.count() << " s" << std::endl;
 
     return 0;
 }
