@@ -139,7 +139,7 @@ int main(int argc, char* argv[]) {
     bool is_correct = verify_inversion(A_orig, A_inv, n);
 
     std::cout << "Time to svd " << n << "x" << n << " matrices: " 
-              << elapsed.count() << " s" << std::endl;
+          << total_duration.count() << " s" << std::endl;
 
     return 0;
 }
