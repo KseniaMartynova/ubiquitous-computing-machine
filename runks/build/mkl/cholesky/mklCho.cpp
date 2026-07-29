@@ -77,7 +77,8 @@ int main(int argc, char* argv[]) {
         std::cerr << "Ошибка при выполнении dpotri: " << info << std::endl;
         return 1;
     }
-
+    auto end = std::chrono::high_resolution_clock::now();
+    std::chrono::duration<double> diff = end - start;
     // Копируем результат в верхнюю треугольную часть матрицы
     for (int i = 0; i < n; ++i) {
         for (int j = i + 1; j < n; ++j) {
@@ -85,8 +86,6 @@ int main(int argc, char* argv[]) {
         }
     }
 
-    auto end = std::chrono::high_resolution_clock::now();
-    std::chrono::duration<double> diff = end - start;
 
     std::cout << "Time to invert " << n << "x" << n << " matrices: " 
           << diff.count() << " s" << std::endl;
