@@ -23,7 +23,7 @@ def parse_times_robust(filepath, discard_first=True):
 sizes = [2500, 5000, 7500, 10000, 12500, 15000, 17500, 20000]
 
 
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 LAPACK_DIR = os.path.join(BASE_DIR, "runks", "build", "lapack", "svd", "results")
 MKL_DIR    = os.path.join(BASE_DIR, "runks", "build", "mkl", "svd", "results")
