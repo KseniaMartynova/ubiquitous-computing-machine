@@ -1,10 +1,18 @@
 #include <iostream>
+#include <iomanip>
 #include <vector>
+#include <string>
+#include <sstream>
 #include <chrono>
 #include <random>
 #include <mkl.h>
-#include <cstdlib> // Для std::atoi
-#include <cmath>   // Для std::abs
+#include <cstdlib>    // std::atoi
+#include <cmath>      // std::abs
+#include <sys/resource.h>  // getrusage
+
+// список для хранения вызванных LAPACK/BLAS-функций
+std::vector<std::string> called_routines;
+
 
 void generate_positive_definite_matrix(double* A, int n) {
     std::random_device rd;
@@ -26,25 +34,6 @@ void generate_positive_definite_matrix(double* A, int n) {
     }
 }
 
-bool check_inversion_result(const std::vector<double>& A, const std::vector<double>& A_inv, int n) {
-    std::vector<double> result(n * n, 0.0);
-
-    // Умножение A на A_inv с использованием BLAS
-    cblas_dgemm(CblasRowMajor, CblasNoTrans, CblasNoTrans, n, n, n, 1.0, A.data(), n, A_inv.data(), n, 0.0, result.data(), n);
-
-    // Проверка на близость к единичной матрице
-    double tolerance = 1e-6;
-    for (int i = 0; i < n; ++i) {
-        for (int j = 0; j < n; ++j) {
-            double expected = (i == j) ? 1.0 : 0.0;
-            if (std::abs(result[i * n + j] - expected) > tolerance) {
-                return false;
-            }
-        }
-    }
-
-    return true;
-}
 
 int main(int argc, char* argv[]) {
     if (argc != 2) {
@@ -59,36 +48,69 @@ int main(int argc, char* argv[]) {
 
     generate_positive_definite_matrix(A.data(), n);
 
-    // Обращение матрицы и замер времени
+    // Получаем текущее число потоков MKL 
+    int num_threads = mkl_get_max_threads();
+
+    // Копируем исходную матрицу для обращения
     std::copy(A.begin(), A.end(), A_inv.begin());
+
+
     auto start = std::chrono::high_resolution_clock::now();
 
-    // Выполнение разложения Холецкого
-    char uplo = 'L'; // Используем нижнюю треугольную матрицу
-    int info = LAPACKE_dpotrf(LAPACK_ROW_MAJOR, uplo, n, A_inv.data(), n);
+    // Факторизация Холецкого (нижний треугольник)
+    called_routines.push_back("dpotrf");
+    int info = LAPACKE_dpotrf(LAPACK_ROW_MAJOR, 'L', n, A_inv.data(), n);
     if (info != 0) {
         std::cerr << "Ошибка при выполнении dpotrf: " << info << std::endl;
         return 1;
     }
 
-    // Вычисление обратной матрицы с использованием разложения Холецкого
-    info = LAPACKE_dpotri(LAPACK_ROW_MAJOR, uplo, n, A_inv.data(), n);
+    // Обращение матрицы на основе разложения Холецкого
+    called_routines.push_back("dpotri");
+    info = LAPACKE_dpotri(LAPACK_ROW_MAJOR, 'L', n, A_inv.data(), n);
     if (info != 0) {
         std::cerr << "Ошибка при выполнении dpotri: " << info << std::endl;
         return 1;
     }
 
-    // Копируем результат в верхнюю треугольную часть матрицы
+    // Восстанавливаем симметрию: копируем нижний треугольник в верхний
     for (int i = 0; i < n; ++i) {
         for (int j = i + 1; j < n; ++j) {
             A_inv[i * n + j] = A_inv[j * n + i];
         }
     }
-    auto end = std::chrono::high_resolution_clock::now();
-    std::chrono::duration<double> diff = end - start;
 
-    std::cout << "Time to invert " << n << "x" << n << " matrices: " 
-          << diff.count() << " s" << std::endl;
+    auto end = std::chrono::high_resolution_clock::now();
+    std::chrono::duration<double> elapsed = end - start;
+
+    // 
+    struct rusage usage;
+    getrusage(RUSAGE_SELF, &usage);
+    long rss_kb = usage.ru_maxrss;   // на Linux – килобайты
+
+    // Контрольная сумма обратной матрицы 
+    double checksum = 0.0;
+    for (double v : A_inv) {
+        checksum += v;
+    }
+
+    // Формируем строку routines 
+    std::ostringstream routines_oss;
+    for (size_t i = 0; i < called_routines.size(); ++i) {
+        if (i) routines_oss << ',';
+        routines_oss << called_routines[i];
+    }
+
+
+    std::cout << std::fixed << std::setprecision(9);
+    std::cout << "RESULT_SECONDS=" << elapsed.count() << std::endl;
+
+    std::cout << "DIAG_THREADS=mkl:" << num_threads << std::endl;
+    std::cout << "DIAG_PEAK_RSS_KB=" << rss_kb << std::endl;
+    std::cout << "DIAG_ROUTINES=" << routines_oss.str() << std::endl;
+
+    std::cout << std::setprecision(6);
+    std::cout << "DIAG_CHECKSUM=" << checksum << std::endl;
 
     return 0;
 }
