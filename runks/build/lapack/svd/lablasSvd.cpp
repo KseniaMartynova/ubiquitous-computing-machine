@@ -35,7 +35,7 @@ std::vector<double> create_spd_matrix(int n) {
     return A;
 }
 
-// Функция проверки корректности остаётся без изменений
+
 bool verify_inversion(const std::vector<double>& A, const std::vector<double>& A_inv, int n) {
     std::vector<double> result(n * n, 0.0);
     
@@ -66,7 +66,7 @@ int main(int argc, char* argv[]) {
         return 1;
     }
 
-    // Генерация исходной матрицы (уже унифицированная)
+    // Генерация исходной матрицы 
     std::vector<double> A = create_spd_matrix(n);
     std::vector<double> A_orig = A;  // копия для последующей проверки
 
@@ -75,7 +75,7 @@ int main(int argc, char* argv[]) {
     std::vector<double> U(n * n);
     std::vector<double> VT(n * n);
     
-    // Рабочие массивы для dgesdd (необязательно при использовании LAPACKE, но оставлены)
+    // Рабочие массивы для dgesdd 
     int lwork = 4 * n + n * n;
     std::vector<double> work(lwork);
     std::vector<int> iwork(8 * n);
