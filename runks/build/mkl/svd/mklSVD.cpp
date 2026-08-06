@@ -1,5 +1,8 @@
 #include <iostream>
+#include <iomanip>
 #include <vector>
+#include <string>
+#include <sstream>
 #include <chrono>
 #include <algorithm>
 #include <random>
@@ -7,20 +10,23 @@
 #include <cstdlib>
 #include <cmath>
 #include <omp.h>
+#include <sys/resource.h>   // для getrusage
+#include <stdexcept>        // для std::runtime_error
 
-// симметризация случайной матрицы + n на диагональ
+// список вызванных ключевых подпрограмм LAPACK/BLAS
+std::vector<std::string> called_routines;
+
+// Генерация симметричной положительно определённой матрицы
 void generate_spd_matrix(double* A, int n) {
     std::random_device rd;
     std::mt19937 gen(rd());
     std::uniform_real_distribution<> dis(0.0, 1.0);
 
-    // Заполняем случайными числами
     #pragma omp parallel for
     for (int i = 0; i < n * n; ++i) {
         A[i] = dis(gen);
     }
 
-    // Симметризация: A = (A + A^T) / 2 и сдвиг диагонали на n
     #pragma omp parallel for
     for (int i = 0; i < n; ++i) {
         for (int j = 0; j < i; ++j) {
@@ -31,18 +37,21 @@ void generate_spd_matrix(double* A, int n) {
     }
 }
 
-// Обращение через SVD 
+// Обращение матрицы через SVD 
 void svd_invert(double* A, int n, double* A_inv) {
     std::vector<double> S(n);
     std::vector<double> U(n * n);
     std::vector<double> VT(n * n);
 
+    //  SVD (dgesdd) 
+    called_routines.push_back("dgesdd");
     int info = LAPACKE_dgesdd(LAPACK_ROW_MAJOR, 'A', n, n,
                               A, n, S.data(), U.data(), n, VT.data(), n);
     if (info != 0) {
         throw std::runtime_error("SVD decomposition failed");
     }
 
+    // Инвертирование сингулярных чисел
     double max_sv = *std::max_element(S.begin(), S.end());
     double threshold = max_sv * n * std::numeric_limits<double>::epsilon();
 
@@ -51,6 +60,7 @@ void svd_invert(double* A, int n, double* A_inv) {
         S[i] = (S[i] > threshold) ? 1.0 / S[i] : 0.0;
     }
 
+    // Формирование S^{-1} * U^T 
     std::vector<double> SinvUT(n * n, 0.0);
     #pragma omp parallel for collapse(2)
     for (int i = 0; i < n; ++i) {
@@ -59,14 +69,19 @@ void svd_invert(double* A, int n, double* A_inv) {
         }
     }
 
+    //  сборка A_inv = V * (S^{-1} U^T) 
+    called_routines.push_back("dgemm");
     cblas_dgemm(CblasRowMajor, CblasTrans, CblasNoTrans,
-                n, n, n, 1.0, VT.data(), n, SinvUT.data(), n,
+                n, n, n,
+                1.0, VT.data(), n,
+                SinvUT.data(), n,
                 0.0, A_inv, n);
 }
 
 // Проверка корректности 
 bool check_inversion(const double* A, const double* A_inv, int n, double tol = 1e-10) {
     std::vector<double> product(n * n, 0.0);
+    // Этот dgemm – служебный, не добавляем в called_routines
     cblas_dgemm(CblasRowMajor, CblasNoTrans, CblasNoTrans,
                 n, n, n, 1.0, A, n, A_inv, n, 0.0, product.data(), n);
     double max_error = 0.0;
@@ -92,13 +107,13 @@ int main(int argc, char* argv[]) {
         return 1;
     }
 
+    // Получаем и фиксируем число потоков MKL
     int num_threads = mkl_get_max_threads();
     mkl_set_num_threads(num_threads);
 
     std::vector<double> A(n * n);
-    generate_spd_matrix(A.data(), n);   //  симметризация + сдвиг
-
-    std::vector<double> A_original = A;
+    generate_spd_matrix(A.data(), n);   // A – SPD матрица
+    std::vector<double> A_original = A; // копия для проверки
     std::vector<double> A_inv(n * n);
 
     auto start = std::chrono::high_resolution_clock::now();
@@ -106,10 +121,38 @@ int main(int argc, char* argv[]) {
     auto end = std::chrono::high_resolution_clock::now();
     std::chrono::duration<double> elapsed = end - start;
 
-    bool success = check_inversion(A.data(), A_inv.data(), n);
+    // Проверка корректности
+    if (!check_inversion(A.data(), A_inv.data(), n)) {
+        std::cerr << "Verification failed: A * A_inv != I" << std::endl;
+        return 1;
+    }
 
-    std::cout << "Time to svd " << n << "x" << n << " matrices: " 
-              << elapsed.count() << " s" << std::endl;
+    // Пиковая память 
+    struct rusage usage;
+    getrusage(RUSAGE_SELF, &usage);
+    long rss_kb = usage.ru_maxrss;   
+
+    // Контрольная сумма обратной матрицы
+    double checksum = 0.0;
+    for (double v : A_inv) checksum += v;
+
+    // Формируем строку routines
+    std::ostringstream routines_oss;
+    for (size_t i = 0; i < called_routines.size(); ++i) {
+        if (i) routines_oss << ',';
+        routines_oss << called_routines[i];
+    }
+
+
+    std::cout << std::fixed << std::setprecision(9);
+    std::cout << "RESULT_SECONDS=" << elapsed.count() << std::endl;
+
+    std::cout << "DIAG_THREADS=mkl:" << num_threads << std::endl;
+    std::cout << "DIAG_PEAK_RSS_KB=" << rss_kb << std::endl;
+    std::cout << "DIAG_ROUTINES=" << routines_oss.str() << std::endl;
+
+    std::cout << std::setprecision(6);
+    std::cout << "DIAG_CHECKSUM=" << checksum << std::endl;
 
     return 0;
 }
