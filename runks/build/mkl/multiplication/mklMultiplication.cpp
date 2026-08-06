@@ -1,10 +1,18 @@
 #include <iostream>
+#include <iomanip>
 #include <vector>
+#include <string>
+#include <sstream>
 #include <chrono>
 #include <random>
 #include <mkl.h>
-#include <cstdlib> // Для std::atoi
+#include <cstdlib>      // std::atoi
+#include <sys/resource.h> // getrusage
 
+// список вызванных подпрограмм BLAS/LAPACK
+std::vector<std::string> called_routines;
+
+// Генерация симметричной положительно определённой матрицы
 void generate_positive_definite_matrix(double* A, int n) {
     std::random_device rd;
     std::mt19937 gen(rd());
@@ -40,18 +48,51 @@ int main(int argc, char* argv[]) {
     generate_positive_definite_matrix(A.data(), n);
     generate_positive_definite_matrix(B.data(), n);
 
-    // Умножение матриц и замер времени
+    // Получаем число потоков MKL 
+    int num_threads = mkl_get_max_threads();
+
+    // Засекаем время
     auto start = std::chrono::high_resolution_clock::now();
 
-    // Выполняем умножение матриц
-    cblas_dgemm(CblasRowMajor, CblasNoTrans, CblasNoTrans, n, n, n, 1.0, A.data(), n, B.data(), n, 0.0, C.data(), n);
+    // Регистрируем и выполняем умножение
+    called_routines.push_back("dgemm");
+    cblas_dgemm(CblasRowMajor, CblasNoTrans, CblasNoTrans,
+                n, n, n,
+                1.0, A.data(), n,
+                B.data(), n,
+                0.0, C.data(), n);
 
     auto end = std::chrono::high_resolution_clock::now();
-    std::chrono::duration<double> diff = end - start;
+    std::chrono::duration<double> elapsed = end - start;
 
-    // Вывод в требуемом формате
-    std::cout << "Time to multiply " << n << "x" << n << " matrices: " 
-              << diff.count() << " s" << std::endl;
+    // Пиковое потребление памяти
+    struct rusage usage;
+    getrusage(RUSAGE_SELF, &usage);
+    long rss_kb = usage.ru_maxrss;   // на Linux – килобайты
+
+    // Контрольная сумма результирующей матрицы
+    double checksum = 0.0;
+    for (double v : C) {
+        checksum += v;
+    }
+
+    // Формируем строку routines
+    std::ostringstream routines_oss;
+    for (size_t i = 0; i < called_routines.size(); ++i) {
+        if (i) routines_oss << ',';
+        routines_oss << called_routines[i];
+    }
+
+
+    std::cout << std::fixed << std::setprecision(9);
+    std::cout << "RESULT_SECONDS=" << elapsed.count() << std::endl;
+
+    std::cout << "DIAG_THREADS=mkl:" << num_threads << std::endl;
+    std::cout << "DIAG_PEAK_RSS_KB=" << rss_kb << std::endl;
+    std::cout << "DIAG_ROUTINES=" << routines_oss.str() << std::endl;
+
+    std::cout << std::setprecision(6);
+    std::cout << "DIAG_CHECKSUM=" << checksum << std::endl;
 
     return 0;
 }
