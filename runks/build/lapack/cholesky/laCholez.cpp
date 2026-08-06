@@ -5,15 +5,12 @@
 #include <chrono>
 #include <cblas.h>
 #include <lapacke.h>
-#include <thread>
 #include <sys/resource.h>
 #include <string>
 #include <sstream>
 
-// список для вызванных подпрограмм
 std::vector<std::string> called_routines;
 
-// Создание положительно определённой матрицы
 std::vector<double> create_positive_definite_matrix(int n) {
     std::vector<double> matrix(n * n);
     std::random_device rd;
@@ -44,11 +41,11 @@ int main(int argc, char* argv[]) {
     std::vector<double> matrix = create_positive_definite_matrix(n);
     std::vector<double> inverse_matrix = matrix;
 
-    int num_threads = std::thread::hardware_concurrency();
-    
+    // Получаем фактическое число потоков
+    int num_threads = openblas_get_num_threads();
+
     auto start = std::chrono::high_resolution_clock::now();
 
-    // Регистрируем вызов dpotrf
     called_routines.push_back("dpotrf");
     int info = LAPACKE_dpotrf(LAPACK_ROW_MAJOR, 'L', n, inverse_matrix.data(), n);
     if (info != 0) {
@@ -56,7 +53,6 @@ int main(int argc, char* argv[]) {
         return 1;
     }
 
-    // Регистрируем вызов dpotri
     called_routines.push_back("dpotri");
     info = LAPACKE_dpotri(LAPACK_ROW_MAJOR, 'L', n, inverse_matrix.data(), n);
     if (info != 0) {
@@ -79,21 +75,17 @@ int main(int argc, char* argv[]) {
     for (double v : inverse_matrix)
         checksum += v;
 
-    // Формируем строку routines из вектора called_routines
     std::ostringstream routines_oss;
     for (size_t i = 0; i < called_routines.size(); ++i) {
         if (i) routines_oss << ',';
         routines_oss << called_routines[i];
     }
 
-    // Вывод
     std::cout << std::fixed << std::setprecision(9);
     std::cout << "RESULT_SECONDS=" << diff.count() << std::endl;
-
     std::cout << "DIAG_THREADS=openblas/libopenblas:" << num_threads << std::endl;
     std::cout << "DIAG_PEAK_RSS_KB=" << rss_kb << std::endl;
-    std::cout << "DIAG_ROUTINES=" << routines_oss.str() << std::endl; 
-
+    std::cout << "DIAG_ROUTINES=" << routines_oss.str() << std::endl;
     std::cout << std::setprecision(6);
     std::cout << "DIAG_CHECKSUM=" << checksum << std::endl;
 
