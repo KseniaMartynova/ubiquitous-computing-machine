@@ -45,8 +45,7 @@ int main(int argc, char* argv[]) {
     std::vector<double> inverse_matrix = matrix;
 
     int num_threads = std::thread::hardware_concurrency();
-    openblas_set_num_threads(num_threads);
-
+    
     auto start = std::chrono::high_resolution_clock::now();
 
     // Регистрируем вызов dpotrf
