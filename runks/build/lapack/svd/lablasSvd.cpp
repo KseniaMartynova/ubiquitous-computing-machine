@@ -11,10 +11,9 @@
 #include <algorithm>
 #include <cmath>
 #include <cstdlib>
-#include <thread>
 #include <sys/resource.h>
 
-//  список для основных вызовов LAPACK/BLAS
+// список для основных вызовов LAPACK/BLAS
 std::vector<std::string> called_routines;
 
 // Создание симметричной положительно определённой матрицы
@@ -40,10 +39,9 @@ std::vector<double> create_spd_matrix(int n) {
     return A;
 }
 
-// Проверка корректности A * A_inv ≈ I
+// Проверка корректности A * A_inv ≈ I 
 bool verify_inversion(const std::vector<double>& A, const std::vector<double>& A_inv, int n) {
     std::vector<double> result(n * n, 0.0);
- 
     cblas_dgemm(CblasRowMajor, CblasNoTrans, CblasNoTrans,
                 n, n, n, 1.0, A.data(), n, A_inv.data(), n, 0.0, result.data(), n);
     double max_error = 0.0;
@@ -69,9 +67,7 @@ int main(int argc, char* argv[]) {
         return 1;
     }
 
-    int num_threads = std::thread::hardware_concurrency();
-    openblas_set_num_threads(num_threads);
-    omp_set_num_threads(num_threads);
+    int num_threads_blas = openblas_get_num_threads();   // фактическое число потоков 
 
     std::vector<double> A = create_spd_matrix(n);
     std::vector<double> A_orig = A;  // копия для проверки
@@ -95,7 +91,7 @@ int main(int argc, char* argv[]) {
         return 1;
     }
 
-    // Инвертирование сингулярных чисел
+    // Инвертирование сингулярных чисел с отсечением
     double max_sv = *std::max_element(S.begin(), S.end());
     double threshold = max_sv * n * std::numeric_limits<double>::epsilon();
     #pragma omp parallel for
@@ -110,7 +106,7 @@ int main(int argc, char* argv[]) {
         }
     }
 
-    //  сборка обратной матрицы
+    // сборка обратной матрицы
     called_routines.push_back("dgemm");
     std::vector<double> A_inv(n * n);
     cblas_dgemm(CblasRowMajor, CblasTrans, CblasTrans,
@@ -122,7 +118,7 @@ int main(int argc, char* argv[]) {
     auto end = std::chrono::high_resolution_clock::now();
     std::chrono::duration<double> total_duration = end - start;
 
-    // Проверка 
+    // Проверка корректности 
     if (!verify_inversion(A_orig, A_inv, n)) {
         std::cerr << "Verification failed: A * A_inv not identity" << std::endl;
         return 1;
@@ -144,11 +140,11 @@ int main(int argc, char* argv[]) {
         routines_oss << called_routines[i];
     }
 
-    // Вывод
+
     std::cout << std::fixed << std::setprecision(9);
     std::cout << "RESULT_SECONDS=" << total_duration.count() << std::endl;
 
-    std::cout << "DIAG_THREADS=openblas/libopenblas:" << num_threads << std::endl;
+     std::cout << "DIAG_THREADS=openblas/libopenblas:" << num_threads_blas << std::endl;
     std::cout << "DIAG_PEAK_RSS_KB=" << rss_kb << std::endl;
     std::cout << "DIAG_ROUTINES=" << routines_oss.str() << std::endl;
 
