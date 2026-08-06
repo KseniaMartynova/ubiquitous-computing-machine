@@ -1,13 +1,18 @@
 #include <iostream>
 #include <iomanip>
 #include <vector>
+#include <string>
+#include <sstream>
 #include <random>
 #include <chrono>
 #include <cblas.h>
 #include <thread>
 #include <sys/resource.h>
 
-// Функция для создания положительно определенной матрицы
+// список для  вызванных подпрограмм BLAS/LAPACK
+std::vector<std::string> called_routines;
+
+// Функция для создания положительно определённой матрицы
 std::vector<double> create_positive_definite_matrix(int n) {
     std::vector<double> matrix(n * n);
     std::random_device rd;
@@ -45,6 +50,8 @@ int main(int argc, char* argv[]) {
 
     auto start = std::chrono::high_resolution_clock::now();
 
+    // Регистрируем вызов dgemm
+    called_routines.push_back("dgemm");
     cblas_dgemm(CblasRowMajor, CblasNoTrans, CblasNoTrans,
                 n, n, n,
                 1.0, matrixA.data(), n,
@@ -65,13 +72,20 @@ int main(int argc, char* argv[]) {
         checksum += v;
     }
 
+    // Формируем строку routines
+    std::ostringstream routines_oss;
+    for (size_t i = 0; i < called_routines.size(); ++i) {
+        if (i) routines_oss << ',';
+        routines_oss << called_routines[i];
+    }
+
     // Вывод 
     std::cout << std::fixed << std::setprecision(9);
     std::cout << "RESULT_SECONDS=" << elapsed.count() << std::endl;
 
     std::cout << "DIAG_THREADS=openblas/libopenblas:" << num_threads << std::endl;
     std::cout << "DIAG_PEAK_RSS_KB=" << rss_kb << std::endl;
-    std::cout << "DIAG_ROUTINES=dgemm" << std::endl;
+    std::cout << "DIAG_ROUTINES=" << routines_oss.str() << std::endl;
 
     std::cout << std::setprecision(6);
     std::cout << "DIAG_CHECKSUM=" << checksum << std::endl;
