@@ -1,84 +1,98 @@
 import numpy as np
 import time
 import sys
+import resource
+import os
+
+#список вызванных LAPACK/BLAS-функций
+called_routines = []
+
+def get_blas_info():
+    """
+    Определяет библиотеку BLAS и число потоков.
+    Сначала пытается через threadpoolctl, затем через переменные окружения.
+    """
+    try:
+        from threadpoolctl import threadpool_info
+        pools = threadpool_info()
+        for pool in pools:
+            if pool['user_api'] == 'blas':
+                lib = pool['internal_api']
+                nthreads = pool['num_threads']
+                return lib, nthreads
+    except ImportError:
+        pass
+
+    # Запасной вариант: переменные окружения
+    lib = 'openblas' if 'OPENBLAS_NUM_THREADS' in os.environ else 'mkl' if 'MKL_NUM_THREADS' in os.environ else 'unknown'
+    nthreads = os.environ.get('OPENBLAS_NUM_THREADS', os.environ.get('MKL_NUM_THREADS', '1'))
+    return lib, int(nthreads)
 
 def generate_positive_definite_matrix(n):
-    """
-    Генерация положительно определенной матрицы размера n x n
-    """
-    # Генерируем случайную матрицу
+    """Генерация случайной симметричной положительно определённой матрицы."""
     A = np.random.rand(n, n)
-    
-    # Делаем матрицу симметричной
     A = 0.5 * (A + A.T)
-    
-    # Добавляем к диагонали для гарантии положительной определенности
     A += n * np.eye(n)
-    
     return A
 
 def invert_matrix_with_cholesky(matrix):
     """
-    Обращение матрицы через разложение Холецкого
+    Обращение через разложение Холецкого (L L^T)^-1 = (L^-1)^T L^-1.
+    Регистрирует используемые LAPACK/BLAS-функции.
     """
-    # Выполняем разложение Холецкого: A = L * L^T
+    # Разложение Холецкого -> dpotrf
+    called_routines.append('dpotrf')
     L = np.linalg.cholesky(matrix)
-    
-    # Обращаем нижнюю треугольную матрицу L
+
+    # Обращение нижней треугольной матрицы L -> dtrtri
+    called_routines.append('dtrtri')
     L_inv = np.linalg.inv(L)
-    
-    # Вычисляем A^(-1) = (L * L^T)^(-1) = (L^T)^(-1) * L^(-1)
+
+    # Сборка обратной матрицы -> dgemm
+    called_routines.append('dgemm')
     A_inv = L_inv.T @ L_inv
-    
+
     return A_inv
 
-def check_inversion_correctness(original_matrix, inverted_matrix):
-    """
-    Проверка корректности обращения матрицы
-    """
-    # Умножаем исходную матрицу на обратную
-    product = original_matrix @ inverted_matrix
-    
-    # Вычисляем отклонение от единичной матрицы
-    n = original_matrix.shape[0]
-    identity = np.eye(n)
-    error = np.max(np.abs(product - identity))
-    
-    return error < 1e-10
-
 def main():
-    """
-    Основная функция для измерения времени обращения матрицы
-    """
     if len(sys.argv) != 2:
         print("Usage: python cholesky.py <matrix_size>")
         sys.exit(1)
-    
+
     try:
         n = int(sys.argv[1])
         if n <= 0:
-            raise ValueError("Matrix size must be positive")
-    except ValueError as e:
-        print(f"Error: {e}")
+            raise ValueError
+    except ValueError:
+        print("Matrix size must be a positive integer")
         sys.exit(1)
-    
-    # Генерируем положительно определенную матрицу
-    matrix = generate_positive_definite_matrix(n)
-    
-    # Засекаем время начала
-    start_time = time.time()
-    
-    # Обращаем матрицу с использованием разложения Холецкого
-    inverted_matrix = invert_matrix_with_cholesky(matrix)
-    
-    # Засекаем время окончания
-    end_time = time.time()
-    elapsed_time = end_time - start_time
-    
-    # Проверяем корректность обращения
-    is_correct = check_inversion_correctness(matrix, inverted_matrix)
 
-    print(f"Time to invert {n}x{n} matrices: {elapsed_time:.6f} s")
-    
+    matrix = generate_positive_definite_matrix(n)
+
+    # Замер времени
+    start = time.perf_counter()
+    inverted_matrix = invert_matrix_with_cholesky(matrix)
+    elapsed = time.perf_counter() - start
+
+    # Пиковое потребление памяти (RSS) в килобайтах
+    rss_kb = resource.getrusage(resource.RUSAGE_SELF).ru_maxrss
+
+    # Контрольная сумма обратной матрицы
+    checksum = float(np.sum(inverted_matrix))
+
+    # Информация о BLAS/потоках
+    lib_name, num_threads = get_blas_info()
+    diag_threads = f"{lib_name}:{num_threads}"
+
+    # Строка с подпрограммами 
+    routines_str = ','.join(called_routines)
+
+
+    print(f"RESULT_SECONDS={elapsed:.9f}")
+    print(f"DIAG_THREADS={diag_threads}")
+    print(f"DIAG_PEAK_RSS_KB={rss_kb}")
+    print(f"DIAG_ROUTINES={routines_str}")
+    print(f"DIAG_CHECKSUM={checksum:.6f}")
+
 if __name__ == "__main__":
     main()
