@@ -7,15 +7,12 @@
 #include <chrono>
 #include <cblas.h>
 #include <lapacke.h>
-#include <thread>
 #include <cstdlib>
 #include <cmath>
 #include <sys/resource.h>
 
-// список для  вызванных подпрограмм LAPACK/BLAS
 std::vector<std::string> called_routines;
 
-// Функция для создания положительно определённой матрицы
 std::vector<double> create_positive_definite_matrix(int n) {
     std::vector<double> matrix(n * n);
     std::random_device rd;
@@ -48,17 +45,15 @@ int main(int argc, char* argv[]) {
         return 1;
     }
 
-    int num_threads = std::thread::hardware_concurrency();
-    openblas_set_num_threads(num_threads);
+    // Только читаем текущее число потоков 
+    int num_threads = openblas_get_num_threads();
 
     std::vector<double> A = create_positive_definite_matrix(n);
     std::vector<double> A_inv = A; // копия для обращения
-
     std::vector<lapack_int> ipiv(n);
 
     auto start = std::chrono::high_resolution_clock::now();
 
-    // Регистрируем dgetrf
     called_routines.push_back("dgetrf");
     int info = LAPACKE_dgetrf(LAPACK_ROW_MAJOR, n, n, A_inv.data(), n, ipiv.data());
     if (info != 0) {
@@ -66,7 +61,6 @@ int main(int argc, char* argv[]) {
         return 1;
     }
 
-    // Регистрируем dgetri
     called_routines.push_back("dgetri");
     info = LAPACKE_dgetri(LAPACK_ROW_MAJOR, n, A_inv.data(), n, ipiv.data());
     if (info != 0) {
@@ -77,32 +71,24 @@ int main(int argc, char* argv[]) {
     auto end = std::chrono::high_resolution_clock::now();
     std::chrono::duration<double> elapsed = end - start;
 
-    // Пиковое потребление памяти
     struct rusage usage;
     getrusage(RUSAGE_SELF, &usage);
     long rss_kb = usage.ru_maxrss;   
 
-    // Контрольная сумма обратной матрицы
     double checksum = 0.0;
-    for (double v : A_inv) {
-        checksum += v;
-    }
+    for (double v : A_inv) checksum += v;
 
-    // Формируем строку routines
     std::ostringstream routines_oss;
     for (size_t i = 0; i < called_routines.size(); ++i) {
         if (i) routines_oss << ',';
         routines_oss << called_routines[i];
     }
 
-    
     std::cout << std::fixed << std::setprecision(9);
     std::cout << "RESULT_SECONDS=" << elapsed.count() << std::endl;
-
     std::cout << "DIAG_THREADS=openblas/libopenblas:" << num_threads << std::endl;
     std::cout << "DIAG_PEAK_RSS_KB=" << rss_kb << std::endl;
     std::cout << "DIAG_ROUTINES=" << routines_oss.str() << std::endl;
-
     std::cout << std::setprecision(6);
     std::cout << "DIAG_CHECKSUM=" << checksum << std::endl;
 
