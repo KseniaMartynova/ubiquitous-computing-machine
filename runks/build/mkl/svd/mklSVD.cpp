@@ -31,7 +31,7 @@ void generate_spd_matrix(double* A, int n) {
     }
 }
 
-// Обращение через SVD (без изменений)
+// Обращение через SVD 
 void svd_invert(double* A, int n, double* A_inv) {
     std::vector<double> S(n);
     std::vector<double> U(n * n);
