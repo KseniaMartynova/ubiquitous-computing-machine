@@ -9,5 +9,5 @@ RUN apt-get update && apt-get install -y \
         && rm -rf /var/lib/apt/lists/*
 WORKDIR /usr/share/lapack  
 COPY lablasmul.cpp /usr/share/lapack/lablasmul.cpp
-RUN g++ -o2 -o lablasmul lablasmul.cpp -lopenblas -llapacke -lm -lpthread
+RUN g++ -O2 -o lablasmul lablasmul.cpp -lopenblas -llapacke -lm -lpthread
 ENTRYPOINT ["./lablasmul"] 
