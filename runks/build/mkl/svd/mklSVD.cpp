@@ -69,7 +69,7 @@ void svd_invert(double* A, int n, double* A_inv) {
         }
     }
 
-    //  сборка A_inv = V * (S^{-1} U^T) 
+    // сборка A_inv = V * (S^{-1} U^T) 
     called_routines.push_back("dgemm");
     cblas_dgemm(CblasRowMajor, CblasTrans, CblasNoTrans,
                 n, n, n,
@@ -78,10 +78,9 @@ void svd_invert(double* A, int n, double* A_inv) {
                 0.0, A_inv, n);
 }
 
-// Проверка корректности 
+// Проверка корректности
 bool check_inversion(const double* A, const double* A_inv, int n, double tol = 1e-10) {
     std::vector<double> product(n * n, 0.0);
-    // Этот dgemm – служебный, не добавляем в called_routines
     cblas_dgemm(CblasRowMajor, CblasNoTrans, CblasNoTrans,
                 n, n, n, 1.0, A, n, A_inv, n, 0.0, product.data(), n);
     double max_error = 0.0;
@@ -107,9 +106,9 @@ int main(int argc, char* argv[]) {
         return 1;
     }
 
-    // Получаем и фиксируем число потоков MKL
+
     int num_threads = mkl_get_max_threads();
-    mkl_set_num_threads(num_threads);
+
 
     std::vector<double> A(n * n);
     generate_spd_matrix(A.data(), n);   // A – SPD матрица
@@ -121,16 +120,16 @@ int main(int argc, char* argv[]) {
     auto end = std::chrono::high_resolution_clock::now();
     std::chrono::duration<double> elapsed = end - start;
 
-    // Проверка корректности
+    // Проверка корректности 
     if (!check_inversion(A.data(), A_inv.data(), n)) {
         std::cerr << "Verification failed: A * A_inv != I" << std::endl;
         return 1;
     }
 
-    // Пиковая память 
+    // Пиковая память (RSS)
     struct rusage usage;
     getrusage(RUSAGE_SELF, &usage);
-    long rss_kb = usage.ru_maxrss;   
+    long rss_kb = usage.ru_maxrss;   // в килобайтах
 
     // Контрольная сумма обратной матрицы
     double checksum = 0.0;
@@ -142,7 +141,6 @@ int main(int argc, char* argv[]) {
         if (i) routines_oss << ',';
         routines_oss << called_routines[i];
     }
-
 
     std::cout << std::fixed << std::setprecision(9);
     std::cout << "RESULT_SECONDS=" << elapsed.count() << std::endl;
