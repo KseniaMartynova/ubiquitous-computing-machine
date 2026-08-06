@@ -1,9 +1,11 @@
 #include <iostream>
+#include <iomanip>
 #include <vector>
 #include <random>
 #include <chrono>
 #include <cblas.h>
-#include <lapacke.h>
+#include <thread>
+#include <sys/resource.h>
 
 // Функция для создания положительно определенной матрицы
 std::vector<double> create_positive_definite_matrix(int n) {
@@ -12,24 +14,16 @@ std::vector<double> create_positive_definite_matrix(int n) {
     std::mt19937 gen(rd());
     std::uniform_real_distribution<> dis(0.0, 1.0);
 
-    // Заполняем матрицу случайными числами
-    for (int i = 0; i < n; ++i) {
-        for (int j = 0; j < n; ++j) {
+    for (int i = 0; i < n; ++i)
+        for (int j = 0; j < n; ++j)
             matrix[i * n + j] = dis(gen);
-        }
-    }
 
-    // Делаем матрицу симметричной
-    for (int i = 0; i < n; ++i) {
-        for (int j = 0; j < i; ++j) {
+    for (int i = 0; i < n; ++i)
+        for (int j = 0; j < i; ++j)
             matrix[j * n + i] = matrix[i * n + j];
-        }
-    }
 
-    // Добавляем к диагональным элементам, чтобы сделать матрицу положительно определенной
-    for (int i = 0; i < n; ++i) {
+    for (int i = 0; i < n; ++i)
         matrix[i * n + i] += n;
-    }
 
     return matrix;
 }
@@ -42,24 +36,45 @@ int main(int argc, char* argv[]) {
 
     int n = std::stoi(argv[1]);
 
-    // Создаем две положительно определенные матрицы
+    int num_threads = std::thread::hardware_concurrency();
+    openblas_set_num_threads(num_threads);
+
     std::vector<double> matrixA = create_positive_definite_matrix(n);
     std::vector<double> matrixB = create_positive_definite_matrix(n);
-
-    // Выделяем память для результата умножения
     std::vector<double> result(n * n, 0.0);
 
-    // Замеряем время
     auto start = std::chrono::high_resolution_clock::now();
 
-    // Выполняем умножение матриц
-    cblas_dgemm(CblasRowMajor, CblasNoTrans, CblasNoTrans, n, n, n, 1.0, matrixA.data(), n, matrixB.data(), n, 0.0, result.data(), n);
+    cblas_dgemm(CblasRowMajor, CblasNoTrans, CblasNoTrans,
+                n, n, n,
+                1.0, matrixA.data(), n,
+                matrixB.data(), n,
+                0.0, result.data(), n);
 
     auto end = std::chrono::high_resolution_clock::now();
-    std::chrono::duration<double> diff = end - start;
+    std::chrono::duration<double> elapsed = end - start;
 
-    std::cout << "Time to multiply " << n << "x" << n << " matrices: " 
-              << diff.count() << " s" << std::endl;
+    // Пиковое потребление памяти
+    struct rusage usage;
+    getrusage(RUSAGE_SELF, &usage);
+    long rss_kb = usage.ru_maxrss;
+
+    // Контрольная сумма элементов результирующей матрицы
+    double checksum = 0.0;
+    for (double v : result) {
+        checksum += v;
+    }
+
+    // Вывод 
+    std::cout << std::fixed << std::setprecision(9);
+    std::cout << "RESULT_SECONDS=" << elapsed.count() << std::endl;
+
+    std::cout << "DIAG_THREADS=openblas/libopenblas:" << num_threads << std::endl;
+    std::cout << "DIAG_PEAK_RSS_KB=" << rss_kb << std::endl;
+    std::cout << "DIAG_ROUTINES=dgemm" << std::endl;
+
+    std::cout << std::setprecision(6);
+    std::cout << "DIAG_CHECKSUM=" << checksum << std::endl;
 
     return 0;
 }
