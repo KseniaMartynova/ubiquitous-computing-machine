@@ -6,13 +6,12 @@
 #include <random>
 #include <chrono>
 #include <cblas.h>
-#include <thread>
 #include <sys/resource.h>
 
-// список для  вызванных подпрограмм BLAS/LAPACK
+// Список вызванных подпрограмм BLAS/LAPACK
 std::vector<std::string> called_routines;
 
-// Функция для создания положительно определённой матрицы
+// Создание положительно определённой матрицы
 std::vector<double> create_positive_definite_matrix(int n) {
     std::vector<double> matrix(n * n);
     std::random_device rd;
@@ -41,8 +40,8 @@ int main(int argc, char* argv[]) {
 
     int n = std::stoi(argv[1]);
 
-    int num_threads = std::thread::hardware_concurrency();
-    openblas_set_num_threads(num_threads);
+    // Получаем текущее число потоков
+    int num_threads = openblas_get_num_threads();
 
     std::vector<double> matrixA = create_positive_definite_matrix(n);
     std::vector<double> matrixB = create_positive_definite_matrix(n);
@@ -50,7 +49,7 @@ int main(int argc, char* argv[]) {
 
     auto start = std::chrono::high_resolution_clock::now();
 
-    // Регистрируем вызов dgemm
+    // Регистрируем и выполняем умножение матриц
     called_routines.push_back("dgemm");
     cblas_dgemm(CblasRowMajor, CblasNoTrans, CblasNoTrans,
                 n, n, n,
@@ -61,7 +60,7 @@ int main(int argc, char* argv[]) {
     auto end = std::chrono::high_resolution_clock::now();
     std::chrono::duration<double> elapsed = end - start;
 
-    // Пиковое потребление памяти
+    // Пиковое потребление памяти (RSS) в килобайтах
     struct rusage usage;
     getrusage(RUSAGE_SELF, &usage);
     long rss_kb = usage.ru_maxrss;
@@ -79,7 +78,7 @@ int main(int argc, char* argv[]) {
         routines_oss << called_routines[i];
     }
 
-    // Вывод 
+
     std::cout << std::fixed << std::setprecision(9);
     std::cout << "RESULT_SECONDS=" << elapsed.count() << std::endl;
 
