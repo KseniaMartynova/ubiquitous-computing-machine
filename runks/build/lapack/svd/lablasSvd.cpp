@@ -1,6 +1,8 @@
 #include <iostream>
 #include <iomanip>
 #include <vector>
+#include <string>
+#include <sstream>
 #include <random>
 #include <chrono>
 #include <cblas.h>
@@ -11,6 +13,9 @@
 #include <cstdlib>
 #include <thread>
 #include <sys/resource.h>
+
+//  список для основных вызовов LAPACK/BLAS
+std::vector<std::string> called_routines;
 
 // Создание симметричной положительно определённой матрицы
 std::vector<double> create_spd_matrix(int n) {
@@ -38,6 +43,7 @@ std::vector<double> create_spd_matrix(int n) {
 // Проверка корректности A * A_inv ≈ I
 bool verify_inversion(const std::vector<double>& A, const std::vector<double>& A_inv, int n) {
     std::vector<double> result(n * n, 0.0);
+ 
     cblas_dgemm(CblasRowMajor, CblasNoTrans, CblasNoTrans,
                 n, n, n, 1.0, A.data(), n, A_inv.data(), n, 0.0, result.data(), n);
     double max_error = 0.0;
@@ -63,16 +69,13 @@ int main(int argc, char* argv[]) {
         return 1;
     }
 
-    // Определяем число потоков и устанавливаем для OpenBLAS и OpenMP
     int num_threads = std::thread::hardware_concurrency();
     openblas_set_num_threads(num_threads);
     omp_set_num_threads(num_threads);
 
-    // Генерация матрицы
     std::vector<double> A = create_spd_matrix(n);
-    std::vector<double> A_orig = A;  // сохраняем копию для проверки
+    std::vector<double> A_orig = A;  // копия для проверки
 
-    // Подготовка рабочих массивов для SVD
     std::vector<double> S(n);
     std::vector<double> U(n * n);
     std::vector<double> VT(n * n);
@@ -82,7 +85,8 @@ int main(int argc, char* argv[]) {
 
     auto start = std::chrono::high_resolution_clock::now();
 
-    // SVD разложение
+    //  SVD
+    called_routines.push_back("dgesdd");
     int info = LAPACKE_dgesdd(LAPACK_ROW_MAJOR, 'A', n, n,
                               A.data(), n, S.data(), U.data(), n,
                               VT.data(), n);
@@ -91,7 +95,7 @@ int main(int argc, char* argv[]) {
         return 1;
     }
 
-    // Инвертирование сингулярных чисел с отсечением
+    // Инвертирование сингулярных чисел
     double max_sv = *std::max_element(S.begin(), S.end());
     double threshold = max_sv * n * std::numeric_limits<double>::epsilon();
     #pragma omp parallel for
@@ -106,7 +110,8 @@ int main(int argc, char* argv[]) {
         }
     }
 
-    // Сборка обратной матрицы 
+    //  сборка обратной матрицы
+    called_routines.push_back("dgemm");
     std::vector<double> A_inv(n * n);
     cblas_dgemm(CblasRowMajor, CblasTrans, CblasTrans,
                 n, n, n,
@@ -117,7 +122,7 @@ int main(int argc, char* argv[]) {
     auto end = std::chrono::high_resolution_clock::now();
     std::chrono::duration<double> total_duration = end - start;
 
-    // Проверка корректности 
+    // Проверка 
     if (!verify_inversion(A_orig, A_inv, n)) {
         std::cerr << "Verification failed: A * A_inv not identity" << std::endl;
         return 1;
@@ -128,17 +133,24 @@ int main(int argc, char* argv[]) {
     getrusage(RUSAGE_SELF, &usage);
     long rss_kb = usage.ru_maxrss;
 
-    // Контрольная сумма элементов обратной матрицы
+    // Контрольная сумма
     double checksum = 0.0;
     for (double v : A_inv) checksum += v;
 
-    
+    // Формируем строку routines
+    std::ostringstream routines_oss;
+    for (size_t i = 0; i < called_routines.size(); ++i) {
+        if (i) routines_oss << ',';
+        routines_oss << called_routines[i];
+    }
+
+    // Вывод
     std::cout << std::fixed << std::setprecision(9);
     std::cout << "RESULT_SECONDS=" << total_duration.count() << std::endl;
 
     std::cout << "DIAG_THREADS=openblas/libopenblas:" << num_threads << std::endl;
     std::cout << "DIAG_PEAK_RSS_KB=" << rss_kb << std::endl;
-    std::cout << "DIAG_ROUTINES=dgesdd,dgemm" << std::endl;
+    std::cout << "DIAG_ROUTINES=" << routines_oss.str() << std::endl;
 
     std::cout << std::setprecision(6);
     std::cout << "DIAG_CHECKSUM=" << checksum << std::endl;
