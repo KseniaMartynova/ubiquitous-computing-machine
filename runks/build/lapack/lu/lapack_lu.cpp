@@ -1,6 +1,8 @@
 #include <iostream>
 #include <iomanip>
 #include <vector>
+#include <string>
+#include <sstream>
 #include <random>
 #include <chrono>
 #include <cblas.h>
@@ -8,9 +10,12 @@
 #include <thread>
 #include <cstdlib>
 #include <cmath>
-#include <sys/resource.h>   // для getrusage
+#include <sys/resource.h>
 
-// Функция для создания положительно определенной матрицы 
+// список для  вызванных подпрограмм LAPACK/BLAS
+std::vector<std::string> called_routines;
+
+// Функция для создания положительно определённой матрицы
 std::vector<double> create_positive_definite_matrix(int n) {
     std::vector<double> matrix(n * n);
     std::random_device rd;
@@ -53,14 +58,16 @@ int main(int argc, char* argv[]) {
 
     auto start = std::chrono::high_resolution_clock::now();
 
-    // LU-разложение
+    // Регистрируем dgetrf
+    called_routines.push_back("dgetrf");
     int info = LAPACKE_dgetrf(LAPACK_ROW_MAJOR, n, n, A_inv.data(), n, ipiv.data());
     if (info != 0) {
         std::cerr << "LU factorization failed with code: " << info << std::endl;
         return 1;
     }
 
-    // Обращение через LU
+    // Регистрируем dgetri
+    called_routines.push_back("dgetri");
     info = LAPACKE_dgetri(LAPACK_ROW_MAJOR, n, A_inv.data(), n, ipiv.data());
     if (info != 0) {
         std::cerr << "Matrix inversion failed with code: " << info << std::endl;
@@ -81,13 +88,20 @@ int main(int argc, char* argv[]) {
         checksum += v;
     }
 
-    // 
+    // Формируем строку routines
+    std::ostringstream routines_oss;
+    for (size_t i = 0; i < called_routines.size(); ++i) {
+        if (i) routines_oss << ',';
+        routines_oss << called_routines[i];
+    }
+
+    
     std::cout << std::fixed << std::setprecision(9);
     std::cout << "RESULT_SECONDS=" << elapsed.count() << std::endl;
 
     std::cout << "DIAG_THREADS=openblas/libopenblas:" << num_threads << std::endl;
     std::cout << "DIAG_PEAK_RSS_KB=" << rss_kb << std::endl;
-    std::cout << "DIAG_ROUTINES=dgetrf,dgetri" << std::endl;
+    std::cout << "DIAG_ROUTINES=" << routines_oss.str() << std::endl;
 
     std::cout << std::setprecision(6);
     std::cout << "DIAG_CHECKSUM=" << checksum << std::endl;
