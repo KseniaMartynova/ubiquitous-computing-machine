@@ -9,35 +9,36 @@
 #include <cmath>
 #include <cstdlib>
 
-// Функция для генерации симметричной положительно определенной матрицы
+//  симметризация + сдвиг диагонали на n
 std::vector<double> create_spd_matrix(int n) {
-    std::vector<double> B(n * n);
+    std::vector<double> A(n * n);
     std::random_device rd;
     std::mt19937 gen(rd());
     std::uniform_real_distribution<> dis(0.0, 1.0);
 
-    // Генерируем случайную матрицу B с параллелизацией
+    // Заполняем случайными числами
     #pragma omp parallel for
-    for (int i = 0; i < n * n; ++i) 
-        B[i] = dis(gen);
+    for (int i = 0; i < n * n; ++i) {
+        A[i] = dis(gen);
+    }
 
-    // Вычисляем A = B * B^T + n*I (row-major)
-    std::vector<double> A(n * n, 0.0);
-    cblas_dgemm(CblasRowMajor, CblasNoTrans, CblasTrans, 
-                n, n, n, 1.0, B.data(), n, B.data(), n, 0.0, A.data(), n);
-    
+    // Симметризация (A = (A + A^T) / 2) и добавление n к диагонали
     #pragma omp parallel for
-    for (int i = 0; i < n; ++i) 
-        A[i * n + i] += n;
+    for (int i = 0; i < n; ++i) {
+        for (int j = 0; j < i; ++j) {
+            double avg = (A[i*n + j] + A[j*n + i]) / 2.0;
+            A[i*n + j] = A[j*n + i] = avg;
+        }
+        A[i*n + i] += n;
+    }
 
     return A;
 }
 
-// Функция для проверки корректности обращения
+// Функция проверки корректности остаётся без изменений
 bool verify_inversion(const std::vector<double>& A, const std::vector<double>& A_inv, int n) {
     std::vector<double> result(n * n, 0.0);
     
-    // A * A_inv должно быть близко к единичной матрице
     cblas_dgemm(CblasRowMajor, CblasNoTrans, CblasNoTrans, 
                 n, n, n, 1.0, A.data(), n, A_inv.data(), n, 0.0, result.data(), n);
     
@@ -65,24 +66,19 @@ int main(int argc, char* argv[]) {
         return 1;
     }
 
-    // Установка количества потоков для OpenBLAS и OpenMP
-    // int num_threads = omp_get_max_threads();
-    // openblas_set_num_threads(num_threads);
-    // std::cout << "Using " << num_threads << " threads" << std::endl;
-
-    // Генерация исходной матрицы
+    // Генерация исходной матрицы (уже унифицированная)
     std::vector<double> A = create_spd_matrix(n);
-    std::vector<double> A_orig = A;  // Сохраняем оригинальную матрицу
+    std::vector<double> A_orig = A;  // копия для последующей проверки
 
-        // SVD параметры
-    std::vector<double> S(n);        // сингулярные значения
-    std::vector<double> U(n * n);    // левые сингулярные векторы
-    std::vector<double> VT(n * n);   // правые сингулярные векторы (транспонированные)
+    // SVD параметры
+    std::vector<double> S(n);
+    std::vector<double> U(n * n);
+    std::vector<double> VT(n * n);
     
-    // Рабочий массив для dgesdd: минимальный размер lwork ≥ 4*n + n*n (см. документацию)
+    // Рабочие массивы для dgesdd (необязательно при использовании LAPACKE, но оставлены)
     int lwork = 4 * n + n * n;
     std::vector<double> work(lwork);
-    std::vector<int> iwork(8 * n);   // целочисленный рабочий массив для dgesdd
+    std::vector<int> iwork(8 * n);
     
     auto svd_start = std::chrono::high_resolution_clock::now();
     
@@ -97,16 +93,15 @@ int main(int argc, char* argv[]) {
         return 1;
     }
 
-    // Определяем порог для отсечения малых сингулярных значений
+    // Инвертирование сингулярных чисел с отсечением
     double max_sv = *std::max_element(S.begin(), S.end());
     double threshold = max_sv * n * std::numeric_limits<double>::epsilon();
     
-    // Инвертируем сингулярные значения с параллелизацией
     #pragma omp parallel for
     for (int i = 0; i < n; ++i) 
         S[i] = (S[i] > threshold) ? 1.0 / S[i] : 0.0;
 
-    // Масштабируем строки VT (столбцы V) на 1/S[i]
+    // Масштабирование строк VT
     #pragma omp parallel for
     for (int i = 0; i < n; ++i) {
         for (int j = 0; j < n; ++j) {
@@ -114,7 +109,7 @@ int main(int argc, char* argv[]) {
         }
     }
 
-    // Вычисляем A_inv = V * S^{-1} * U^T = VT^T * U^T
+    // Сборка обратной матрицы: A_inv = V * S^{-1} * U^T = VT^T * U^T
     auto inv_start = std::chrono::high_resolution_clock::now();
     std::vector<double> A_inv(n * n);
     cblas_dgemm(
@@ -123,23 +118,22 @@ int main(int argc, char* argv[]) {
         CblasTrans,     // U^T
         n, n, n, 
         1.0, 
-        VT.data(), n,   // V (row-major)
-        U.data(), n,    // U^T (row-major)
+        VT.data(), n, 
+        U.data(), n, 
         0.0, 
         A_inv.data(), n
     );
     auto inv_end = std::chrono::high_resolution_clock::now();
 
-    // Вычисляем время выполнения
+    // Общее время: SVD + сборка обратной матрицы
     auto svd_duration = std::chrono::duration<double>(svd_end - svd_start);
     auto inv_duration = std::chrono::duration<double>(inv_end - inv_start);
     auto total_duration = svd_duration + inv_duration;
 
-    // Проверяем корректность обращения
     bool is_correct = verify_inversion(A_orig, A_inv, n);
 
     std::cout << "Time to svd " << n << "x" << n << " matrices: " 
-          << total_duration.count() << " s" << std::endl;
+              << total_duration.count() << " s" << std::endl;
 
     return 0;
 }
