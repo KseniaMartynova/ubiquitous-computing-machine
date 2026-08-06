@@ -4,8 +4,9 @@ import sys
 from scipy.linalg import svd
 
 def generate_positive_definite_matrix(n):
-    B = np.random.rand(n, n)
-    A = B @ B.T + n * np.eye(n)
+    R = np.random.rand(n, n)
+    A = 0.5 * (R + R.T)
+    A += n * np.eye(n)
     return A
 
 def measure_time_for_svd_inversion(matrix):
