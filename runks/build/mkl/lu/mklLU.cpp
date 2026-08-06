@@ -1,53 +1,37 @@
 #include <iostream>
+#include <iomanip>
 #include <vector>
+#include <string>
+#include <sstream>
 #include <chrono>
 #include <random>
 #include <mkl.h>
 #include <cstdlib>
 #include <cmath>
+#include <sys/resource.h>
 
-// Генерация положительно определенной матрицы
+// список вызванных подпрограмм LAPACK/BLAS
+std::vector<std::string> called_routines;
+
+// Генерация положительно определённой матрицы
 void generate_positive_definite_matrix(double* A, int n) {
     std::random_device rd;
     std::mt19937 gen(rd());
     std::uniform_real_distribution<> dis(0.0, 1.0);
 
-    // Заполняем случайными числами
     for (int i = 0; i < n * n; ++i) {
         A[i] = dis(gen);
     }
 
-    // Делаем матрицу симметричной
     for (int i = 0; i < n; ++i) {
         for (int j = 0; j < i; ++j) {
             A[i*n + j] = A[j*n + i] = (A[i*n + j] + A[j*n + i]) / 2.0;
         }
     }
 
-    // Усиливаем диагональ для положительной определенности
     for (int i = 0; i < n; ++i) {
         A[i*n + i] += n;
     }
-}
-
-// Проверка корректности обращения
-bool verify_inversion(const std::vector<double>& A, const std::vector<double>& A_inv, int n) {
-    std::vector<double> result(n * n, 0.0);
-
-    // A * A_inv должно быть близко к единичной матрице
-    cblas_dgemm(CblasRowMajor, CblasNoTrans, CblasNoTrans, n, n, n, 
-                1.0, A.data(), n, A_inv.data(), n, 0.0, result.data(), n);
-
-    double max_error = 0.0;
-    for (int i = 0; i < n; ++i) {
-        for (int j = 0; j < n; ++j) {
-            double expected = (i == j) ? 1.0 : 0.0;
-            double error = std::abs(result[i * n + j] - expected);
-            max_error = std::max(max_error, error);
-        }
-    }
-
-    return max_error < 1e-10;
 }
 
 int main(int argc, char* argv[]) {
@@ -62,49 +46,66 @@ int main(int argc, char* argv[]) {
         return 1;
     }
 
-    // Устанавливаем число потоков для MKL
+    // Получаем текущее число потоков MKL 
     int num_threads = mkl_get_max_threads();
-    mkl_set_num_threads(num_threads);
 
-    // Создаем матрицу
+    // Выделяем память и генерируем матрицу
     std::vector<double> A(n * n);
     std::vector<double> A_inv(n * n);
-
-    // Генерируем положительно определенную матрицу
     generate_positive_definite_matrix(A.data(), n);
-    
-    // Копируем исходную матрицу
-    A_inv = A;
+    A_inv = A;   // копия для обращения
+
+    std::vector<lapack_int> ipiv(n);
 
     // Засекаем время
     auto start = std::chrono::high_resolution_clock::now();
 
-    // Выполняем LU-разложение
-    std::vector<lapack_int> ipiv(n);
+    // LU-разложение
+    called_routines.push_back("dgetrf");
     int info = LAPACKE_dgetrf(LAPACK_ROW_MAJOR, n, n, A_inv.data(), n, ipiv.data());
     if (info != 0) {
         std::cerr << "LU decomposition failed with code: " << info << std::endl;
         return 1;
     }
 
-    // Вычисляем обратную матрицу на основе LU-разложения
+    // Обращение через LU
+    called_routines.push_back("dgetri");
     info = LAPACKE_dgetri(LAPACK_ROW_MAJOR, n, A_inv.data(), n, ipiv.data());
     if (info != 0) {
         std::cerr << "Matrix inversion failed with code: " << info << std::endl;
         return 1;
     }
 
-    // Замеряем время
     auto end = std::chrono::high_resolution_clock::now();
     std::chrono::duration<double> elapsed = end - start;
 
-    // Проверяем результат
-    bool is_correct = verify_inversion(A, A_inv, n);
+    // Пиковое потребление памяти
+    struct rusage usage;
+    getrusage(RUSAGE_SELF, &usage);
+    long rss_kb = usage.ru_maxrss;   
 
-    // if (!success) std::cerr << "Inversion failed!" << std::endl;
+    // Контрольная сумма обратной матрицы
+    double checksum = 0.0;
+    for (double v : A_inv) {
+        checksum += v;
+    }
 
-    std::cout << "Time to lu " << n << "x" << n << " matrices: " 
-              << elapsed.count() << " s" << std::endl;
+    // Формируем строку DIAG_ROUTINES
+    std::ostringstream routines_oss;
+    for (size_t i = 0; i < called_routines.size(); ++i) {
+        if (i) routines_oss << ',';
+        routines_oss << called_routines[i];
+    }
+
+    std::cout << std::fixed << std::setprecision(9);
+    std::cout << "RESULT_SECONDS=" << elapsed.count() << std::endl;
+
+    std::cout << "DIAG_THREADS=mkl:" << num_threads << std::endl;
+    std::cout << "DIAG_PEAK_RSS_KB=" << rss_kb << std::endl;
+    std::cout << "DIAG_ROUTINES=" << routines_oss.str() << std::endl;
+
+    std::cout << std::setprecision(6);
+    std::cout << "DIAG_CHECKSUM=" << checksum << std::endl;
 
     return 0;
 }
