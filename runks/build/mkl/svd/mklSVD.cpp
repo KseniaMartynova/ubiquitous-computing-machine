@@ -8,33 +8,31 @@
 #include <cmath>
 #include <omp.h>
 
-// ГЕНЕРАТОР A = B * B^T + n*I ===
+// симметризация случайной матрицы + n на диагональ
 void generate_spd_matrix(double* A, int n) {
-    // Случайная матрица B (n x n)
-    std::vector<double> B(n * n);
     std::random_device rd;
     std::mt19937 gen(rd());
     std::uniform_real_distribution<> dis(0.0, 1.0);
 
+    // Заполняем случайными числами
     #pragma omp parallel for
     for (int i = 0; i < n * n; ++i) {
-        B[i] = dis(gen);
+        A[i] = dis(gen);
     }
 
-    // A = B * B^T (row-major)
-    cblas_dgemm(CblasRowMajor, CblasNoTrans, CblasTrans,
-                n, n, n, 1.0, B.data(), n, B.data(), n, 0.0, A, n);
-
-    // A += n*I
+    // Симметризация: A = (A + A^T) / 2 и сдвиг диагонали на n
     #pragma omp parallel for
     for (int i = 0; i < n; ++i) {
-        A[i * n + i] += n;
+        for (int j = 0; j < i; ++j) {
+            double avg = (A[i*n + j] + A[j*n + i]) / 2.0;
+            A[i*n + j] = A[j*n + i] = avg;
+        }
+        A[i*n + i] += n;
     }
 }
 
-// Обращение через SVD 
+// Обращение через SVD (без изменений)
 void svd_invert(double* A, int n, double* A_inv) {
-    // A будет испорчена, но у нас уже есть копия снаружи
     std::vector<double> S(n);
     std::vector<double> U(n * n);
     std::vector<double> VT(n * n);
@@ -66,7 +64,7 @@ void svd_invert(double* A, int n, double* A_inv) {
                 0.0, A_inv, n);
 }
 
-// Проверка корректности 
+// Проверка корректности (без изменений)
 bool check_inversion(const double* A, const double* A_inv, int n, double tol = 1e-10) {
     std::vector<double> product(n * n, 0.0);
     cblas_dgemm(CblasRowMajor, CblasNoTrans, CblasNoTrans,
@@ -98,8 +96,7 @@ int main(int argc, char* argv[]) {
     mkl_set_num_threads(num_threads);
 
     std::vector<double> A(n * n);
-    // Вызываем новый генератор
-    generate_spd_matrix(A.data(), n);
+    generate_spd_matrix(A.data(), n);   // теперь симметризация + сдвиг
 
     std::vector<double> A_original = A;
     std::vector<double> A_inv(n * n);
