@@ -64,7 +64,7 @@ void svd_invert(double* A, int n, double* A_inv) {
                 0.0, A_inv, n);
 }
 
-// Проверка корректности (без изменений)
+// Проверка корректности 
 bool check_inversion(const double* A, const double* A_inv, int n, double tol = 1e-10) {
     std::vector<double> product(n * n, 0.0);
     cblas_dgemm(CblasRowMajor, CblasNoTrans, CblasNoTrans,
@@ -96,7 +96,7 @@ int main(int argc, char* argv[]) {
     mkl_set_num_threads(num_threads);
 
     std::vector<double> A(n * n);
-    generate_spd_matrix(A.data(), n);   // теперь симметризация + сдвиг
+    generate_spd_matrix(A.data(), n);   //  симметризация + сдвиг
 
     std::vector<double> A_original = A;
     std::vector<double> A_inv(n * n);
