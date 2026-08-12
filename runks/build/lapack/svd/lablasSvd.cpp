@@ -39,21 +39,6 @@ std::vector<double> create_spd_matrix(int n) {
     return A;
 }
 
-// Проверка корректности A * A_inv ≈ I 
-bool verify_inversion(const std::vector<double>& A, const std::vector<double>& A_inv, int n) {
-    std::vector<double> result(n * n, 0.0);
-    cblas_dgemm(CblasRowMajor, CblasNoTrans, CblasNoTrans,
-                n, n, n, 1.0, A.data(), n, A_inv.data(), n, 0.0, result.data(), n);
-    double max_error = 0.0;
-    for (int i = 0; i < n; ++i) {
-        for (int j = 0; j < n; ++j) {
-            double expected = (i == j) ? 1.0 : 0.0;
-            double error = std::abs(result[i * n + j] - expected);
-            max_error = std::max(max_error, error);
-        }
-    }
-    return max_error < 1e-10;
-}
 
 int main(int argc, char* argv[]) {
     if (argc != 2) {
