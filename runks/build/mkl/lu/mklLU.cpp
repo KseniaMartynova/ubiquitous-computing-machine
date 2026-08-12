@@ -52,7 +52,7 @@ int main(int argc, char* argv[]) {
     // Выделяем память и генерируем матрицу
     std::vector<double> A(n * n);
     std::vector<double> A_inv(n * n);
-    generate_positive_definite_matrix(A.data(), n);
+    generate_positive_definite_matrix(A.data(), n, n);
     A_inv = A;   // копия для обращения
 
     std::vector<lapack_int> ipiv(n);
