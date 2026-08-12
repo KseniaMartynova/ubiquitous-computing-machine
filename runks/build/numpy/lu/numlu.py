@@ -80,7 +80,7 @@ def main():
     rss_kb = resource.getrusage(resource.RUSAGE_SELF).ru_maxrss
 
     # Контрольная сумма
-    checksum = float(np.sum(inverted_matrix))
+    checksum = float(np.sum(matrix))
 
     # Информация о потоках
     diag_threads = get_blas_info()
