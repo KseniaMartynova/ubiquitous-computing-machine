@@ -52,7 +52,7 @@ int main(int argc, char* argv[]) {
     int num_threads = mkl_get_max_threads();
 
     // Засекаем время
-    auto start = std::chrono::high_resolution_clock::now();
+    auto start = std::chrono::steady_clock::now();
 
     // Регистрируем и выполняем умножение
     called_routines.push_back("dgemm");
@@ -62,7 +62,7 @@ int main(int argc, char* argv[]) {
                 B.data(), n,
                 0.0, C.data(), n);
 
-    auto end = std::chrono::high_resolution_clock::now();
+    auto end = std::chrono::steady_clock::now();
     std::chrono::duration<double> elapsed = end - start;
 
     // Пиковое потребление памяти
