@@ -45,8 +45,8 @@ int main(int argc, char* argv[]) {
     std::vector<double> B(n * n);
     std::vector<double> C(n * n, 0.0);
 
-    generate_positive_definite_matrix(A.data(), n);
-    generate_positive_definite_matrix(B.data(), n);
+    generate_positive_definite_matrix(A.data(), n, n);
+    generate_positive_definite_matrix(B.data(), n, n + 1);
 
     // Получаем число потоков MKL 
     int num_threads = mkl_get_max_threads();
