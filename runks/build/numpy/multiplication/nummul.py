@@ -65,7 +65,8 @@ def main():
     rss_kb = resource.getrusage(resource.RUSAGE_SELF).ru_maxrss
 
     # Контрольная сумма результирующей матрицы
-    checksum = float(np.sum(result))
+    sum_a = float(np.sum(matrix_a))
+    sum_b = float(np.sum(matrix_b))
 
     # Информация о BLAS/потоках
     diag_threads = get_blas_info()
@@ -77,7 +78,7 @@ def main():
     print(f"DIAG_THREADS={diag_threads}")
     print(f"DIAG_PEAK_RSS_KB={rss_kb}")
     print(f"DIAG_ROUTINES={routines_str}")
-    print(f"DIAG_CHECKSUM={checksum:.6f}")
+    print(f"DIAG_CHECKSUM={sum_a:.6f},{sum_b:.6f}")
 
 if __name__ == "__main__":
     main()
