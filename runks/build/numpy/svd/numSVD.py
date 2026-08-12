@@ -16,18 +16,13 @@ def get_blas_info():
         # Собираем все пулы, у которых есть информация о потоках
         entries = []
         for pool in pools:
-            # Нас интересуют библиотеки, предоставляющие BLAS/OpenMP и т.п.
-            # В документации threadpoolctl поле 'user_api' может быть 'blas', 'openmp'
-            # Будем брать все, где есть 'internal_api' и 'num_threads'
             if 'internal_api' in pool and 'num_threads' in pool:
-                lib = pool['internal_api']          # например 'openblas'
-                # prefix – обычно имя файла библиотеки, возьмём из 'prefix', если есть
+                lib = pool['internal_api']       
                 prefix = pool.get('prefix', lib)    # fallback на lib
                 nthreads = pool['num_threads']
-                # Формируем элемент как 'lib/prefix:nthreads'
                 entries.append(f"{lib}/{prefix}:{nthreads}")
         if entries:
-            # Сортируем для стабильного порядка
+            # Сортируем 
             entries.sort()
             return ';'.join(entries)
     except ImportError:
