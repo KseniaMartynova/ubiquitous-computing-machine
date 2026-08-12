@@ -72,7 +72,7 @@ int main(int argc, char* argv[]) {
     long rss_kb = usage.ru_maxrss;
 
     double checksum = 0.0;
-    for (double v : inverse_matrix)
+    for (double v : matrix)
         checksum += v;
 
     std::ostringstream routines_oss;
