@@ -79,7 +79,7 @@ int main(int argc, char* argv[]) {
     std::vector<double> work(lwork);
     std::vector<int> iwork(8 * n);
 
-    auto start = std::chrono::high_resolution_clock::now();
+    auto start = std::chrono::steady_clock::now();
 
     //  SVD
     called_routines.push_back("dgesdd");
@@ -115,7 +115,7 @@ int main(int argc, char* argv[]) {
                 U.data(), n,
                 0.0, A_inv.data(), n);
 
-    auto end = std::chrono::high_resolution_clock::now();
+    auto end = std::chrono::steady_clock::now();
     std::chrono::duration<double> total_duration = end - start;
 
     // Проверка корректности 
