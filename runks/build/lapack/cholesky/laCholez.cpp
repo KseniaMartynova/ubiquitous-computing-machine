@@ -44,7 +44,7 @@ int main(int argc, char* argv[]) {
     // Получаем фактическое число потоков
     int num_threads = openblas_get_num_threads();
 
-    auto start = std::chrono::high_resolution_clock::now();
+    auto start = std::chrono::steady_clock::now();
 
     called_routines.push_back("dpotrf");
     int info = LAPACKE_dpotrf(LAPACK_ROW_MAJOR, 'L', n, inverse_matrix.data(), n);
@@ -60,7 +60,7 @@ int main(int argc, char* argv[]) {
         return 1;
     }
 
-    auto end = std::chrono::high_resolution_clock::now();
+    auto end = std::chrono::steady_clock::now();
     std::chrono::duration<double> diff = end - start;
 
     for (int i = 0; i < n; ++i)
