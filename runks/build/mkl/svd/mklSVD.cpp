@@ -96,7 +96,7 @@ int main(int argc, char* argv[]) {
 
 
     std::vector<double> A(n * n);
-    generate_spd_matrix(A.data(), n);   // A – SPD матрица
+    generate_spd_matrix(A.data(), n, n);   // A – SPD матрица
     std::vector<double> A_original = A; // копия для проверки
     std::vector<double> A_inv(n * n);
 
