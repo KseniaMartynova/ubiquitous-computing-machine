@@ -28,8 +28,8 @@ def get_blas_info():
         pass
 
 
-def generate_positive_definite_matrix(n):
-    """Генерация симметричной положительно определённой матрицы."""
+def generate_positive_definite_matrix(n, seed):
+    """Генерация SPD-матрицы с фиксированным seed."""
     rng = np.random.default_rng(seed)
     A = rng.random((n, n))
     A = 0.5 * (A + A.T)
@@ -50,8 +50,11 @@ def main():
         sys.exit(1)
 
     # Генерируем две матрицы
-    matrix_a = generate_positive_definite_matrix(n)
-    matrix_b = generate_positive_definite_matrix(n)
+    n = int(sys.argv[1])
+
+    # Генерируем две матрицы с разными seed
+    matrix_a = generate_positive_definite_matrix(n, n)      # seed = n
+    matrix_b = generate_positive_definite_matrix(n, n + 1)  # seed = n + 1
 
     # Замер времени с высоким разрешением
     start = time.perf_counter()
