@@ -53,7 +53,7 @@ int main(int argc, char* argv[]) {
 
     int num_threads_blas = openblas_get_num_threads();   // фактическое число потоков 
 
-    std::vector<double> A = create_spd_matrix(n);
+    std::vector<double> A = create_spd_matrix(n, n);
     std::vector<double> A_orig = A;  // копия для проверки
 
     std::vector<double> S(n);
