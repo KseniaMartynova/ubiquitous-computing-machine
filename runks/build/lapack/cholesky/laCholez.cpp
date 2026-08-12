@@ -21,16 +21,17 @@ std::vector<double> create_positive_definite_matrix(int n) {
         for (int j = 0; j < n; ++j)
             matrix[i * n + j] = dis(gen);
 
-    for (int i = 0; i < n; ++i)
-        for (int j = 0; j < i; ++j)
-            matrix[j * n + i] = matrix[i * n + j];
-
+    for (int i = 0; i < n; ++i) {
+        for (int j = 0; j < i; ++j) {
+            double avg = (matrix[i * n + j] + matrix[j * n + i]) / 2.0;
+            matrix[i * n + j] = matrix[j * n + i] = avg;
+        }   
+    }       
     for (int i = 0; i < n; ++i)
         matrix[i * n + i] += n;
 
     return matrix;
 }
-
 int main(int argc, char* argv[]) {
     if (argc != 2) {
         std::cerr << "Usage: " << argv[0] << " <matrix_size>" << std::endl;
