@@ -38,7 +38,7 @@ int main(int argc, char* argv[]) {
     }
 
     int n = std::stoi(argv[1]);
-    std::vector<double> matrix = create_positive_definite_matrix(n);
+    std::vector<double> matrix = create_positive_definite_matrix(n, n);
     std::vector<double> inverse_matrix = matrix;
 
     // Получаем фактическое число потоков
