@@ -6,27 +6,25 @@ import os
 
 #список вызванных LAPACK/BLAS-функций
 called_routines = []
-
 def get_blas_info():
-    """
-    Определяет библиотеку BLAS и число потоков.
-    Сначала пытается через threadpoolctl, затем через переменные окружения.
-    """
+    """Возвращает строку для DIAG_THREADS с перечислением всех обнаруженных бэкендов."""
     try:
         from threadpoolctl import threadpool_info
         pools = threadpool_info()
+        # Собираем все пулы, у которых есть информация о потоках
+        entries = []
         for pool in pools:
-            if pool['user_api'] == 'blas':
-                lib = pool['internal_api']
+            if 'internal_api' in pool and 'num_threads' in pool:
+                lib = pool['internal_api']       
+                prefix = pool.get('prefix', lib)    # fallback на lib
                 nthreads = pool['num_threads']
-                return lib, nthreads
+                entries.append(f"{lib}/{prefix}:{nthreads}")
+        if entries:
+            # Сортируем 
+            entries.sort()
+            return ';'.join(entries)
     except ImportError:
         pass
-
-    # Запасной вариант: переменные окружения
-    lib = 'openblas' if 'OPENBLAS_NUM_THREADS' in os.environ else 'mkl' if 'MKL_NUM_THREADS' in os.environ else 'unknown'
-    nthreads = os.environ.get('OPENBLAS_NUM_THREADS', os.environ.get('MKL_NUM_THREADS', '1'))
-    return lib, int(nthreads)
 
 def generate_positive_definite_matrix(n):
     """Генерация случайной симметричной положительно определённой матрицы."""
@@ -80,9 +78,7 @@ def main():
     # Контрольная сумма обратной матрицы
     checksum = float(np.sum(inverted_matrix))
 
-    # Информация о BLAS/потоках
-    lib_name, num_threads = get_blas_info()
-    diag_threads = f"{lib_name}:{num_threads}"
+    diag_threads = get_blas_info()
 
     # Строка с подпрограммами 
     routines_str = ','.join(called_routines)
