@@ -78,21 +78,6 @@ void svd_invert(double* A, int n, double* A_inv) {
                 0.0, A_inv, n);
 }
 
-// Проверка корректности
-bool check_inversion(const double* A, const double* A_inv, int n, double tol = 1e-10) {
-    std::vector<double> product(n * n, 0.0);
-    cblas_dgemm(CblasRowMajor, CblasNoTrans, CblasNoTrans,
-                n, n, n, 1.0, A, n, A_inv, n, 0.0, product.data(), n);
-    double max_error = 0.0;
-    for (int i = 0; i < n; ++i) {
-        for (int j = 0; j < n; ++j) {
-            double expected = (i == j) ? 1.0 : 0.0;
-            double error = std::abs(product[i * n + j] - expected);
-            max_error = std::max(max_error, error);
-        }
-    }
-    return max_error < tol;
-}
 
 int main(int argc, char* argv[]) {
     if (argc != 2) {
