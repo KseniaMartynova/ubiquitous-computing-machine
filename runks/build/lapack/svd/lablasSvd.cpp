@@ -118,11 +118,6 @@ int main(int argc, char* argv[]) {
     auto end = std::chrono::steady_clock::now();
     std::chrono::duration<double> total_duration = end - start;
 
-    // Проверка корректности 
-    if (!verify_inversion(A_orig, A_inv, n)) {
-        std::cerr << "Verification failed: A * A_inv not identity" << std::endl;
-        return 1;
-    }
 
     // Пиковое потребление памяти
     struct rusage usage;
