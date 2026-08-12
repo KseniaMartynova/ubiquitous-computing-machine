@@ -9,24 +9,30 @@ from scipy.linalg import svd
 called_routines = []
 
 def get_blas_info():
-    """Определяет библиотеку BLAS/LAPACK и число используемых потоков."""
+    """Возвращает строку для DIAG_THREADS с перечислением всех обнаруженных бэкендов."""
     try:
         from threadpoolctl import threadpool_info
         pools = threadpool_info()
+        # Собираем все пулы, у которых есть информация о потоках
+        entries = []
         for pool in pools:
-            if pool['user_api'] == 'blas':
-                lib = pool['internal_api']
+            # Нас интересуют библиотеки, предоставляющие BLAS/OpenMP и т.п.
+            # В документации threadpoolctl поле 'user_api' может быть 'blas', 'openmp'
+            # Будем брать все, где есть 'internal_api' и 'num_threads'
+            if 'internal_api' in pool and 'num_threads' in pool:
+                lib = pool['internal_api']          # например 'openblas'
+                # prefix – обычно имя файла библиотеки, возьмём из 'prefix', если есть
+                prefix = pool.get('prefix', lib)    # fallback на lib
                 nthreads = pool['num_threads']
-                return lib, nthreads
+                # Формируем элемент как 'lib/prefix:nthreads'
+                entries.append(f"{lib}/{prefix}:{nthreads}")
+        if entries:
+            # Сортируем для стабильного порядка
+            entries.sort()
+            return ';'.join(entries)
     except ImportError:
         pass
 
-    # Запасной вариант – переменные окружения
-    lib = 'openblas' if 'OPENBLAS_NUM_THREADS' in os.environ else \
-          'mkl' if 'MKL_NUM_THREADS' in os.environ else 'unknown'
-    nthreads = int(os.environ.get('OPENBLAS_NUM_THREADS',
-                                 os.environ.get('MKL_NUM_THREADS', 1)))
-    return lib, nthreads
 
 def generate_positive_definite_matrix(n):
     """Симметричная положительно определённая матрица (SPD)."""
@@ -82,9 +88,10 @@ def main():
     # Контрольная сумма
     checksum = float(np.sum(inverted_matrix))
 
-    # Информация о потоках и библиотеке BLAS
-    lib_name, num_threads = get_blas_info()
-    diag_threads = f"{lib_name}:{num_threads}"
+    
+    
+    diag_threads = get_blas_info()
+
 
     # Строка с вызванными подпрограммами
     routines_str = ','.join(called_routines)
