@@ -66,10 +66,10 @@ int main(int argc, char* argv[]) {
     long rss_kb = usage.ru_maxrss;
 
     // Контрольная сумма элементов результирующей матрицы
-    double checksum = 0.0;
-    for (double v : result) {
-        checksum += v;
-    }
+    double sumA = 0.0, sumB = 0.0;
+    for (double v : matrixA) sumA += v;
+    for (double v : matrixB) sumB += v;
+
 
     // Формируем строку routines
     std::ostringstream routines_oss;
@@ -87,7 +87,7 @@ int main(int argc, char* argv[]) {
     std::cout << "DIAG_ROUTINES=" << routines_oss.str() << std::endl;
 
     std::cout << std::setprecision(6);
-    std::cout << "DIAG_CHECKSUM=" << checksum << std::endl;
+    std::cout << "DIAG_CHECKSUM=" << sumA << "," << sumB << std::endl;
 
     return 0;
 }
