@@ -12,7 +12,7 @@
 std::vector<std::string> called_routines;
 
 // Создание положительно определённой матрицы
-std::vector<double> create_positive_definite_matrix(int n) {
+std::vector<double> create_positive_definite_matrix(int n, int seed)  {
     std::vector<double> matrix(n * n);
     std::random_device rd;
     std::mt19937 gen(rd());
