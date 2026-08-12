@@ -28,7 +28,8 @@ def get_blas_info():
 
 def generate_positive_definite_matrix(n):
     """Генерация случайной симметричной положительно определённой матрицы."""
-    A = np.random.rand(n, n)
+    rng = np.random.default_rng(seed)
+    A = rng.random((n, n))
     A = 0.5 * (A + A.T)
     A += n * np.eye(n)
     return A
