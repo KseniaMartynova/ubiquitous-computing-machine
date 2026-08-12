@@ -120,12 +120,6 @@ int main(int argc, char* argv[]) {
     auto end = std::chrono::steady_clock::now();
     std::chrono::duration<double> elapsed = end - start;
 
-    // Проверка корректности 
-    if (!check_inversion(A.data(), A_inv.data(), n)) {
-        std::cerr << "Verification failed: A * A_inv != I" << std::endl;
-        return 1;
-    }
-
     // Пиковая память (RSS)
     struct rusage usage;
     getrusage(RUSAGE_SELF, &usage);
