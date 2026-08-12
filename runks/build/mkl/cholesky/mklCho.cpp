@@ -55,7 +55,7 @@ int main(int argc, char* argv[]) {
     std::copy(A.begin(), A.end(), A_inv.begin());
 
 
-    auto start = std::chrono::high_resolution_clock::now();
+    auto start = std::chrono::steady_clock::now();
 
     // Факторизация Холецкого (нижний треугольник)
     called_routines.push_back("dpotrf");
@@ -80,7 +80,7 @@ int main(int argc, char* argv[]) {
         }
     }
 
-    auto end = std::chrono::high_resolution_clock::now();
+    auto end = std::chrono::steady_clock::now();
     std::chrono::duration<double> elapsed = end - start;
 
     // 
