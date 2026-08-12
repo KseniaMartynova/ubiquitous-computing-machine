@@ -145,7 +145,7 @@ int main(int argc, char* argv[]) {
     std::cout << std::fixed << std::setprecision(9);
     std::cout << "RESULT_SECONDS=" << elapsed.count() << std::endl;
 
-    std::cout << "DIAG_THREADS=mkl:" << num_threads << std::endl;
+    std::cout << "DIAG_THREADS=mkl/libmkl_rt:" << num_threads << std::endl;
     std::cout << "DIAG_PEAK_RSS_KB=" << rss_kb << std::endl;
     std::cout << "DIAG_ROUTINES=" << routines_oss.str() << std::endl;
 
