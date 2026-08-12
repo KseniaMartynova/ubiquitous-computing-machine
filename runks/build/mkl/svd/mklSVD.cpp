@@ -133,7 +133,7 @@ int main(int argc, char* argv[]) {
 
     // Контрольная сумма обратной матрицы
     double checksum = 0.0;
-    for (double v : A_inv) checksum += v;
+    for (double v : A) checksum += v;
 
     // Формируем строку routines
     std::ostringstream routines_oss;
