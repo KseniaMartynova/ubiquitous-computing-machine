@@ -16,7 +16,7 @@ std::vector<std::string> called_routines;
 
 void generate_positive_definite_matrix(double* A, int n, int seed) {
     std::random_device rd;
-    std::mt19937 gen(rd());
+    std::mt19937 gen(seed);
     std::uniform_real_distribution<> dis(0.0, 1.0);
 
     for (int i = 0; i < n * n; ++i) {
