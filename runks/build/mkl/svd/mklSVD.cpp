@@ -115,9 +115,9 @@ int main(int argc, char* argv[]) {
     std::vector<double> A_original = A; // копия для проверки
     std::vector<double> A_inv(n * n);
 
-    auto start = std::chrono::high_resolution_clock::now();
+    auto start = std::chrono::steady_clock::now();
     svd_invert(A_original.data(), n, A_inv.data());
-    auto end = std::chrono::high_resolution_clock::now();
+    auto end = std::chrono::steady_clock::now();
     std::chrono::duration<double> elapsed = end - start;
 
     // Проверка корректности 
