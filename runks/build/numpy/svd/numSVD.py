@@ -31,8 +31,8 @@ def get_blas_info():
 
 def generate_positive_definite_matrix(n):
     """Симметричная положительно определённая матрица (SPD)."""
-    R = np.random.rand(n, n)
-    A = 0.5 * (R + R.T)
+    rng = np.random.default_rng(n)
+    A = rng.random((n, n))
     A += n * np.eye(n)
     return A
 
@@ -70,7 +70,7 @@ def main():
         print("Matrix size must be a positive integer")
         sys.exit(1)
 
-    matrix = generate_positive_definite_matrix(n)
+    matrix = generate_positive_definite_matrix(n, n)
 
     # Замер времени
     start = time.perf_counter()
