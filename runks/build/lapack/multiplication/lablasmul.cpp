@@ -47,7 +47,7 @@ int main(int argc, char* argv[]) {
     std::vector<double> matrixB = create_positive_definite_matrix(n);
     std::vector<double> result(n * n, 0.0);
 
-    auto start = std::chrono::high_resolution_clock::now();
+    auto start = std::chrono::steady_clock::now();
 
     // Регистрируем и выполняем умножение матриц
     called_routines.push_back("dgemm");
@@ -57,7 +57,7 @@ int main(int argc, char* argv[]) {
                 matrixB.data(), n,
                 0.0, result.data(), n);
 
-    auto end = std::chrono::high_resolution_clock::now();
+    auto end = std::chrono::steady_clock::now();
     std::chrono::duration<double> elapsed = end - start;
 
     // Пиковое потребление памяти (RSS) в килобайтах
