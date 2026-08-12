@@ -78,7 +78,7 @@ def main():
     print(f"DIAG_THREADS={diag_threads}")
     print(f"DIAG_PEAK_RSS_KB={rss_kb}")
     print(f"DIAG_ROUTINES={routines_str}")
-    print(f"DIAG_CHECKSUM={sum_a:.9f},{sum_b:.9f}")
+    print(f"DIAG_CHECKSUM={sum_a:.6f},{sum_b:.6f}")
 
 if __name__ == "__main__":
     main()
