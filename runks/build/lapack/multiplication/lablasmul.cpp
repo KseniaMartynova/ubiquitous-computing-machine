@@ -44,8 +44,8 @@ int main(int argc, char* argv[]) {
     // Получаем текущее число потоков
     int num_threads = openblas_get_num_threads();
 
-    std::vector<double> matrixA = create_positive_definite_matrix(n);
-    std::vector<double> matrixB = create_positive_definite_matrix(n);
+    std::vector<double> matrixA = create_positive_definite_matrix(n, n);
+    std::vector<double> matrixB = create_positive_definite_matrix(n, n + 1);
     std::vector<double> result(n * n, 0.0);
 
     auto start = std::chrono::steady_clock::now();
