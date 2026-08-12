@@ -58,7 +58,7 @@ int main(int argc, char* argv[]) {
     std::vector<lapack_int> ipiv(n);
 
     // Засекаем время
-    auto start = std::chrono::high_resolution_clock::now();
+    auto start = std::chrono::steady_clock::now();
 
     // LU-разложение
     called_routines.push_back("dgetrf");
@@ -76,7 +76,7 @@ int main(int argc, char* argv[]) {
         return 1;
     }
 
-    auto end = std::chrono::high_resolution_clock::now();
+    auto end = std::chrono::steady_clock::now();
     std::chrono::duration<double> elapsed = end - start;
 
     // Пиковое потребление памяти
