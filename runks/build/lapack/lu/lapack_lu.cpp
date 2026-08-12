@@ -50,7 +50,7 @@ int main(int argc, char* argv[]) {
     // Только читаем текущее число потоков 
     int num_threads = openblas_get_num_threads();
 
-    std::vector<double> A = create_positive_definite_matrix(n);
+    std::vector<double> A = create_positive_definite_matrix(n, n);
     std::vector<double> A_inv = A; // копия для обращения
     std::vector<lapack_int> ipiv(n);
 
