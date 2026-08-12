@@ -17,7 +17,7 @@
 std::vector<std::string> called_routines;
 
 // Генерация симметричной положительно определённой матрицы
-void generate_spd_matrix(double* A, int n) {
+void generate_spd_matrix(double* A, int n, int seed) {
     std::random_device rd;
     std::mt19937 gen(rd());
     std::uniform_real_distribution<> dis(0.0, 1.0);
