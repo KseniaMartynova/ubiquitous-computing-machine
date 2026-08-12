@@ -46,7 +46,8 @@ int main(int argc, char* argv[]) {
     std::vector<double> A(n * n);
     std::vector<double> A_inv(n * n);
 
-    generate_positive_definite_matrix(A.data(), n);
+    generate_positive_definite_matrix(A.data(), n, n);
+    
 
     // Получаем текущее число потоков MKL 
     int num_threads = mkl_get_max_threads();
