@@ -19,8 +19,7 @@ std::vector<std::string> called_routines;
 // Создание симметричной положительно определённой матрицы
 std::vector<double> create_spd_matrix(int n, int seed)  {
     std::vector<double> A(n * n);
-    std::random_device rd;
-    std::mt19937 gen(rd());
+    std::mt19937 gen(seed);
     std::uniform_real_distribution<> dis(0.0, 1.0);
 
     #pragma omp parallel for
