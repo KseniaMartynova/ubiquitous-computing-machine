@@ -3,9 +3,8 @@ import time
 import sys
 import resource
 import os
-from scipy.linalg.lapack import dgetrf, dgetri
 
-#список вызванных LAPACK/BLAS-функций
+#  список вызванных BLAS-функций
 called_routines = []
 
 def get_blas_info():
@@ -28,6 +27,7 @@ def get_blas_info():
     except ImportError:
         pass
 
+
 def generate_positive_definite_matrix(n):
     """Генерация симметричной положительно определённой матрицы."""
     A = np.random.rand(n, n)
@@ -35,30 +35,9 @@ def generate_positive_definite_matrix(n):
     A += n * np.eye(n)
     return A
 
-def invert_matrix_with_lu(matrix):
-    """
-    Обращение через LU-разложение: dgetrf + dgetri.
-    Регистрирует использованные подпрограммы LAPACK.
-    """
-    n = matrix.shape[0]
-
-    # LU-факторизация
-    called_routines.append('dgetrf')
-    lu, piv, info = dgetrf(matrix, overwrite_a=1)
-    if info != 0:
-        raise np.linalg.LinAlgError("LU factorization failed")
-
-    # Обращение матрицы на основе LU
-    called_routines.append('dgetri')
-    inv, info = dgetri(lu, piv, overwrite_lu=1)
-    if info != 0:
-        raise np.linalg.LinAlgError("Inverse computation failed")
-
-    return inv
-
 def main():
     if len(sys.argv) != 2:
-        print("Usage: python lu.py <matrix_size>")
+        print("Usage: python multiply.py <matrix_size>")
         sys.exit(1)
 
     try:
@@ -69,23 +48,29 @@ def main():
         print("Matrix size must be a positive integer")
         sys.exit(1)
 
-    matrix = generate_positive_definite_matrix(n)
+    # Генерируем две матрицы
+    matrix_a = generate_positive_definite_matrix(n)
+    matrix_b = generate_positive_definite_matrix(n)
 
-    # Замер времени
+    # Замер времени с высоким разрешением
     start = time.perf_counter()
-    inverted_matrix = invert_matrix_with_lu(matrix)
+
+    # Умножение матриц
+    called_routines.append('dgemm')
+    result = np.matmul(matrix_a, matrix_b)
+
     elapsed = time.perf_counter() - start
 
-    # Пиковое потребление памяти (RSS) в КБ
+    # Пиковая резидентная память (RSS) в КБ
     rss_kb = resource.getrusage(resource.RUSAGE_SELF).ru_maxrss
 
-    # Контрольная сумма
-    checksum = float(np.sum(inverted_matrix))
+    # Контрольная сумма результирующей матрицы
+    checksum = float(np.sum(result))
 
-    # Информация о потоках
+    # Информация о BLAS/потоках
     diag_threads = get_blas_info()
 
-    # Строка с подпрограммами 
+    # Строка routines
     routines_str = ','.join(called_routines)
 
     print(f"RESULT_SECONDS={elapsed:.9f}")
