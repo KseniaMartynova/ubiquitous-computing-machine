@@ -70,7 +70,7 @@ def main():
         print("Matrix size must be a positive integer")
         sys.exit(1)
 
-    matrix = generate_positive_definite_matrix(n)
+    matrix = generate_positive_definite_matrix(n, n)
 
     # Замер времени
     start = time.perf_counter()
