@@ -52,7 +52,7 @@ int main(int argc, char* argv[]) {
     std::vector<double> A_inv = A; // копия для обращения
     std::vector<lapack_int> ipiv(n);
 
-    auto start = std::chrono::high_resolution_clock::now();
+    auto start = std::chrono::steady_clock::now();
 
     called_routines.push_back("dgetrf");
     int info = LAPACKE_dgetrf(LAPACK_ROW_MAJOR, n, n, A_inv.data(), n, ipiv.data());
@@ -68,7 +68,7 @@ int main(int argc, char* argv[]) {
         return 1;
     }
 
-    auto end = std::chrono::high_resolution_clock::now();
+    auto end = std::chrono::steady_clock::now();
     std::chrono::duration<double> elapsed = end - start;
 
     struct rusage usage;
