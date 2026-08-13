@@ -3,9 +3,9 @@ import time
 import sys
 import resource
 import os
-from scipy.linalg.lapack import dgetrf, dgetri
+from scipy.linalg import inv
 
-#список вызванных LAPACK/BLAS-функций
+# список вызванных LAPACK/BLAS-функций
 called_routines = []
 
 def get_blas_info():
@@ -13,22 +13,20 @@ def get_blas_info():
     try:
         from threadpoolctl import threadpool_info
         pools = threadpool_info()
-        # Собираем все пулы, у которых есть информация о потоках
         entries = []
         for pool in pools:
             if 'internal_api' in pool and 'num_threads' in pool:
-                lib = pool['internal_api']       
-                prefix = pool.get('prefix', lib)    # fallback на lib
+                lib = pool['internal_api']
+                prefix = pool.get('prefix', lib)
                 nthreads = pool['num_threads']
                 entries.append(f"{lib}/{prefix}:{nthreads}")
         if entries:
-            # Сортируем 
             entries.sort()
             return ';'.join(entries)
     except ImportError:
         pass
 
-def generate_positive_definite_matrix(n):
+def generate_positive_definite_matrix(n, seed):
     """Генерация симметричной положительно определённой матрицы."""
     rng = np.random.default_rng(seed)
     A = rng.random((n, n))
@@ -38,24 +36,13 @@ def generate_positive_definite_matrix(n):
 
 def invert_matrix_with_lu(matrix):
     """
-    Обращение через LU-разложение: dgetrf + dgetri.
-    Регистрирует использованные подпрограммы LAPACK.
+    Обращение через LU-разложение (scipy.linalg.inv).
+    Регистрирует используемые подпрограммы LAPACK.
     """
-    n = matrix.shape[0]
-
-    # LU-факторизация
     called_routines.append('dgetrf')
-    lu, piv, info = dgetrf(matrix, overwrite_a=1)
-    if info != 0:
-        raise np.linalg.LinAlgError("LU factorization failed")
-
-    # Обращение матрицы на основе LU
     called_routines.append('dgetri')
-    inv, info = dgetri(lu, piv, overwrite_lu=1)
-    if info != 0:
-        raise np.linalg.LinAlgError("Inverse computation failed")
-
-    return inv
+    inverse = inv(matrix)
+    return inverse
 
 def main():
     if len(sys.argv) != 2:
@@ -80,13 +67,13 @@ def main():
     # Пиковое потребление памяти (RSS) в КБ
     rss_kb = resource.getrusage(resource.RUSAGE_SELF).ru_maxrss
 
-    # Контрольная сумма
+    # Контрольная сумма исходной матрицы
     checksum = float(np.sum(matrix))
 
     # Информация о потоках
     diag_threads = get_blas_info()
 
-    # Строка с подпрограммами 
+    # Строка с подпрограммами
     routines_str = ','.join(called_routines)
 
     print(f"RESULT_SECONDS={elapsed:.9f}")
