@@ -10,7 +10,7 @@
 #include <cstdlib>
 #include <cmath>
 #include <sys/resource.h>
-
+//LU-факторизация
 std::vector<std::string> called_routines;
 
 std::vector<double> create_positive_definite_matrix(int n, int seed)  {
