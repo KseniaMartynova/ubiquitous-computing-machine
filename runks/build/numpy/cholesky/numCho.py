@@ -73,7 +73,7 @@ def main():
     # Пиковое потребление памяти (RSS) в килобайтах
     rss_kb = resource.getrusage(resource.RUSAGE_SELF).ru_maxrss
 
-    # Контрольная сумма обратной матрицы
+    # Контрольная сумма исходной матрицы
     checksum = float(np.sum(matrix))
 
     diag_threads = get_blas_info()
