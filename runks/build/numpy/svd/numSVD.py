@@ -3,9 +3,9 @@ import time
 import sys
 import resource
 import os
-from scipy.linalg import svd
+from scipy.linalg import pinv
 
-#писок вызванных LAPACK/BLAS-функций
+# список вызванных LAPACK/BLAS-функций
 called_routines = []
 
 def get_blas_info():
@@ -13,49 +13,35 @@ def get_blas_info():
     try:
         from threadpoolctl import threadpool_info
         pools = threadpool_info()
-        # Собираем все пулы, у которых есть информация о потоках
         entries = []
         for pool in pools:
             if 'internal_api' in pool and 'num_threads' in pool:
-                lib = pool['internal_api']       
-                prefix = pool.get('prefix', lib)    # fallback на lib
+                lib = pool['internal_api']
+                prefix = pool.get('prefix', lib)
                 nthreads = pool['num_threads']
                 entries.append(f"{lib}/{prefix}:{nthreads}")
         if entries:
-            # Сортируем 
             entries.sort()
             return ';'.join(entries)
     except ImportError:
         pass
 
-
-def generate_positive_definite_matrix(n):
-    """Симметричная положительно определённая матрица (SPD)."""
-    rng = np.random.default_rng(n)
+def generate_positive_definite_matrix(n, seed):
+    """Генерация симметричной положительно определённой матрицы."""
+    rng = np.random.default_rng(seed)
     A = rng.random((n, n))
+    A = 0.5 * (A + A.T)
     A += n * np.eye(n)
     return A
 
 def invert_via_svd(matrix):
     """
-    Обращение матрицы через SVD (dgesdd) + матричные умножения (dgemm).
-    Регистрирует использованные подпрограммы.
+    Обращение через псевдообратную (pinv). Регистрирует используемые подпрограммы.
     """
     called_routines.append('dgesdd')
-    U, s, Vt = svd(matrix, lapack_driver='gesdd')
-
-    # Отсечение малых сингулярных чисел
-    threshold = np.finfo(float).eps * max(matrix.shape) * np.max(s)
-    s_inv = np.where(s > threshold, 1.0 / s, 0.0)
-
-    # A⁻¹ = V * S⁻¹ * Uᵀ
-    # Реализовано через два матричных умножения с BLAS (dgemm)
+    inverse = pinv(matrix)
     called_routines.append('dgemm')
-    # Первое умножение: (V * diag(s_inv)) – эквивалентно масштабированию столбцов
-    # Второе: результат @ U.T – фактически dgemm
-    inverted = (Vt.T * s_inv) @ U.T   # broadcasting выполнит масштабирование, затем @ вызовет dgemm
-
-    return inverted
+    return inverse
 
 def main():
     if len(sys.argv) != 2:
@@ -80,15 +66,10 @@ def main():
     # Пиковое потребление памяти (RSS) в килобайтах
     rss_kb = resource.getrusage(resource.RUSAGE_SELF).ru_maxrss
 
-    # Контрольная сумма
+    # Контрольная сумма исходной матрицы
     checksum = float(np.sum(matrix))
 
-    
-    
     diag_threads = get_blas_info()
-
-
-    # Строка с вызванными подпрограммами
     routines_str = ','.join(called_routines)
 
     print(f"RESULT_SECONDS={elapsed:.9f}")
