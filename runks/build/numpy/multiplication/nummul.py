@@ -66,7 +66,7 @@ def main():
     # Пиковая резидентная память (RSS) в КБ
     rss_kb = resource.getrusage(resource.RUSAGE_SELF).ru_maxrss
 
-    # Контрольная сумма результирующей матрицы
+    # Контрольные суммы исходных матриц A и B
     sum_a = float(np.sum(matrix_a))
     sum_b = float(np.sum(matrix_b))
 
