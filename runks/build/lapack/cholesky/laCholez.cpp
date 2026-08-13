@@ -60,12 +60,12 @@ int main(int argc, char* argv[]) {
         return 1;
     }
 
-    auto end = std::chrono::steady_clock::now();
-    std::chrono::duration<double> diff = end - start;
-
     for (int i = 0; i < n; ++i)
         for (int j = i + 1; j < n; ++j)
             inverse_matrix[i * n + j] = inverse_matrix[j * n + i];
+
+    auto end = std::chrono::steady_clock::now();
+    std::chrono::duration<double> diff = end - start;
 
     struct rusage usage;
     getrusage(RUSAGE_SELF, &usage);
