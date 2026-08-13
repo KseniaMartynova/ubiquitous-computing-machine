@@ -47,11 +47,11 @@ int main(int argc, char* argv[]) {
     std::vector<double> matrixA = create_positive_definite_matrix(n, n);
     std::vector<double> matrixB = create_positive_definite_matrix(n, n + 1);
     std::vector<double> result(n * n, 0.0);
-
+    called_routines.push_back("dgemm");
     auto start = std::chrono::steady_clock::now();
 
     // Регистрируем и выполняем умножение матриц
-    called_routines.push_back("dgemm");
+    
     cblas_dgemm(CblasRowMajor, CblasNoTrans, CblasNoTrans,
                 n, n, n,
                 1.0, matrixA.data(), n,
@@ -66,7 +66,7 @@ int main(int argc, char* argv[]) {
     getrusage(RUSAGE_SELF, &usage);
     long rss_kb = usage.ru_maxrss;
 
-    // Контрольная сумма элементов результирующей матрицы
+    // Контрольная сумма
     double sumA = 0.0, sumB = 0.0;
     for (double v : matrixA) sumA += v;
     for (double v : matrixB) sumB += v;
