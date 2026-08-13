@@ -93,7 +93,7 @@ int main(int argc, char* argv[]) {
 
     std::vector<double> A(n * n);
     generate_spd_matrix(A.data(), n, n);   // A – SPD матрица
-    std::vector<double> A_original = A;    // копия (можно не использовать)
+    std::vector<double> A_original = A;    
     std::vector<double> A_inv(n * n);
 
     // Выделяем рабочие векторы до таймера
