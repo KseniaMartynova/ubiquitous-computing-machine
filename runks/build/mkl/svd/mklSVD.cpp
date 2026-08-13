@@ -13,7 +13,7 @@
 #include <sys/resource.h>   // для getrusage
 #include <stdexcept>        // для std::runtime_error
 
-// список вызванных ключевых подпрограмм LAPACK/BLAS
+// список вызванных  LAPACK/BLAS
 std::vector<std::string> called_routines;
 
 // Генерация симметричной положительно определённой матрицы
