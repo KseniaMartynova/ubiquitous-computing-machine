@@ -55,12 +55,12 @@ def main():
     # Генерируем две матрицы с разными seed
     matrix_a = generate_positive_definite_matrix(n, n)      # seed = n
     matrix_b = generate_positive_definite_matrix(n, n + 1)  # seed = n + 1
-
+    called_routines.append('dgemm')
     # Замер времени с высоким разрешением
     start = time.perf_counter()
 
     # Умножение матриц
-    called_routines.append('dgemm')
+    
     result = np.matmul(matrix_a, matrix_b)
 
     elapsed = time.perf_counter() - start
