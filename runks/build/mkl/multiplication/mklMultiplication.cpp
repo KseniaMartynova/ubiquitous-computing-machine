@@ -50,12 +50,12 @@ int main(int argc, char* argv[]) {
 
     // Получаем число потоков MKL 
     int num_threads = mkl_get_max_threads();
-
+    called_routines.push_back("dgemm");
     // Засекаем время
     auto start = std::chrono::steady_clock::now();
 
     // Регистрируем и выполняем умножение
-    called_routines.push_back("dgemm");
+    
     cblas_dgemm(CblasRowMajor, CblasNoTrans, CblasNoTrans,
                 n, n, n,
                 1.0, A.data(), n,
