@@ -69,7 +69,7 @@ int main(int argc, char* argv[]) {
     getrusage(RUSAGE_SELF, &usage);
     long rss_kb = usage.ru_maxrss;   // на Linux – килобайты
 
-    // Контрольная сумма результирующей матрицы
+    // Контрольная сумма 
     double sumA = 0.0, sumB = 0.0;
     for (double v : A) sumA += v;
     for (double v : B) sumB += v;
