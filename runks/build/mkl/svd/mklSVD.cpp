@@ -21,20 +21,6 @@ void generate_spd_matrix(double* A, int n, int seed) {
     std::random_device rd;
     std::mt19937 gen(seed);
     std::uniform_real_distribution<> dis(0.0, 1.0);
-
-    #pragma omp parallel for
-    for (int i = 0; i < n * n; ++i) {
-        A[i] = dis(gen);
-    }
-
-    #pragma omp parallel for
-    for (int i = 0; i < n; ++i) {
-        for (int j = 0; j < i; ++j) {
-            double avg = (A[i*n + j] + A[j*n + i]) / 2.0;
-            A[i*n + j] = A[j*n + i] = avg;
-        }
-        A[i*n + i] += n;
-    }
 }
 
 // Обращение матрицы через SVD 
