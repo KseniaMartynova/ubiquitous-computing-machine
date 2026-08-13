@@ -3,7 +3,7 @@ import time
 import sys
 import resource
 import os
-
+from scipy.linalg import cho_factor, cho_solve
 #список вызванных LAPACK/BLAS-функций
 called_routines = []
 def get_blas_info():
@@ -26,8 +26,8 @@ def get_blas_info():
     except ImportError:
         pass
 
-def generate_positive_definite_matrix(n):
-    """Генерация случайной симметричной положительно определённой матрицы."""
+def generate_positive_definite_matrix(n, seed):
+    """Генерация симметричной положительно определённой матрицы."""
     rng = np.random.default_rng(seed)
     A = rng.random((n, n))
     A = 0.5 * (A + A.T)
@@ -36,22 +36,20 @@ def generate_positive_definite_matrix(n):
 
 def invert_matrix_with_cholesky(matrix):
     """
-    Обращение через разложение Холецкого (L L^T)^-1 = (L^-1)^T L^-1.
-    Регистрирует используемые LAPACK/BLAS-функции.
+    Обращение через разложение Холецкого + решение системы с единичной матрицей.
+    Регистрирует используемые LAPACK-функции.
     """
-    # Разложение Холецкого -> dpotrf
+    n = matrix.shape[0]
+
+    # Факторизация Холецкого -> dpotrf
     called_routines.append('dpotrf')
-    L = np.linalg.cholesky(matrix)
+    c, lower = cho_factor(matrix, lower=True)   # lower=True для совместимости с C++
 
-    # Обращение нижней треугольной матрицы L -> dtrtri
-    called_routines.append('dtrtri')
-    L_inv = np.linalg.inv(L)
+    # Решение системы с единичной правой частью -> dpotrs
+    called_routines.append('dpotrs')
+    inverse = cho_solve((c, lower), np.eye(n))
 
-    # Сборка обратной матрицы -> dgemm
-    called_routines.append('dgemm')
-    A_inv = L_inv.T @ L_inv
-
-    return A_inv
+    return inverse
 
 def main():
     if len(sys.argv) != 2:
