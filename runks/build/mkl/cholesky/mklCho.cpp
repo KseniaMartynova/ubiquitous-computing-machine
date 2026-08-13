@@ -15,7 +15,6 @@ std::vector<std::string> called_routines;
 
 
 void generate_positive_definite_matrix(double* A, int n, int seed) {
-    std::random_device rd;
     std::mt19937 gen(seed);
     std::uniform_real_distribution<> dis(0.0, 1.0);
 
@@ -89,7 +88,7 @@ int main(int argc, char* argv[]) {
     getrusage(RUSAGE_SELF, &usage);
     long rss_kb = usage.ru_maxrss;   // на Linux – килобайты
 
-    // Контрольная сумма обратной матрицы 
+    // Контрольная сумма
     double checksum = 0.0;
     for (double v : A) {
         checksum += v;
