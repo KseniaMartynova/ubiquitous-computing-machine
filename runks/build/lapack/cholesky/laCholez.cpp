@@ -8,7 +8,7 @@
 #include <sys/resource.h>
 #include <string>
 #include <sstream>
-
+ //Факторизация Холецкого
 std::vector<std::string> called_routines;
 
 std::vector<double> create_positive_definite_matrix(int n, int seed) {
