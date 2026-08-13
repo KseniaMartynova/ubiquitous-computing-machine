@@ -49,8 +49,6 @@ def main():
         print("Matrix size must be a positive integer")
         sys.exit(1)
 
-    # Генерируем две матрицы
-    n = int(sys.argv[1])
 
     # Генерируем две матрицы с разными seed
     matrix_a = generate_positive_definite_matrix(n, n)      # seed = n
