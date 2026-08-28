@@ -10,23 +10,22 @@ import sys
 import os
 
 
-class OutputError(Exception):
-    """Ошибка разбора или проверки вывода контейнера."""
+class OutputError(Exception):"""Ошибка разбора или проверки вывода контейнера"""
 
 
 def _parse_finite_float(raw, label):
-    """Проверяет, что raw — конечное число, возвращает float."""
+    """Проверяет raw  конечное число, возвращает float"""
     try:
         value = float(raw)
     except (ValueError, TypeError) as exc:
-        raise OutputError(f"{label} не является числом: {raw!r}") from exc
+        raise OutputError(f"{label} не число: {raw!r}") from exc
     if not math.isfinite(value):
-        raise OutputError(f"{label} не является конечным числом: {raw!r}")
+        raise OutputError(f"{label} не конечное число: {raw!r}")
     return value
 
 
 def expected_routines(implementation, operation):
-    """Возвращает ожидаемую строку DIAG_ROUTINES."""
+    """Возвращает строку DIAG_ROUTINES"""
     if operation == "cholesky":
         if implementation == "numpy":
             return "dpotrf,dpotrs"
@@ -41,13 +40,11 @@ def expected_routines(implementation, operation):
 
 
 def parse_output(stdout_text, implementation, operation, thread_mode):
-    """
-    Разбирает stdout контейнера и проверяет корректность.
-    Ничего не знает про Docker.
+    """Разбирает stdout контейнера и проверяет корректность
     """
     lines = [line for line in stdout_text.splitlines() if line.strip()]
     if len(lines) != 5:
-        raise OutputError(f"Ожидалось ровно 5 непустых строк, получено {len(lines)}")
+        raise OutputError(f"Ожидалось 5 непустых строк, получено {len(lines)}")
 
     allowed = {
         "RESULT_SECONDS",
@@ -85,7 +82,7 @@ def parse_output(stdout_text, implementation, operation, thread_mode):
     try:
         rss = int(rss_raw)
     except ValueError as exc:
-        raise OutputError(f"DIAG_PEAK_RSS_KB не целое: {rss_raw!r}") from exc
+        raise OutputError(f"DIAG_PEAK_RSS_KB нецелое: {rss_raw!r}") from exc
     if rss <= 0:
         raise OutputError(f"DIAG_PEAK_RSS_KB должно быть положительным: {rss_raw!r}")
 
@@ -144,7 +141,7 @@ def parse_output(stdout_text, implementation, operation, thread_mode):
 
 
 def vmstat_counter(name):
-    """Читает глобальный счётчик из /proc/vmstat."""
+    """Читает глобальный счётчик из /proc/vmstat"""
     path = pathlib.Path("/proc/vmstat")
     if not path.exists():
         raise RuntimeError(f"Файл {path} не найден")
@@ -156,7 +153,7 @@ def vmstat_counter(name):
 
 
 def run_container(image, n, thread_mode):
-    """Запускает docker run --rm синхронно и возвращает CompletedProcess."""
+    """Запускает docker run --rm синхронно и возвращает CompletedProcess"""
     command = ["docker", "run", "--rm"]
     if thread_mode == "single":
         command += [
@@ -200,14 +197,14 @@ def main():
 
     if dirty and not args.allow_dirty:
         print(
-            "Ошибка: рабочее дерево содержит незакоммиченные изменения. "
-            "Закоммитьте их или используйте --allow-dirty.",
+            "Ошибкаь =  рабочее дерево содержит незакоммиченные изменения "
+            "Закоммить их или --allow-dirty",
             file=sys.stderr,
         )
         sys.exit(1)
     if dirty:
         print(
-            "Предупреждение: рабочее дерево грязное, продолжаю из-за --allow-dirty.",
+            "Предупреждение: рабочее дерево грязное, но продолжаю из-за --allow-dirty.",
             file=sys.stderr,
         )
 
