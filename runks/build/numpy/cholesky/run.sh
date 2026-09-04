@@ -2,7 +2,7 @@
 
 # Список контейнеров
 containers=(
-	"num_chol"
+	"numpy_chol"
 )
 
 # Размеры матриц
