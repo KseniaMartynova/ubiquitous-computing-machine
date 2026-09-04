@@ -198,7 +198,7 @@ def main():
 
     if dirty and not args.allow_dirty:
         print(
-            "Ошибкаь =  рабочее дерево содержит незакоммиченные изменения "
+            "Ошибка,  рабочее дерево содержит незакоммиченные изменения "
             "Закоммить их или --allow-dirty",
             file=sys.stderr,
         )
@@ -252,11 +252,11 @@ def main():
     swap_in_pages = swap_in_after - swap_in_before
 
     if swap_in_pages < 0:
-        print("Щшибка:разность pswin отрицательна", file=sys.stderr)
+        print("Ошибка:разность pswin отрицательна", file=sys.stderr)
         sys.exit(1)
 
     swap_out_pages = swap_out_after - swap_out_before
-    if swap_out_after < 0:
+    if swap_out_pages < 0:
         print("Ошибка:разность pspwout отрицательна", file=sys.stderr)
         sys.exit(1)
 
@@ -320,7 +320,7 @@ def main():
 
     for field in row:
         if isinstance (field,str) and "," in field:
-            print(f"щшибка поле содержит запятую: {field!r}", file=sys.stderr)
+            print(f"Ошибка поле содержит запятую: {field!r}", file=sys.stderr)
             sys.exit(1)
 
     writer = csv.writer(sys.stdout, lineterminator="\n")
