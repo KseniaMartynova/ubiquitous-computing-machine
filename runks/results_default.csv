@@ -15,3 +15,13 @@
 1,2026-09-04T11:08:56Z,openblas,multiplication,256,1,0.000369527,openblas/libopenblas:16,12420,0,0,false,default,lapack_mul,sha256:aceabb5f617ac8ab2a2b88f84ef775b466665f43a8b141e84d5670dfd1fc7f87,a8f75940cddbd6d004e9570619b927e6b0320ec9,256,257,20260818,dgemm,,98243.764086,98325.187950
 
 1,2026-09-04T11:09:12Z,openblas,svd,256,1,0.076202152,openblas/libopenblas:16,15360,0,0,false,default,lapack_svd,sha256:db156db802fe1588dd69e6b1f9e9af8acd3266c7f0af3110953b7f658104530d,a8f75940cddbd6d004e9570619b927e6b0320ec9,256,,202608
+
+
+
+1,2026-09-04T11:11:27Z,numpy,cholesky,256,1,0.002953673,openblas/libopenblas:16;openblas/libopenblas:16,60228,0,0,false,default,numpy_chol,sha256:cce575399944e03c600409b2ecf9f2e1a764f7f0ec4a9f5ccf16fb87a069af67,9e31f9c32edf5fedcb1f3af1607b0f873daef0da,256,,20260818,dpotrf,dpotrs,98300.522558,
+
+1,2026-09-04T11:11:42Z,numpy,lu,256,1,0.003454033,openblas/libopenblas:16;openblas/libopenblas:16,52288,0,0,false,default,numpy_lu,sha256:7d9b2f3b2c71d7ec7381420e11d4bd1a4227354cf2608d2175faab91309eda3e,9e31f9c32edf5fedcb1f3af1607b0f873daef0da,256,,20260818,dgetrf,dgetri,98300.522558,
+
+1,2026-09-04T11:12:00Z,numpy,multiplication,256,1,0.000587519,openblas/libopenblas:16,35576,0,0,false,default,numpy_mul,sha256:7354e4699235ede5009e50d868cfbfd9d0b7308431aa5c2b672417e53640e115,9e31f9c32edf5fedcb1f3af1607b0f873daef0da,256,257,20260818,dgemm,,98300.522558,98389.323307
+
+1,2026-09-04T11:12:14Z,numpy,svd,256,1,0.015218577,openblas/libopenblas:16;openblas/libopenblas:16,54680,0,0,false,default,numpy_svd,sha256:d0d41cfaf5d502d11ab6e8d306654565e9fc2b3dbbae0b62ab302701c3d9966c,9e31f9c32edf5fedcb1f3af1607b0f873daef0da,256,,20260818,dgesdd,dgemm,98300.522558,
