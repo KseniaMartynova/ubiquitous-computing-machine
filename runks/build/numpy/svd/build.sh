@@ -18,7 +18,7 @@ build_container() {
 # Lapack-OpenBlas
 
 
-build_container "num_svd" "Dockerfile.numsvd"
+build_container "numpy_svd" "Dockerfile.numsvd"
 
 
 cd ../
