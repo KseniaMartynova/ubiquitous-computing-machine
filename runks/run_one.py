@@ -283,10 +283,6 @@ def main():
     matrix_seed_a = args.n
     matrix_seed_b = args.n + 1 if args.operation == "multiplication" else ""
     
-    for field in row:
-        if isinstance (field,str) and "," in field: 
-            print(f"щшибка поле содержит запятую: {field!r}", file=sys.stderr)
-            sys.exit(1)
     row = [
         args.run_order,
         started_at,
@@ -313,6 +309,11 @@ def main():
         checksum_b,
     ]
 
+    for field in row:
+        if isinstance (field,str) and "," in field:
+            print(f"щшибка поле содержит запятую: {field!r}", file=sys.stderr)
+            sys.exit(1)
+
     writer = csv.writer(sys.stdout, lineterminator="\n")
     writer.writerow(row)
 
@@ -320,4 +321,3 @@ def main():
 if __name__ == "__main__":
     main()
 
-#dirty
