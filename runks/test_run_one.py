@@ -14,6 +14,39 @@ VALID_CHOLESKY_OPENBLAS = (
 
 
 class ParseOutputTest(unittest.TestCase):
+    def test_thread_pools_missing_backend_rejected(self):
+        stdout = (
+        "RESULT_SECONDS=0.100000000\n"
+        "DIAG_THREADS=/:1\n"
+        "DIAG_PEAK_RSS_KB=26852\n"
+        "DIAG_ROUTINES=dpotrf,dpotri\n"
+        "DIAG_CHECKSUM=98243.764086\n"
+    )
+        with self.assertRaises(OutputError):
+            parse_output(stdout, implementation="mkl", operation="cholesky", thread_mode="default")
+
+    def test_thread_pools_missing_prefix_rejected(self):
+        stdout = (
+        "RESULT_SECONDS=0.100000000\n"
+        "DIAG_THREADS=openblas/:1\n"
+        "DIAG_PEAK_RSS_KB=26852\n"
+        "DIAG_ROUTINES=dpotrf,dpotri\n"
+        "DIAG_CHECKSUM=98243.764086\n"
+    )
+        with self.assertRaises(OutputError):
+            parse_output(stdout, implementation="openblas", operation="cholesky", thread_mode="default")
+
+    def test_thread_pools_missing_both_parts_rejected(self):
+        stdout = (
+        "RESULT_SECONDS=0.100000000\n"
+        "DIAG_THREADS=/libopenblas:1\n"
+        "DIAG_PEAK_RSS_KB=26852\n"
+        "DIAG_ROUTINES=dpotrf,dpotri\n"
+        "DIAG_CHECKSUM=98243.764086\n"
+    )
+        with self.assertRaises(OutputError):
+            parse_output(stdout, implementation="openblas", operation="cholesky", thread_mode="default")
+
     def test_valid_output_parses(self):
         parsed = parse_output(
             VALID_CHOLESKY_OPENBLAS,

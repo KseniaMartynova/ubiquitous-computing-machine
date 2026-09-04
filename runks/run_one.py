@@ -97,7 +97,8 @@ def parse_output(stdout_text, implementation, operation, thread_mode):
         left, right = entry.rsplit(":", 1)
         left = left.strip()
         right = right.strip()
-        if "/" not in left or not left:
+        parts=left.split("/")
+        if len(parts) != 2 or not parts[0] or not parts[1]:
             raise OutputError(f"Запись потоков должна иметь вид backend/prefix: {entry!r}")
         try:
             num_threads = int(right)
@@ -315,3 +316,4 @@ def main():
 if __name__ == "__main__":
     main()
 
+#dirty
