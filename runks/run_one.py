@@ -249,8 +249,17 @@ def main():
 
     swap_in_after = vmstat_counter("pswpin")
     swap_out_after = vmstat_counter("pswpout")
-    swap_in_pages = max(0, swap_in_after - swap_in_before)
-    swap_out_pages = max(0, swap_out_after - swap_out_before)
+    swap_in_pages = swap_in_after - swap_in_before
+
+    if swap_in_pages < 0:
+        print("Щшибка:разность pswin отрицательна", file=sys.stderr)
+        sys.exit(1)
+
+    swap_out_pages = swap_out_after - swap_out_before
+    if swap_out_after < 0:
+        print("Ошибка:разность pswout отрицательна", file=sys.stderr)
+        sys.exit(1)
+
     swap_observed = swap_in_pages > 0 or swap_out_pages > 0
 
     if result.returncode != 0:
