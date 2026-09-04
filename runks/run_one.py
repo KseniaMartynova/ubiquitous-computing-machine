@@ -257,7 +257,7 @@ def main():
 
     swap_out_pages = swap_out_after - swap_out_before
     if swap_out_after < 0:
-        print("Ошибка:разность pswout отрицательна", file=sys.stderr)
+        print("Ошибка:разность pspwout отрицательна", file=sys.stderr)
         sys.exit(1)
 
     swap_observed = swap_in_pages > 0 or swap_out_pages > 0
