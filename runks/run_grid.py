@@ -121,11 +121,6 @@ def build_schedule(sizes, repetitions, shuffle_seed):
 def check_row(row, expected):
     """
     Проверяет одну строку данных из run_one.py.
-
-    row — список из 23 строк.
-    expected — dict с ключами:
-        run_order, n, rep, image, implementation, operation,
-        thread_mode, shuffle_seed, commit
     """
     if len(row) != 23:
         raise GridError(
@@ -377,7 +372,7 @@ def main(argv=None):
 
     schedule = build_schedule(sizes, args.repetitions, args.shuffle_seed)
 
-    # --dry-run: печатаем расписание и выходим, ничего не трогаем
+    # --dry-run
     if args.dry_run:
         for entry in schedule:
             print(
@@ -422,7 +417,7 @@ def main(argv=None):
         )
         if res.returncode != 0:
             print(f"Ошибка: образ недоступен: {image}: {res.stderr.strip()}",
-                  file=sys.stderr)
+                   file=sys.stderr)
             return 1
 
     # чистота рабочего дерева

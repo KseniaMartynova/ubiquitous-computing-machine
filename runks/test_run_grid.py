@@ -88,7 +88,7 @@ def make_block_expected(num_runs=1, commit=COMMIT, thread_mode="default",
     }
 
 
-# ---------- 1–5: расписание ----------
+#  расписание
 
 class BuildScheduleTest(unittest.TestCase):
 
@@ -130,7 +130,7 @@ class BuildScheduleTest(unittest.TestCase):
         )
 
 
-# ---------- 6–7: разбор --sizes ----------
+# разбор --sizes 
 
 class ParseSizesTest(unittest.TestCase):
 
@@ -146,7 +146,7 @@ class ParseSizesTest(unittest.TestCase):
                 parse_sizes(bad)
 
 
-# ---------- 8–10: проверка одной строки ----------
+# проверка одной строки
 
 class CheckRowTest(unittest.TestCase):
 
@@ -174,7 +174,7 @@ class CheckRowTest(unittest.TestCase):
             check_row(row, expected)
 
 
-# ---------- 11–18: проверка блока ----------
+# проверка блока
 
 class CheckBlockTest(unittest.TestCase):
 
