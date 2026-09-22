@@ -224,7 +224,7 @@ def _collect_ldd(image, binary):
 
 def _collect_apt(image):
     packages = ["libopenblas-dev", "liblapack-dev", "liblapacke-dev"]
-    fmt = "-f=${binary:Package} ${Version}\\n"
+    fmt = "-f=${Package} ${Version}\\n"
     cmd = ["docker", "run", "--rm", "--entrypoint", "dpkg-query",
            image, "-W", fmt] + packages
     res = _run(cmd)
