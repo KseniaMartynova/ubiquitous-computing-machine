@@ -1,4 +1,4 @@
-FROM gcc:12.4   
+FROM gcc:12.4@sha256:fa4be2f0a762fb14cc745289227d29aa32f0b55057c301d0d61a5eba46c85d99
 RUN apt-get update && apt-get install -y \
         make \
         cmake \

@@ -1,4 +1,4 @@
-FROM intel/oneapi-basekit:2025.0.1-0-devel-ubuntu22.04 
+FROM intel/oneapi-basekit:2025.0.1-0-devel-ubuntu22.04@sha256:035efd4a8e4826c13ca3ebe277bc4af56a1df15b221621a0aeb4d774b33db5aa
 COPY mklMultiplication.cpp /usr/share/mkl/mklMultiplication.cpp
 WORKDIR /usr/share/mkl  
 RUN icpx -o mklmul mklMultiplication.cpp -I${MKLROOT}/include -L${MKLROOT}/lib/intel64 -lmkl_intel_lp64 -lmkl_core -lmkl_intel_thread -lpthread -lm -ldl -fopenmp
