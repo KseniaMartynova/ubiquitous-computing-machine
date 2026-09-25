@@ -13,6 +13,9 @@ import tempfile
 import time
 
 
+class ManifestError(Exception):
+    pass
+
 def _repo_root():
     return pathlib.Path(__file__).resolve().parent.parent
 
@@ -21,24 +24,23 @@ def _runks_dir():
     return pathlib.Path(__file__).resolve().parent
 
 
-def _import_run_grid():
+def _ensure_runks_on_path():
     runks_dir = _runks_dir()
     if str(runks_dir) not in sys.path:
         sys.path.insert(0, str(runks_dir))
+
+
+def _import_run_grid():
+    _ensure_runks_on_path()
     import run_grid
     return run_grid
 
 
 def _import_build_all():
-    runks_dir = _runks_dir()
-    if str(runks_dir) not in sys.path:
-        sys.path.insert(0, str(runks_dir))
+    _ensure_runks_on_path()
     import build_all
     return build_all
 
-
-class ManifestError(Exception):
-    pass
 
 
 def _run(cmd):
@@ -53,39 +55,159 @@ def _check_nonzero(result, what):
         )
 
 
-# machine
+
+
+def _logical_lines_text(text):
+ 
+    result = []
+    current = ""
+    for line in text.splitlines():
+        current = (current + " " + line.strip()) if current else line.strip()
+        if current.endswith("\\"):
+            current = current[:-1].rstrip()
+        else:
+            if current:
+                result.append(current)
+            current = ""
+    if current:
+        result.append(current)
+    return result
+
+
+def from_line(text):
+    for line in _logical_lines_text(text):
+        m = re.match(r"^FROM\s+(.+)$", line)
+        if m:
+            value = m.group(1).strip()
+            if "@sha256:" not in value:
+                raise ManifestError(f"FROM без digest: {value!r}")
+            return value
+    raise ManifestError("не найдена строка FROM")
+
+
+def compile_line(text):
+    """Возвращает единственную строку RUN с icpx или g++ """
+    candidates = []
+    for line in _logical_lines_text(text):
+        m = re.match(r"^RUN\s+(.+)$", line)
+        if m:
+            body = m.group(1).strip()
+            if "icpx" in body or "g++" in body:
+                candidates.append(body)
+    if len(candidates) != 1:
+        raise ManifestError(
+            f"ожидалась ровно одна строка RUN с icpx/g++, найдено "
+            f"{len(candidates)}"
+        )
+    return candidates[0]
+
+
+def entrypoint_binary(text):
+   
+    for line in _logical_lines_text(text):
+        m = re.match(r"^ENTRYPOINT\s+(.+)$", line)
+        if m:
+            body = m.group(1).strip()
+            try:
+                parsed = json.loads(body)
+            except json.JSONDecodeError as exc:
+                raise ManifestError(
+                    f"ENTRYPOINT не JSON-массив: {body!r}"
+                ) from exc
+            if isinstance(parsed, list) and len(parsed) == 1:
+                return parsed[0]
+            raise ManifestError(
+                f"ENTRYPOINT должен быть массивом из одного элемента: "
+                f"{parsed!r}"
+            )
+    raise ManifestError("не найдена строка ENTRYPOINT")
+
+
+def parse_lscpu(text):
+    fields = {}
+    for line in text.splitlines():
+        if ":" in line:
+            key, value = line.split(":", 1)
+            fields[key.strip()] = value.strip()
+    if "Model name" not in fields:
+        raise ManifestError("в lscpu нет строки 'Model name'")
+
+    def to_int(x):
+        try:
+            return int(x)
+        except (TypeError, ValueError):
+            return None
+
+    return {
+        "cpu_model": fields["Model name"],
+        "sockets": to_int(fields.get("Socket(s)")),
+        "cores_per_socket": to_int(fields.get("Core(s) per socket")),
+        "threads_per_core": to_int(fields.get("Thread(s) per core")),
+        "logical_cpus": to_int(fields.get("CPU(s)")),
+    }
+
+
+def parse_meminfo(text):
+    """Возвращает MemTotal и MemAvailable в килобайтах"""
+    values = {}
+    for line in text.splitlines():
+        if ":" in line:
+            key, value = line.split(":", 1)
+            values[key.strip()] = value.strip()
+    if "MemTotal" not in values:
+        raise ManifestError("в /proc/meminfo нет MemTotal")
+    if "MemAvailable" not in values:
+        raise ManifestError("в /proc/meminfo нет MemAvailable")
+    return {
+        "mem_total_kb": int(values["MemTotal"].split()[0]),
+        "mem_available_kb": int(values["MemAvailable"].split()[0]),
+    }
+
+
+def parse_dpkg(text, packages):
+    """Разбирает вывод dpkg-query -W"""
+    result = {}
+    for line in text.splitlines():
+        line = line.strip()
+        if not line:
+            continue
+        parts = line.split(None, 1)
+        if len(parts) == 2:
+            result[parts[0]] = parts[1]
+    for pkg in packages:
+        if pkg not in result:
+            raise ManifestError(
+                f"dpkg-query не вернул версию для {pkg}; "
+                f"получено: {sorted(result.keys())}"
+            )
+    return result
+
+
+def manifest_path(csv_path):
+    """x.csv -> x.manifest.json"""
+    p = pathlib.Path(csv_path)
+    if p.suffix != ".csv":
+        raise ManifestError(f"путь должен оканчиваться на .csv: {csv_path}")
+    return p.with_suffix(".manifest.json")
+
+
+def check_manifest_absent(path):
+
+    path = pathlib.Path(path)
+    if path.exists():
+        raise ManifestError(f"manifest уже существует: {path}")
+
+
 
 
 def _collect_machine():
     lscpu_res = _run(["lscpu"])
     _check_nonzero(lscpu_res, "machine: lscpu")
+    lscpu_fields = parse_lscpu(lscpu_res.stdout)
     lscpu_lines = [line for line in lscpu_res.stdout.splitlines() if line.strip()]
-    fields = {}
-    for line in lscpu_lines:
-        if ":" in line:
-            key, value = line.split(":", 1)
-            fields[key.strip()] = value.strip()
 
-    def to_int(x):
-        if x is None:
-            return None
-        try:
-            return int(x)
-        except ValueError:
-            return None
-
-    meminfo = {}
-    for line in pathlib.Path("/proc/meminfo").read_text().splitlines():
-        if ":" in line:
-            key, value = line.split(":", 1)
-            meminfo[key.strip()] = value.strip()
-
-    mem_total_kb = None
-    mem_available_kb = None
-    if "MemTotal" in meminfo:
-        mem_total_kb = int(meminfo["MemTotal"].split()[0])
-    if "MemAvailable" in meminfo:
-        mem_available_kb = int(meminfo["MemAvailable"].split()[0])
+    meminfo_text = pathlib.Path("/proc/meminfo").read_text()
+    mem = parse_meminfo(meminfo_text)
 
     governor = None
     governor_path = pathlib.Path(
@@ -103,14 +225,14 @@ def _collect_machine():
                 break
 
     return {
-        "cpu_model": fields.get("Model name"),
-        "sockets": to_int(fields.get("Socket(s)")),
-        "cores_per_socket": to_int(fields.get("Core(s) per socket")),
-        "threads_per_core": to_int(fields.get("Thread(s) per core")),
-        "logical_cpus": to_int(fields.get("CPU(s)")),
+        "cpu_model": lscpu_fields["cpu_model"],
+        "sockets": lscpu_fields["sockets"],
+        "cores_per_socket": lscpu_fields["cores_per_socket"],
+        "threads_per_core": lscpu_fields["threads_per_core"],
+        "logical_cpus": lscpu_fields["logical_cpus"],
         "host_cpu_count": os.cpu_count(),
-        "mem_total_kb": mem_total_kb,
-        "mem_available_kb": mem_available_kb,
+        "mem_total_kb": mem["mem_total_kb"],
+        "mem_available_kb": mem["mem_available_kb"],
         "governor": governor,
         "os": os_pretty,
         "kernel": platform.release(),
@@ -130,78 +252,6 @@ def _collect_tooling():
     }
 
 
-#dockerfile parsing
-
-
-def _logical_lines(raw_lines):
-    result = []
-    current = ""
-    for line in raw_lines:
-        if current:
-            current = current + " " + line.strip()
-        else:
-            current = line.strip()
-        if current.endswith("\\"):
-            current = current[:-1].rstrip()
-        else:
-            if current:
-                result.append(current)
-            current = ""
-    if current:
-        result.append(current)
-    return result
-
-
-def _read_dockerfile(path):
-    raw = path.read_text(encoding="utf-8").splitlines()
-    return _logical_lines(raw)
-
-
-def _extract_from(logical_lines, dockerfile_path):
-    for line in logical_lines:
-        m = re.match(r"^FROM\s+(.+)$", line)
-        if m:
-            return m.group(1).strip()
-    raise ManifestError(f"{dockerfile_path}: не найдена строка FROM")
-
-
-def _extract_compile(logical_lines, dockerfile_path):
-    candidates = []
-    for line in logical_lines:
-        m = re.match(r"^RUN\s+(.+)$", line)
-        if m:
-            body = m.group(1).strip()
-            if "icpx" in body or "g++" in body:
-                candidates.append(body)
-    if len(candidates) != 1:
-        raise ManifestError(
-            f"{dockerfile_path}: ожидалась одна строка RUN с icpx/g++, "
-            f"найдено {len(candidates)}"
-        )
-    return candidates[0]
-
-
-def _extract_entrypoint_binary(logical_lines, dockerfile_path):
-    for line in logical_lines:
-        m = re.match(r"^ENTRYPOINT\s+(.+)$", line)
-        if m:
-            body = m.group(1).strip()
-            try:
-                parsed = json.loads(body)
-            except json.JSONDecodeError as exc:
-                raise ManifestError(
-                    f"{dockerfile_path}: ENTRYPOINT не JSON-массив: {body!r}"
-                ) from exc
-            if isinstance(parsed, list) and len(parsed) == 1:
-                return parsed[0]
-            raise ManifestError(
-                f"{dockerfile_path}: ENTRYPOINT должен быть массивом из одного "
-                f"элемента: {parsed!r}"
-            )
-    raise ManifestError(f"{dockerfile_path}: не найдена строка ENTRYPOINT")
-
-
-#image inspectio
 
 
 def _image_id(image):
@@ -229,23 +279,7 @@ def _collect_apt(image):
            image, "-W", fmt] + packages
     res = _run(cmd)
     _check_nonzero(res, f"image {image}: dpkg-query")
-    result = {}
-    for line in res.stdout.splitlines():
-        line = line.strip()
-        if not line:
-            continue
-        parts = line.split(None, 1)
-        if len(parts) != 2:
-            raise ManifestError(
-                f"image {image}: неожиданный вывод dpkg-query: {line!r}"
-            )
-        result[parts[0]] = parts[1]
-    for pkg in packages:
-        if pkg not in result:
-            raise ManifestError(
-                f"image {image}: dpkg-query не вернул версию для {pkg}"
-            )
-    return result
+    return parse_dpkg(res.stdout, packages)
 
 
 def _collect_icpx_and_mklroot(image):
@@ -308,15 +342,15 @@ def _collect_image(image, implementation, build_dir, build_files):
             f"image {image}: Dockerfile не найден: {dockerfile_path}"
         )
 
-    logical = _read_dockerfile(dockerfile_path)
+    text = dockerfile_path.read_text(encoding="utf-8")
     info = {
         "id": _image_id(image),
-        "from": _extract_from(logical, dockerfile_path),
+        "from": from_line(text),
     }
 
     if implementation in ("mkl", "openblas"):
-        info["compile"] = _extract_compile(logical, dockerfile_path)
-        binary = _extract_entrypoint_binary(logical, dockerfile_path)
+        info["compile"] = compile_line(text)
+        binary = entrypoint_binary(text)
         info["ldd"] = _collect_ldd(image, binary)
 
     if implementation == "openblas":
@@ -331,10 +365,6 @@ def _collect_image(image, implementation, build_dir, build_files):
         info["python"] = _collect_python_packages(image)
 
     return info
-
-
-# pre-flight 
-
 
 def _check_docker():
     try:
@@ -388,9 +418,6 @@ def _git_head(repo_root):
     return head
 
 
-# main
-
-
 def main(argv=None):
     parser = argparse.ArgumentParser(
         description="Собрать manifest.json для блока измерений"
@@ -426,13 +453,15 @@ def main(argv=None):
         output_path = repo_root / output_path
     output_path = output_path.resolve()
 
-    if output_path.suffix != ".csv":
-        parser.error(f"--output должен оканчиваться на .csv: {output_path}")
+    try:
+        manifest_path_obj = manifest_path(output_path)
+    except ManifestError as exc:
+        parser.error(str(exc))
 
-    manifest_path = output_path.with_suffix(".manifest.json")
-
-    if manifest_path.exists():
-        raise SystemExit(f"Ошибка: manifest уже существует: {manifest_path}")
+    try:
+        check_manifest_absent(manifest_path_obj)
+    except ManifestError as exc:
+        raise SystemExit(f"Ошибка: {exc}")
 
     build_dir = repo_root / "runks" / "build"
     if not build_dir.exists():
@@ -479,7 +508,7 @@ def main(argv=None):
     except ValueError:
         output_rel = str(output_path)
 
-    manifest = {
+    manifest_data = {
         "created_utc": created_utc,
         "timezone": tz,
         "commit": commit,
@@ -492,27 +521,28 @@ def main(argv=None):
             "repetitions": args.repetitions,
             "thread_mode": args.thread_mode,
             "shuffle_seed": args.shuffle_seed,
-            "matrix_seed_rule": "seed = n; для multiplication вторая матрица n + 1",
+            "matrix_seed_rule":
+                "seed = n; для multiplication вторая матрица n + 1",
             "output": output_rel,
         },
     }
 
-    manifest_path.parent.mkdir(parents=True, exist_ok=True)
+    manifest_path_obj.parent.mkdir(parents=True, exist_ok=True)
     handle = tempfile.NamedTemporaryFile(
-        "w", dir=str(manifest_path.parent),
-        prefix=manifest_path.name + ".", suffix=".part",
+        "w", dir=str(manifest_path_obj.parent),
+        prefix=manifest_path_obj.name + ".", suffix=".part",
         delete=False, encoding="utf-8",
     )
     temp_path = pathlib.Path(handle.name)
     try:
-        json.dump(manifest, handle, ensure_ascii=False, indent=2)
+        json.dump(manifest_data, handle, ensure_ascii=False, indent=2)
         handle.write("\n")
         handle.close()
 
         with open(temp_path, encoding="utf-8") as f:
             json.load(f)
 
-        os.replace(str(temp_path), str(manifest_path))
+        os.replace(str(temp_path), str(manifest_path_obj))
     except BaseException:
         try:
             handle.close()
@@ -521,7 +551,7 @@ def main(argv=None):
         temp_path.unlink(missing_ok=True)
         raise
 
-    print(f"Manifest записан: {manifest_path}", file=sys.stderr)
+    print(f"Manifest записан: {manifest_path_obj}", file=sys.stderr)
     return 0
 
 

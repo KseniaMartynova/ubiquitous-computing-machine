@@ -25,6 +25,9 @@ BUILD_FILES = {
 def _repo_root():
     return pathlib.Path(__file__).resolve().parent.parent
 
+def validate_only_name(only, build_files):
+    if only is not None and only not in build_files:
+        raise SystemExit(f"Ошибка: неизвестный образ: {only}")
 
 def _import_combos():
     runks_dir = pathlib.Path(__file__).resolve().parent
@@ -35,7 +38,7 @@ def _import_combos():
 
 
 def _check_consistency(combos):
-    """BUILD_FILES и COMBOS должны описывать один и тот же набор образов."""
+    """BUILD_FILES и COMBOS должны описывать один и тот же набор образов"""
     combos_images = {c[0] for c in combos}
     build_images = set(BUILD_FILES.keys())
     if combos_images == build_images:
@@ -104,14 +107,13 @@ def main(argv=None):
         description="Собрать двенадцать образов одной командой"
     )
     parser.add_argument("--only",
-                        help="Собрать только указанный образ (для отладки)")
+                        help="Собрать только указанный образ")
     args = parser.parse_args(argv)
 
     combos = _import_combos()
     _check_consistency(combos)
 
-    if args.only and args.only not in BUILD_FILES:
-        raise SystemExit(f"Ошибка: неизвестный образ: {args.only}")
+    validate_only_name(args.only, BUILD_FILES)
 
     build_dir = _repo_root() / "runks" / "build"
     if not build_dir.exists():
