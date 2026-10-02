@@ -1,0 +1,394 @@
+{
+  "created_utc": "2026-09-25T14:48:24Z",
+  "timezone": "MSK +0300",
+  "commit": "3acd4c99614a3c5feea3bcda57012a1092583cc3",
+  "worktree_clean": true,
+  "machine": {
+    "cpu_model": "Intel(R) Xeon(R) Gold 6334 CPU @ 3.60GHz",
+    "sockets": 1,
+    "cores_per_socket": 8,
+    "threads_per_core": 2,
+    "logical_cpus": 16,
+    "host_cpu_count": 16,
+    "mem_total_kb": 263732508,
+    "mem_available_kb": 255004948,
+    "governor": "powersave",
+    "os": "Ubuntu 22.04.5 LTS",
+    "kernel": "6.8.0-106-generic",
+    "lscpu": [
+      "Architecture:                            x86_64",
+      "CPU op-mode(s):                          32-bit, 64-bit",
+      "Address sizes:                           46 bits physical, 57 bits virtual",
+      "Byte Order:                              Little Endian",
+      "CPU(s):                                  16",
+      "On-line CPU(s) list:                     0-15",
+      "Vendor ID:                               GenuineIntel",
+      "Model name:                              Intel(R) Xeon(R) Gold 6334 CPU @ 3.60GHz",
+      "CPU family:                              6",
+      "Model:                                   106",
+      "Thread(s) per core:                      2",
+      "Core(s) per socket:                      8",
+      "Socket(s):                               1",
+      "Stepping:                                6",
+      "CPU max MHz:                             3700,0000",
+      "CPU min MHz:                             800,0000",
+      "BogoMIPS:                                7200.00",
+      "Flags:                                   fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc art arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf pni pclmulqdq dtes64 monitor ds_cpl vmx smx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid dca sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm abm 3dnowprefetch cpuid_fault epb cat_l3 intel_ppin ssbd mba ibrs ibpb stibp ibrs_enhanced tpr_shadow flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid cqm rdt_a avx512f avx512dq rdseed adx smap avx512ifma clflushopt clwb intel_pt avx512cd sha_ni avx512bw avx512vl xsaveopt xsavec xgetbv1 xsaves cqm_llc cqm_occup_llc cqm_mbm_total cqm_mbm_local split_lock_detect wbnoinvd dtherm ida arat pln pts hwp hwp_act_window hwp_epp hwp_pkg_req vnmi avx512vbmi umip pku ospke avx512_vbmi2 gfni vaes vpclmulqdq avx512_vnni avx512_bitalg tme avx512_vpopcntdq la57 rdpid fsrm md_clear pconfig flush_l1d arch_capabilities",
+      "Virtualization:                          VT-x",
+      "L1d cache:                               384 KiB (8 instances)",
+      "L1i cache:                               256 KiB (8 instances)",
+      "L2 cache:                                10 MiB (8 instances)",
+      "L3 cache:                                18 MiB (1 instance)",
+      "NUMA node(s):                            2",
+      "NUMA node0 CPU(s):                       0-3,8-11",
+      "NUMA node1 CPU(s):                       4-7,12-15",
+      "Vulnerability Gather data sampling:      Mitigation; Microcode",
+      "Vulnerability Indirect target selection: Vulnerable",
+      "Vulnerability Itlb multihit:             Not affected",
+      "Vulnerability L1tf:                      Not affected",
+      "Vulnerability Mds:                       Not affected",
+      "Vulnerability Meltdown:                  Not affected",
+      "Vulnerability Mmio stale data:           Mitigation; Clear CPU buffers; SMT vulnerable",
+      "Vulnerability Reg file data sampling:    Not affected",
+      "Vulnerability Retbleed:                  Not affected",
+      "Vulnerability Spec rstack overflow:      Not affected",
+      "Vulnerability Spec store bypass:         Mitigation; Speculative Store Bypass disabled via prctl",
+      "Vulnerability Spectre v1:                Mitigation; usercopy/swapgs barriers and __user pointer sanitization",
+      "Vulnerability Spectre v2:                Mitigation; Enhanced / Automatic IBRS; IBPB conditional; PBRSB-eIBRS SW sequence; BHI SW loop, KVM SW loop",
+      "Vulnerability Srbds:                     Not affected",
+      "Vulnerability Tsa:                       Not affected",
+      "Vulnerability Tsx async abort:           Not affected",
+      "Vulnerability Vmscape:                   Not affected"
+    ],
+    "container_cpu_count": 16
+  },
+  "tooling": {
+    "docker": "29.2.1",
+    "python": "3.10.12 (main, Aug 31 2026, 10:18:17) [GCC 11.4.0]"
+  },
+  "images": {
+    "mkl_chol": {
+      "id": "sha256:c0c08db89bd570844494eff7a5319fedb1c78cc393b67194a7d21f6f9a85b3aa",
+      "from": "intel/oneapi-basekit:2025.0.1-0-devel-ubuntu22.04@sha256:035efd4a8e4826c13ca3ebe277bc4af56a1df15b221621a0aeb4d774b33db5aa",
+      "compile": "icpx -o mklcho mklCho.cpp -I${MKLROOT}/include -L${MKLROOT}/lib/intel64 -lmkl_intel_lp64 -lmkl_core -lmkl_intel_thread -lpthread -lm -ldl -fopenmp",
+      "ldd": [
+        "\tlinux-vdso.so.1 (0x00007ffc88125000)",
+        "\tlibmkl_intel_lp64.so.2 => /opt/intel/oneapi/mkl/2025.0/lib/libmkl_intel_lp64.so.2 (0x00007e4cab73c000)",
+        "\tlibmkl_core.so.2 => /opt/intel/oneapi/mkl/2025.0/lib/libmkl_core.so.2 (0x00007e4ca778b000)",
+        "\tlibmkl_intel_thread.so.2 => /opt/intel/oneapi/mkl/2025.0/lib/libmkl_intel_thread.so.2 (0x00007e4ca5475000)",
+        "\tlibm.so.6 => /lib/x86_64-linux-gnu/libm.so.6 (0x00007e4ca538a000)",
+        "\tlibstdc++.so.6 => /lib/x86_64-linux-gnu/libstdc++.so.6 (0x00007e4ca515e000)",
+        "\tlibgcc_s.so.1 => /lib/x86_64-linux-gnu/libgcc_s.so.1 (0x00007e4ca513e000)",
+        "\tlibiomp5.so => /opt/intel/oneapi/compiler/2025.0/lib/libiomp5.so (0x00007e4ca4c00000)",
+        "\tlibc.so.6 => /lib/x86_64-linux-gnu/libc.so.6 (0x00007e4ca49d7000)",
+        "\tlibdl.so.2 => /lib/x86_64-linux-gnu/libdl.so.2 (0x00007e4ca5137000)",
+        "\tlibpthread.so.0 => /lib/x86_64-linux-gnu/libpthread.so.0 (0x00007e4ca5132000)",
+        "\t/lib64/ld-linux-x86-64.so.2 (0x00007e4cac63e000)",
+        "\tlibrt.so.1 => /lib/x86_64-linux-gnu/librt.so.1 (0x00007e4ca512d000)"
+      ],
+      "icpx": "Intel(R) oneAPI DPC++/C++ Compiler 2025.0.4 (2025.0.4.20241205)\nTarget: x86_64-unknown-linux-gnu\nThread model: posix\nInstalledDir: /opt/intel/oneapi/compiler/2025.0/bin/compiler\nConfiguration file: /opt/intel/oneapi/compiler/2025.0/bin/compiler/../icpx.cfg",
+      "mklroot": "/opt/intel/oneapi/mkl/2025.0"
+    },
+    "lapack_chol": {
+      "id": "sha256:5086a75d9f2f229448b4e8eff0d4c640425f3ef5f69b29b19f0d7f94523118fb",
+      "from": "gcc:12.4@sha256:fa4be2f0a762fb14cc745289227d29aa32f0b55057c301d0d61a5eba46c85d99",
+      "compile": "g++ -O2 -o laCholez laCholez.cpp -lopenblas -llapacke -lm -lpthread",
+      "ldd": [
+        "\tlinux-vdso.so.1 (0x00007fff929d8000)",
+        "\tlibopenblas.so.0 => /lib/x86_64-linux-gnu/libopenblas.so.0 (0x000078a3b1328000)",
+        "\tliblapacke.so.3 => /lib/x86_64-linux-gnu/liblapacke.so.3 (0x000078a3b10d1000)",
+        "\tlibstdc++.so.6 => /usr/local/lib64/libstdc++.so.6 (0x000078a3b0eae000)",
+        "\tlibm.so.6 => /lib/x86_64-linux-gnu/libm.so.6 (0x000078a3b0dce000)",
+        "\tlibgcc_s.so.1 => /usr/local/lib64/libgcc_s.so.1 (0x000078a3b0dad000)",
+        "\tlibc.so.6 => /lib/x86_64-linux-gnu/libc.so.6 (0x000078a3b0bcc000)",
+        "\tlibgfortran.so.5 => /usr/local/lib64/libgfortran.so.5 (0x000078a3b0900000)",
+        "\t/lib64/ld-linux-x86-64.so.2 (0x000078a3b361d000)",
+        "\tlibblas.so.3 => /lib/x86_64-linux-gnu/libblas.so.3 (0x000078a3b089d000)",
+        "\tliblapack.so.3 => /lib/x86_64-linux-gnu/liblapack.so.3 (0x000078a3b01a2000)",
+        "\tlibtmglib.so.3 => /lib/x86_64-linux-gnu/libtmglib.so.3 (0x000078a3b013f000)",
+        "\tlibquadmath.so.0 => /usr/local/lib/../lib64/libquadmath.so.0 (0x000078a3b00f8000)"
+      ],
+      "apt": {
+        "liblapack-dev": "3.11.0-2",
+        "liblapacke-dev": "3.11.0-2",
+        "libopenblas-dev": "0.3.21+ds-4"
+      }
+    },
+    "numpy_chol": {
+      "id": "sha256:cce575399944e03c600409b2ecf9f2e1a764f7f0ec4a9f5ccf16fb87a069af67",
+      "from": "python:3.9@sha256:da5aee29682d12a6649f51c8d6f15b87deb3e6c524b923c41d0cb3304d07c913",
+      "python": {
+        "numpy": "1.26.4",
+        "scipy": "1.12.0",
+        "threadpoolctl": "3.6.0",
+        "pools": [
+          {
+            "user_api": "blas",
+            "internal_api": "openblas",
+            "num_threads": 16,
+            "prefix": "libopenblas",
+            "filepath": "/usr/local/lib/python3.9/site-packages/numpy.libs/libopenblas64_p-r0-0cf96a72.3.23.dev.so",
+            "version": "0.3.23.dev",
+            "threading_layer": "pthreads",
+            "architecture": "SkylakeX"
+          },
+          {
+            "user_api": "blas",
+            "internal_api": "openblas",
+            "num_threads": 16,
+            "prefix": "libopenblas",
+            "filepath": "/usr/local/lib/python3.9/site-packages/scipy.libs/libopenblasp-r0-23e5df77.3.21.dev.so",
+            "version": "0.3.21.dev",
+            "threading_layer": "pthreads",
+            "architecture": "SkylakeX"
+          }
+        ]
+      }
+    },
+    "mkl_lu": {
+      "id": "sha256:3b3a299b936181213e31f90775e4ad0d1d6d3a1ba22a6e7d63ed775bc2891e01",
+      "from": "intel/oneapi-basekit:2025.0.1-0-devel-ubuntu22.04@sha256:035efd4a8e4826c13ca3ebe277bc4af56a1df15b221621a0aeb4d774b33db5aa",
+      "compile": "icpx -o mkllu  mklLU.cpp -I${MKLROOT}/include -L${MKLROOT}/lib/intel64 -lmkl_intel_lp64 -lmkl_core -lmkl_intel_thread -lpthread -lm -ldl -fopenmp",
+      "ldd": [
+        "\tlinux-vdso.so.1 (0x00007ffd08789000)",
+        "\tlibmkl_intel_lp64.so.2 => /opt/intel/oneapi/mkl/2025.0/lib/libmkl_intel_lp64.so.2 (0x000079a8738ba000)",
+        "\tlibmkl_core.so.2 => /opt/intel/oneapi/mkl/2025.0/lib/libmkl_core.so.2 (0x000079a86f909000)",
+        "\tlibmkl_intel_thread.so.2 => /opt/intel/oneapi/mkl/2025.0/lib/libmkl_intel_thread.so.2 (0x000079a86d5f3000)",
+        "\tlibm.so.6 => /lib/x86_64-linux-gnu/libm.so.6 (0x000079a86d508000)",
+        "\tlibstdc++.so.6 => /lib/x86_64-linux-gnu/libstdc++.so.6 (0x000079a86d2dc000)",
+        "\tlibgcc_s.so.1 => /lib/x86_64-linux-gnu/libgcc_s.so.1 (0x000079a86d2bc000)",
+        "\tlibiomp5.so => /opt/intel/oneapi/compiler/2025.0/lib/libiomp5.so (0x000079a86ce00000)",
+        "\tlibc.so.6 => /lib/x86_64-linux-gnu/libc.so.6 (0x000079a86cbd7000)",
+        "\tlibdl.so.2 => /lib/x86_64-linux-gnu/libdl.so.2 (0x000079a86d2b5000)",
+        "\tlibpthread.so.0 => /lib/x86_64-linux-gnu/libpthread.so.0 (0x000079a86d2b0000)",
+        "\t/lib64/ld-linux-x86-64.so.2 (0x000079a8747bc000)",
+        "\tlibrt.so.1 => /lib/x86_64-linux-gnu/librt.so.1 (0x000079a86d2ab000)"
+      ],
+      "icpx": "Intel(R) oneAPI DPC++/C++ Compiler 2025.0.4 (2025.0.4.20241205)\nTarget: x86_64-unknown-linux-gnu\nThread model: posix\nInstalledDir: /opt/intel/oneapi/compiler/2025.0/bin/compiler\nConfiguration file: /opt/intel/oneapi/compiler/2025.0/bin/compiler/../icpx.cfg",
+      "mklroot": "/opt/intel/oneapi/mkl/2025.0"
+    },
+    "lapack_lu": {
+      "id": "sha256:d73cf9400cce68e86337d7a512ca9fe0c0b37cd0ec04e5ed0230bc2fb3b8fb48",
+      "from": "gcc:12.4@sha256:fa4be2f0a762fb14cc745289227d29aa32f0b55057c301d0d61a5eba46c85d99",
+      "compile": "g++ -O2 -o lapacklu lapack_lu.cpp -lopenblas -llapacke -lm -lpthread",
+      "ldd": [
+        "\tlinux-vdso.so.1 (0x00007ffd351e2000)",
+        "\tlibopenblas.so.0 => /lib/x86_64-linux-gnu/libopenblas.so.0 (0x0000724644d30000)",
+        "\tliblapacke.so.3 => /lib/x86_64-linux-gnu/liblapacke.so.3 (0x0000724644ad9000)",
+        "\tlibstdc++.so.6 => /usr/local/lib64/libstdc++.so.6 (0x00007246448b6000)",
+        "\tlibm.so.6 => /lib/x86_64-linux-gnu/libm.so.6 (0x00007246447d6000)",
+        "\tlibgcc_s.so.1 => /usr/local/lib64/libgcc_s.so.1 (0x00007246447b5000)",
+        "\tlibc.so.6 => /lib/x86_64-linux-gnu/libc.so.6 (0x00007246445d4000)",
+        "\tlibgfortran.so.5 => /usr/local/lib64/libgfortran.so.5 (0x0000724644308000)",
+        "\t/lib64/ld-linux-x86-64.so.2 (0x0000724647023000)",
+        "\tlibblas.so.3 => /lib/x86_64-linux-gnu/libblas.so.3 (0x00007246442a5000)",
+        "\tliblapack.so.3 => /lib/x86_64-linux-gnu/liblapack.so.3 (0x0000724643baa000)",
+        "\tlibtmglib.so.3 => /lib/x86_64-linux-gnu/libtmglib.so.3 (0x0000724643b47000)",
+        "\tlibquadmath.so.0 => /usr/local/lib/../lib64/libquadmath.so.0 (0x0000724643afe000)"
+      ],
+      "apt": {
+        "liblapack-dev": "3.11.0-2",
+        "liblapacke-dev": "3.11.0-2",
+        "libopenblas-dev": "0.3.21+ds-4"
+      }
+    },
+    "numpy_lu": {
+      "id": "sha256:7d9b2f3b2c71d7ec7381420e11d4bd1a4227354cf2608d2175faab91309eda3e",
+      "from": "python:3.9@sha256:da5aee29682d12a6649f51c8d6f15b87deb3e6c524b923c41d0cb3304d07c913",
+      "python": {
+        "numpy": "1.26.4",
+        "scipy": "1.12.0",
+        "threadpoolctl": "3.6.0",
+        "pools": [
+          {
+            "user_api": "blas",
+            "internal_api": "openblas",
+            "num_threads": 16,
+            "prefix": "libopenblas",
+            "filepath": "/usr/local/lib/python3.9/site-packages/numpy.libs/libopenblas64_p-r0-0cf96a72.3.23.dev.so",
+            "version": "0.3.23.dev",
+            "threading_layer": "pthreads",
+            "architecture": "SkylakeX"
+          },
+          {
+            "user_api": "blas",
+            "internal_api": "openblas",
+            "num_threads": 16,
+            "prefix": "libopenblas",
+            "filepath": "/usr/local/lib/python3.9/site-packages/scipy.libs/libopenblasp-r0-23e5df77.3.21.dev.so",
+            "version": "0.3.21.dev",
+            "threading_layer": "pthreads",
+            "architecture": "SkylakeX"
+          }
+        ]
+      }
+    },
+    "mkl_mul": {
+      "id": "sha256:4b43330eedee228de6134a425dc5db2b985a8a8d78649764a33fbb9676fbe7e8",
+      "from": "intel/oneapi-basekit:2025.0.1-0-devel-ubuntu22.04@sha256:035efd4a8e4826c13ca3ebe277bc4af56a1df15b221621a0aeb4d774b33db5aa",
+      "compile": "icpx -o mklmul mklMultiplication.cpp -I${MKLROOT}/include -L${MKLROOT}/lib/intel64 -lmkl_intel_lp64 -lmkl_core -lmkl_intel_thread -lpthread -lm -ldl -fopenmp",
+      "ldd": [
+        "\tlinux-vdso.so.1 (0x00007ffc08feb000)",
+        "\tlibmkl_intel_lp64.so.2 => /opt/intel/oneapi/mkl/2025.0/lib/libmkl_intel_lp64.so.2 (0x000074db7df0d000)",
+        "\tlibmkl_core.so.2 => /opt/intel/oneapi/mkl/2025.0/lib/libmkl_core.so.2 (0x000074db79f5c000)",
+        "\tlibmkl_intel_thread.so.2 => /opt/intel/oneapi/mkl/2025.0/lib/libmkl_intel_thread.so.2 (0x000074db77c46000)",
+        "\tlibm.so.6 => /lib/x86_64-linux-gnu/libm.so.6 (0x000074db77b5b000)",
+        "\tlibstdc++.so.6 => /lib/x86_64-linux-gnu/libstdc++.so.6 (0x000074db7792f000)",
+        "\tlibgcc_s.so.1 => /lib/x86_64-linux-gnu/libgcc_s.so.1 (0x000074db7790f000)",
+        "\tlibiomp5.so => /opt/intel/oneapi/compiler/2025.0/lib/libiomp5.so (0x000074db77400000)",
+        "\tlibc.so.6 => /lib/x86_64-linux-gnu/libc.so.6 (0x000074db771d7000)",
+        "\tlibdl.so.2 => /lib/x86_64-linux-gnu/libdl.so.2 (0x000074db77908000)",
+        "\tlibpthread.so.0 => /lib/x86_64-linux-gnu/libpthread.so.0 (0x000074db77903000)",
+        "\t/lib64/ld-linux-x86-64.so.2 (0x000074db7ee0f000)",
+        "\tlibrt.so.1 => /lib/x86_64-linux-gnu/librt.so.1 (0x000074db778fe000)"
+      ],
+      "icpx": "Intel(R) oneAPI DPC++/C++ Compiler 2025.0.4 (2025.0.4.20241205)\nTarget: x86_64-unknown-linux-gnu\nThread model: posix\nInstalledDir: /opt/intel/oneapi/compiler/2025.0/bin/compiler\nConfiguration file: /opt/intel/oneapi/compiler/2025.0/bin/compiler/../icpx.cfg",
+      "mklroot": "/opt/intel/oneapi/mkl/2025.0"
+    },
+    "lapack_mul": {
+      "id": "sha256:aceabb5f617ac8ab2a2b88f84ef775b466665f43a8b141e84d5670dfd1fc7f87",
+      "from": "gcc:12.4@sha256:fa4be2f0a762fb14cc745289227d29aa32f0b55057c301d0d61a5eba46c85d99",
+      "compile": "g++ -O2 -o lablasmul lablasmul.cpp -lopenblas -llapacke -lm -lpthread",
+      "ldd": [
+        "\tlinux-vdso.so.1 (0x00007ffee0936000)",
+        "\tlibopenblas.so.0 => /lib/x86_64-linux-gnu/libopenblas.so.0 (0x00007137d2ee8000)",
+        "\tliblapacke.so.3 => /lib/x86_64-linux-gnu/liblapacke.so.3 (0x00007137d2c91000)",
+        "\tlibstdc++.so.6 => /usr/local/lib64/libstdc++.so.6 (0x00007137d2a6e000)",
+        "\tlibm.so.6 => /lib/x86_64-linux-gnu/libm.so.6 (0x00007137d298e000)",
+        "\tlibgcc_s.so.1 => /usr/local/lib64/libgcc_s.so.1 (0x00007137d296d000)",
+        "\tlibc.so.6 => /lib/x86_64-linux-gnu/libc.so.6 (0x00007137d278a000)",
+        "\tlibgfortran.so.5 => /usr/local/lib64/libgfortran.so.5 (0x00007137d24be000)",
+        "\t/lib64/ld-linux-x86-64.so.2 (0x00007137d51d9000)",
+        "\tlibblas.so.3 => /lib/x86_64-linux-gnu/libblas.so.3 (0x00007137d245b000)",
+        "\tliblapack.so.3 => /lib/x86_64-linux-gnu/liblapack.so.3 (0x00007137d1d60000)",
+        "\tlibtmglib.so.3 => /lib/x86_64-linux-gnu/libtmglib.so.3 (0x00007137d1cfd000)",
+        "\tlibquadmath.so.0 => /usr/local/lib/../lib64/libquadmath.so.0 (0x00007137d1cb4000)"
+      ],
+      "apt": {
+        "liblapack-dev": "3.11.0-2",
+        "liblapacke-dev": "3.11.0-2",
+        "libopenblas-dev": "0.3.21+ds-4"
+      }
+    },
+    "numpy_mul": {
+      "id": "sha256:7354e4699235ede5009e50d868cfbfd9d0b7308431aa5c2b672417e53640e115",
+      "from": "python:3.9@sha256:da5aee29682d12a6649f51c8d6f15b87deb3e6c524b923c41d0cb3304d07c913",
+      "python": {
+        "numpy": "1.26.4",
+        "scipy": "1.12.0",
+        "threadpoolctl": "3.6.0",
+        "pools": [
+          {
+            "user_api": "blas",
+            "internal_api": "openblas",
+            "num_threads": 16,
+            "prefix": "libopenblas",
+            "filepath": "/usr/local/lib/python3.9/site-packages/numpy.libs/libopenblas64_p-r0-0cf96a72.3.23.dev.so",
+            "version": "0.3.23.dev",
+            "threading_layer": "pthreads",
+            "architecture": "SkylakeX"
+          },
+          {
+            "user_api": "blas",
+            "internal_api": "openblas",
+            "num_threads": 16,
+            "prefix": "libopenblas",
+            "filepath": "/usr/local/lib/python3.9/site-packages/scipy.libs/libopenblasp-r0-23e5df77.3.21.dev.so",
+            "version": "0.3.21.dev",
+            "threading_layer": "pthreads",
+            "architecture": "SkylakeX"
+          }
+        ]
+      }
+    },
+    "mkl_svd": {
+      "id": "sha256:18c81636a927d3510ce0bb882bbb38f67830e34f47c55402843fae2bef59ee32",
+      "from": "intel/oneapi-basekit:2025.0.1-0-devel-ubuntu22.04@sha256:035efd4a8e4826c13ca3ebe277bc4af56a1df15b221621a0aeb4d774b33db5aa",
+      "compile": "icpx -o mklsvd mklSVD.cpp -I${MKLROOT}/include -L${MKLROOT}/lib/intel64 -lmkl_intel_lp64 -lmkl_core -lmkl_intel_thread -lpthread -lm -ldl -fopenmp",
+      "ldd": [
+        "\tlinux-vdso.so.1 (0x00007ffc38173000)",
+        "\tlibmkl_intel_lp64.so.2 => /opt/intel/oneapi/mkl/2025.0/lib/libmkl_intel_lp64.so.2 (0x0000766bb85e4000)",
+        "\tlibmkl_core.so.2 => /opt/intel/oneapi/mkl/2025.0/lib/libmkl_core.so.2 (0x0000766bb4633000)",
+        "\tlibmkl_intel_thread.so.2 => /opt/intel/oneapi/mkl/2025.0/lib/libmkl_intel_thread.so.2 (0x0000766bb231d000)",
+        "\tlibm.so.6 => /lib/x86_64-linux-gnu/libm.so.6 (0x0000766bb2232000)",
+        "\tlibstdc++.so.6 => /lib/x86_64-linux-gnu/libstdc++.so.6 (0x0000766bb2006000)",
+        "\tlibgcc_s.so.1 => /lib/x86_64-linux-gnu/libgcc_s.so.1 (0x0000766bb1fe6000)",
+        "\tlibiomp5.so => /opt/intel/oneapi/compiler/2025.0/lib/libiomp5.so (0x0000766bb1a00000)",
+        "\tlibc.so.6 => /lib/x86_64-linux-gnu/libc.so.6 (0x0000766bb17d7000)",
+        "\tlibdl.so.2 => /lib/x86_64-linux-gnu/libdl.so.2 (0x0000766bb1fdf000)",
+        "\tlibpthread.so.0 => /lib/x86_64-linux-gnu/libpthread.so.0 (0x0000766bb1fda000)",
+        "\t/lib64/ld-linux-x86-64.so.2 (0x0000766bb94e6000)",
+        "\tlibrt.so.1 => /lib/x86_64-linux-gnu/librt.so.1 (0x0000766bb1fd5000)"
+      ],
+      "icpx": "Intel(R) oneAPI DPC++/C++ Compiler 2025.0.4 (2025.0.4.20241205)\nTarget: x86_64-unknown-linux-gnu\nThread model: posix\nInstalledDir: /opt/intel/oneapi/compiler/2025.0/bin/compiler\nConfiguration file: /opt/intel/oneapi/compiler/2025.0/bin/compiler/../icpx.cfg",
+      "mklroot": "/opt/intel/oneapi/mkl/2025.0"
+    },
+    "lapack_svd": {
+      "id": "sha256:db156db802fe1588dd69e6b1f9e9af8acd3266c7f0af3110953b7f658104530d",
+      "from": "gcc:12.4@sha256:fa4be2f0a762fb14cc745289227d29aa32f0b55057c301d0d61a5eba46c85d99",
+      "compile": "g++ -O2 -o lablassvd lablasSvd.cpp -fopenmp -lopenblas -llapacke -lm -lpthread",
+      "ldd": [
+        "\tlinux-vdso.so.1 (0x00007fffa8a2c000)",
+        "\tlibopenblas.so.0 => /lib/x86_64-linux-gnu/libopenblas.so.0 (0x000074a884498000)",
+        "\tliblapacke.so.3 => /lib/x86_64-linux-gnu/liblapacke.so.3 (0x000074a884241000)",
+        "\tlibstdc++.so.6 => /usr/local/lib64/libstdc++.so.6 (0x000074a88401e000)",
+        "\tlibm.so.6 => /lib/x86_64-linux-gnu/libm.so.6 (0x000074a883f3e000)",
+        "\tlibgomp.so.1 => /usr/local/lib64/libgomp.so.1 (0x000074a883ef6000)",
+        "\tlibgcc_s.so.1 => /usr/local/lib64/libgcc_s.so.1 (0x000074a883ed5000)",
+        "\tlibc.so.6 => /lib/x86_64-linux-gnu/libc.so.6 (0x000074a883cf4000)",
+        "\tlibgfortran.so.5 => /usr/local/lib64/libgfortran.so.5 (0x000074a883a28000)",
+        "\t/lib64/ld-linux-x86-64.so.2 (0x000074a88678b000)",
+        "\tlibblas.so.3 => /lib/x86_64-linux-gnu/libblas.so.3 (0x000074a8839c5000)",
+        "\tliblapack.so.3 => /lib/x86_64-linux-gnu/liblapack.so.3 (0x000074a8832ca000)",
+        "\tlibtmglib.so.3 => /lib/x86_64-linux-gnu/libtmglib.so.3 (0x000074a883267000)",
+        "\tlibquadmath.so.0 => /usr/local/lib/../lib64/libquadmath.so.0 (0x000074a88321e000)"
+      ],
+      "apt": {
+        "liblapack-dev": "3.11.0-2",
+        "liblapacke-dev": "3.11.0-2",
+        "libopenblas-dev": "0.3.21+ds-4"
+      }
+    },
+    "numpy_svd": {
+      "id": "sha256:d0d41cfaf5d502d11ab6e8d306654565e9fc2b3dbbae0b62ab302701c3d9966c",
+      "from": "python:3.9@sha256:da5aee29682d12a6649f51c8d6f15b87deb3e6c524b923c41d0cb3304d07c913",
+      "python": {
+        "numpy": "1.26.4",
+        "scipy": "1.12.0",
+        "threadpoolctl": "3.6.0",
+        "pools": [
+          {
+            "user_api": "blas",
+            "internal_api": "openblas",
+            "num_threads": 16,
+            "prefix": "libopenblas",
+            "filepath": "/usr/local/lib/python3.9/site-packages/numpy.libs/libopenblas64_p-r0-0cf96a72.3.23.dev.so",
+            "version": "0.3.23.dev",
+            "threading_layer": "pthreads",
+            "architecture": "SkylakeX"
+          },
+          {
+            "user_api": "blas",
+            "internal_api": "openblas",
+            "num_threads": 16,
+            "prefix": "libopenblas",
+            "filepath": "/usr/local/lib/python3.9/site-packages/scipy.libs/libopenblasp-r0-23e5df77.3.21.dev.so",
+            "version": "0.3.21.dev",
+            "threading_layer": "pthreads",
+            "architecture": "SkylakeX"
+          }
+        ]
+      }
+    }
+  },
+  "block": {
+    "sizes": [
+      2500
+    ],
+    "repetitions": 3,
+    "thread_mode": "default",
+    "shuffle_seed": 20260818,
+    "matrix_seed_rule": "seed = n; для multiplication вторая матрица n + 1",
+    "output": "results/pilot-default.csv"
+  }
+}
