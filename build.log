@@ -1,0 +1,456 @@
+ mkl_chol <- /home/ksenia/ksenia/ubiquitous-computing-machine/runks/build/mkl/cholesky/Dockerfile.mklcho
+#0 building with "default" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile.mklcho
+#1 transferring dockerfile: 415B done
+#1 DONE 0.0s
+
+#2 [internal] load metadata for docker.io/intel/oneapi-basekit:2025.0.1-0-devel-ubuntu22.04@sha256:035efd4a8e4826c13ca3ebe277bc4af56a1df15b221621a0aeb4d774b33db5aa
+#2 DONE 0.0s
+
+#3 [internal] load .dockerignore
+#3 transferring context: 2B done
+#3 DONE 0.0s
+
+#4 [1/4] FROM docker.io/intel/oneapi-basekit:2025.0.1-0-devel-ubuntu22.04@sha256:035efd4a8e4826c13ca3ebe277bc4af56a1df15b221621a0aeb4d774b33db5aa
+#4 DONE 0.0s
+
+#5 [internal] load build context
+#5 transferring context: 3.56kB done
+#5 DONE 0.0s
+
+#6 [3/4] WORKDIR /usr/share/mkl
+#6 CACHED
+
+#7 [2/4] COPY mklCho.cpp /usr/share/mkl/mklCho.cpp
+#7 CACHED
+
+#8 [4/4] RUN icpx -o mklcho mklCho.cpp -I/opt/intel/oneapi/mkl/2025.0/include -L/opt/intel/oneapi/mkl/2025.0/lib/intel64 -lmkl_intel_lp64 -lmkl_core -lmkl_intel_thread -lpthread -lm -ldl -fopenmp
+#8 CACHED
+
+#9 exporting to image
+#9 exporting layers done
+#9 writing image sha256:c0c08db89bd570844494eff7a5319fedb1c78cc393b67194a7d21f6f9a85b3aa done
+#9 naming to docker.io/library/mkl_chol done
+#9 DONE 0.0s
+ lapack_chol <- /home/ksenia/ksenia/ubiquitous-computing-machine/runks/build/lapack/cholesky/Dockerfile.lachol
+#0 building with "default" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile.lachol
+#1 transferring dockerfile: 540B done
+#1 DONE 0.0s
+
+#2 [internal] load metadata for docker.io/library/gcc:12.4@sha256:fa4be2f0a762fb14cc745289227d29aa32f0b55057c301d0d61a5eba46c85d99
+#2 DONE 1.0s
+
+#3 [internal] load .dockerignore
+#3 transferring context: 2B done
+#3 DONE 0.0s
+
+#4 [1/5] FROM docker.io/library/gcc:12.4@sha256:fa4be2f0a762fb14cc745289227d29aa32f0b55057c301d0d61a5eba46c85d99
+#4 DONE 0.0s
+
+#5 [internal] load build context
+#5 transferring context: 2.95kB done
+#5 DONE 0.0s
+
+#6 [2/5] RUN apt-get update && apt-get install -y         make         cmake         git         libopenblas-dev=0.3.21+ds-4         liblapack-dev=3.11.0-2         liblapacke-dev=3.11.0-2         && rm -rf /var/lib/apt/lists/*
+#6 CACHED
+
+#7 [4/5] COPY laCholez.cpp /usr/share/lapack/laCholez.cpp
+#7 CACHED
+
+#8 [3/5] WORKDIR /usr/share/lapack
+#8 CACHED
+
+#9 [5/5] RUN g++ -O2 -o laCholez laCholez.cpp -lopenblas -llapacke -lm -lpthread
+#9 CACHED
+
+#10 exporting to image
+#10 exporting layers done
+#10 writing image sha256:5086a75d9f2f229448b4e8eff0d4c640425f3ef5f69b29b19f0d7f94523118fb done
+#10 naming to docker.io/library/lapack_chol done
+#10 DONE 0.0s
+ numpy_chol <- /home/ksenia/ksenia/ubiquitous-computing-machine/runks/build/numpy/cholesky/Dockerfile.numcho
+#0 building with "default" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile.numcho
+#1 transferring dockerfile: 327B done
+#1 DONE 0.0s
+
+#2 [internal] load metadata for docker.io/library/python:3.9@sha256:da5aee29682d12a6649f51c8d6f15b87deb3e6c524b923c41d0cb3304d07c913
+#2 DONE 0.8s
+
+#3 [internal] load .dockerignore
+#3 transferring context: 2B done
+#3 DONE 0.0s
+
+#4 [1/5] FROM docker.io/library/python:3.9@sha256:da5aee29682d12a6649f51c8d6f15b87deb3e6c524b923c41d0cb3304d07c913
+#4 DONE 0.0s
+
+#5 [internal] load build context
+#5 transferring context: 3.36kB done
+#5 DONE 0.0s
+
+#6 [3/5] RUN pip install --no-cache-dir -r requirements.txt
+#6 CACHED
+
+#7 [4/5] COPY numCho.py /usr/share/num/numCho.py
+#7 CACHED
+
+#8 [2/5] COPY requirements.txt .
+#8 CACHED
+
+#9 [5/5] WORKDIR /usr/share/num
+#9 CACHED
+
+#10 exporting to image
+#10 exporting layers done
+#10 writing image sha256:cce575399944e03c600409b2ecf9f2e1a764f7f0ec4a9f5ccf16fb87a069af67 done
+#10 naming to docker.io/library/numpy_chol done
+#10 DONE 0.0s
+ mkl_lu <- /home/ksenia/ksenia/ubiquitous-computing-machine/runks/build/mkl/lu/Dockerfile.mkllu
+#0 building with "default" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile.mkllu
+#1 transferring dockerfile: 410B done
+#1 DONE 0.0s
+
+#2 [internal] load metadata for docker.io/intel/oneapi-basekit:2025.0.1-0-devel-ubuntu22.04@sha256:035efd4a8e4826c13ca3ebe277bc4af56a1df15b221621a0aeb4d774b33db5aa
+#2 DONE 0.0s
+
+#3 [internal] load .dockerignore
+#3 transferring context: 2B done
+#3 DONE 0.0s
+
+#4 [1/4] FROM docker.io/intel/oneapi-basekit:2025.0.1-0-devel-ubuntu22.04@sha256:035efd4a8e4826c13ca3ebe277bc4af56a1df15b221621a0aeb4d774b33db5aa
+#4 DONE 0.0s
+
+#5 [internal] load build context
+#5 transferring context: 3.37kB done
+#5 DONE 0.0s
+
+#6 [2/4] COPY mklLU.cpp /usr/share/mkl/mklLU.cpp
+#6 CACHED
+
+#7 [3/4] WORKDIR /usr/share/mkl
+#7 CACHED
+
+#8 [4/4] RUN icpx -o mkllu  mklLU.cpp -I/opt/intel/oneapi/mkl/2025.0/include -L/opt/intel/oneapi/mkl/2025.0/lib/intel64 -lmkl_intel_lp64 -lmkl_core -lmkl_intel_thread -lpthread -lm -ldl -fopenmp
+#8 CACHED
+
+#9 exporting to image
+#9 exporting layers done
+#9 writing image sha256:3b3a299b936181213e31f90775e4ad0d1d6d3a1ba22a6e7d63ed775bc2891e01 done
+#9 naming to docker.io/library/mkl_lu done
+#9 DONE 0.0s
+ lapack_lu <- /home/ksenia/ksenia/ubiquitous-computing-machine/runks/build/lapack/lu/Dockerfile.lapackLU
+#0 building with "default" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile.lapackLU
+#1 transferring dockerfile: 545B done
+#1 DONE 0.0s
+
+#2 [internal] load metadata for docker.io/library/gcc:12.4@sha256:fa4be2f0a762fb14cc745289227d29aa32f0b55057c301d0d61a5eba46c85d99
+#2 DONE 0.0s
+
+#3 [internal] load .dockerignore
+#3 transferring context: 2B done
+#3 DONE 0.0s
+
+#4 [1/5] FROM docker.io/library/gcc:12.4@sha256:fa4be2f0a762fb14cc745289227d29aa32f0b55057c301d0d61a5eba46c85d99
+#4 DONE 0.0s
+
+#5 [internal] load build context
+#5 transferring context: 3.02kB done
+#5 DONE 0.0s
+
+#6 [2/5] RUN apt-get update && apt-get install -y         make         cmake         git         libopenblas-dev=0.3.21+ds-4         liblapack-dev=3.11.0-2         liblapacke-dev=3.11.0-2         && rm -rf /var/lib/apt/lists/*
+#6 CACHED
+
+#7 [4/5] COPY lapack_lu.cpp /usr/share/lapack/lapack_lu.cpp
+#7 CACHED
+
+#8 [3/5] WORKDIR /usr/share/lapack
+#8 CACHED
+
+#9 [5/5] RUN g++ -O2 -o lapacklu lapack_lu.cpp -lopenblas -llapacke -lm -lpthread
+#9 CACHED
+
+#10 exporting to image
+#10 exporting layers done
+#10 writing image sha256:d73cf9400cce68e86337d7a512ca9fe0c0b37cd0ec04e5ed0230bc2fb3b8fb48 done
+#10 naming to docker.io/library/lapack_lu done
+#10 DONE 0.0s
+ numpy_lu <- /home/ksenia/ksenia/ubiquitous-computing-machine/runks/build/numpy/lu/Dockerfile.numlu
+#0 building with "default" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile.numlu
+#1 transferring dockerfile: 284B done
+#1 DONE 0.0s
+
+#2 [internal] load metadata for docker.io/library/python:3.9@sha256:da5aee29682d12a6649f51c8d6f15b87deb3e6c524b923c41d0cb3304d07c913
+#2 DONE 0.0s
+
+#3 [internal] load .dockerignore
+#3 transferring context: 2B done
+#3 DONE 0.0s
+
+#4 [1/5] FROM docker.io/library/python:3.9@sha256:da5aee29682d12a6649f51c8d6f15b87deb3e6c524b923c41d0cb3304d07c913
+#4 DONE 0.0s
+
+#5 [internal] load build context
+#5 transferring context: 2.82kB done
+#5 DONE 0.0s
+
+#6 [3/5] COPY requirements.txt .
+#6 CACHED
+
+#7 [2/5] WORKDIR /app
+#7 CACHED
+
+#8 [4/5] RUN pip install --no-cache-dir -r requirements.txt
+#8 CACHED
+
+#9 [5/5] COPY numlu.py /app/numlu.py
+#9 CACHED
+
+#10 exporting to image
+#10 exporting layers done
+#10 writing image sha256:7d9b2f3b2c71d7ec7381420e11d4bd1a4227354cf2608d2175faab91309eda3e done
+#10 naming to docker.io/library/numpy_lu done
+#10 DONE 0.0s
+ mkl_mul <- /home/ksenia/ksenia/ubiquitous-computing-machine/runks/build/mkl/multiplication/Dockerfile.mklmul
+#0 building with "default" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile.mklmul
+#1 transferring dockerfile: 448B done
+#1 DONE 0.0s
+
+#2 [internal] load metadata for docker.io/intel/oneapi-basekit:2025.0.1-0-devel-ubuntu22.04@sha256:035efd4a8e4826c13ca3ebe277bc4af56a1df15b221621a0aeb4d774b33db5aa
+#2 DONE 0.0s
+
+#3 [internal] load .dockerignore
+#3 transferring context: 2B done
+#3 DONE 0.0s
+
+#4 [1/4] FROM docker.io/intel/oneapi-basekit:2025.0.1-0-devel-ubuntu22.04@sha256:035efd4a8e4826c13ca3ebe277bc4af56a1df15b221621a0aeb4d774b33db5aa
+#4 DONE 0.0s
+
+#5 [internal] load build context
+#5 transferring context: 3.02kB done
+#5 DONE 0.0s
+
+#6 [2/4] COPY mklMultiplication.cpp /usr/share/mkl/mklMultiplication.cpp
+#6 CACHED
+
+#7 [3/4] WORKDIR /usr/share/mkl
+#7 CACHED
+
+#8 [4/4] RUN icpx -o mklmul mklMultiplication.cpp -I/opt/intel/oneapi/mkl/2025.0/include -L/opt/intel/oneapi/mkl/2025.0/lib/intel64 -lmkl_intel_lp64 -lmkl_core -lmkl_intel_thread -lpthread -lm -ldl -fopenmp
+#8 CACHED
+
+#9 exporting to image
+#9 exporting layers done
+#9 writing image sha256:4b43330eedee228de6134a425dc5db2b985a8a8d78649764a33fbb9676fbe7e8 done
+#9 naming to docker.io/library/mkl_mul done
+#9 DONE 0.0s
+ lapack_mul <- /home/ksenia/ksenia/ubiquitous-computing-machine/runks/build/lapack/multiplication/Dockerfile.lamul
+#0 building with "default" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile.lamul
+#1 transferring dockerfile: 545B done
+#1 DONE 0.0s
+
+#2 [internal] load metadata for docker.io/library/gcc:12.4@sha256:fa4be2f0a762fb14cc745289227d29aa32f0b55057c301d0d61a5eba46c85d99
+#2 DONE 0.0s
+
+#3 [internal] load .dockerignore
+#3 transferring context: 2B done
+#3 DONE 0.0s
+
+#4 [1/5] FROM docker.io/library/gcc:12.4@sha256:fa4be2f0a762fb14cc745289227d29aa32f0b55057c301d0d61a5eba46c85d99
+#4 DONE 0.0s
+
+#5 [internal] load build context
+#5 transferring context: 3.04kB done
+#5 DONE 0.0s
+
+#6 [2/5] RUN apt-get update && apt-get install -y         make         cmake         git         libopenblas-dev=0.3.21+ds-4         liblapack-dev=3.11.0-2         liblapacke-dev=3.11.0-2         && rm -rf /var/lib/apt/lists/*
+#6 CACHED
+
+#7 [3/5] WORKDIR /usr/share/lapack
+#7 CACHED
+
+#8 [4/5] COPY lablasmul.cpp /usr/share/lapack/lablasmul.cpp
+#8 CACHED
+
+#9 [5/5] RUN g++ -O2 -o lablasmul lablasmul.cpp -lopenblas -llapacke -lm -lpthread
+#9 CACHED
+
+#10 exporting to image
+#10 exporting layers done
+#10 writing image sha256:aceabb5f617ac8ab2a2b88f84ef775b466665f43a8b141e84d5670dfd1fc7f87 done
+#10 naming to docker.io/library/lapack_mul done
+#10 DONE 0.0s
+ numpy_mul <- /home/ksenia/ksenia/ubiquitous-computing-machine/runks/build/numpy/multiplication/Dockerfile.nummul
+#0 building with "default" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile.nummul
+#1 transferring dockerfile: 327B done
+#1 DONE 0.0s
+
+#2 [internal] load metadata for docker.io/library/python:3.9@sha256:da5aee29682d12a6649f51c8d6f15b87deb3e6c524b923c41d0cb3304d07c913
+#2 DONE 0.0s
+
+#3 [internal] load .dockerignore
+#3 transferring context: 2B done
+#3 DONE 0.0s
+
+#4 [1/5] FROM docker.io/library/python:3.9@sha256:da5aee29682d12a6649f51c8d6f15b87deb3e6c524b923c41d0cb3304d07c913
+#4 DONE 0.0s
+
+#5 [internal] load build context
+#5 transferring context: 2.90kB done
+#5 DONE 0.0s
+
+#6 [2/5] COPY requirements.txt .
+#6 CACHED
+
+#7 [3/5] RUN pip install --no-cache-dir -r requirements.txt
+#7 CACHED
+
+#8 [4/5] COPY nummul.py /usr/share/num/nummul.py
+#8 CACHED
+
+#9 [5/5] WORKDIR /usr/share/num
+#9 CACHED
+
+#10 exporting to image
+#10 exporting layers done
+#10 writing image sha256:7354e4699235ede5009e50d868cfbfd9d0b7308431aa5c2b672417e53640e115 done
+#10 naming to docker.io/library/numpy_mul done
+#10 DONE 0.0s
+ mkl_svd <- /home/ksenia/ksenia/ubiquitous-computing-machine/runks/build/mkl/svd/Dockerfile.mklsvd
+#0 building with "default" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile.mklsvd
+#1 transferring dockerfile: 415B done
+#1 DONE 0.0s
+
+#2 [internal] load metadata for docker.io/intel/oneapi-basekit:2025.0.1-0-devel-ubuntu22.04@sha256:035efd4a8e4826c13ca3ebe277bc4af56a1df15b221621a0aeb4d774b33db5aa
+#2 DONE 0.0s
+
+#3 [internal] load .dockerignore
+#3 transferring context: 2B done
+#3 DONE 0.0s
+
+#4 [1/4] FROM docker.io/intel/oneapi-basekit:2025.0.1-0-devel-ubuntu22.04@sha256:035efd4a8e4826c13ca3ebe277bc4af56a1df15b221621a0aeb4d774b33db5aa
+#4 DONE 0.0s
+
+#5 [internal] load build context
+#5 transferring context: 4.50kB done
+#5 DONE 0.0s
+
+#6 [3/4] WORKDIR /usr/share/mkl
+#6 CACHED
+
+#7 [2/4] COPY mklSVD.cpp /usr/share/mkl/mklSVD.cpp
+#7 CACHED
+
+#8 [4/4] RUN icpx -o mklsvd mklSVD.cpp -I/opt/intel/oneapi/mkl/2025.0/include -L/opt/intel/oneapi/mkl/2025.0/lib/intel64 -lmkl_intel_lp64 -lmkl_core -lmkl_intel_thread -lpthread -lm -ldl -fopenmp
+#8 CACHED
+
+#9 exporting to image
+#9 exporting layers done
+#9 writing image sha256:18c81636a927d3510ce0bb882bbb38f67830e34f47c55402843fae2bef59ee32 done
+#9 naming to docker.io/library/mkl_svd done
+#9 DONE 0.0s
+ lapack_svd <- /home/ksenia/ksenia/ubiquitous-computing-machine/runks/build/lapack/svd/Dockerfile.lasvd
+#0 building with "default" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile.lasvd
+#1 transferring dockerfile: 553B done
+#1 DONE 0.0s
+
+#2 [internal] load metadata for docker.io/library/gcc:12.4@sha256:fa4be2f0a762fb14cc745289227d29aa32f0b55057c301d0d61a5eba46c85d99
+#2 DONE 0.0s
+
+#3 [internal] load .dockerignore
+#3 transferring context: 2B done
+#3 DONE 0.0s
+
+#4 [1/5] FROM docker.io/library/gcc:12.4@sha256:fa4be2f0a762fb14cc745289227d29aa32f0b55057c301d0d61a5eba46c85d99
+#4 DONE 0.0s
+
+#5 [internal] load build context
+#5 transferring context: 4.02kB done
+#5 DONE 0.0s
+
+#6 [3/5] WORKDIR /usr/share/lapack
+#6 CACHED
+
+#7 [4/5] COPY lablasSvd.cpp /usr/share/lapack/lablasSvd.cpp
+#7 CACHED
+
+#8 [2/5] RUN apt-get update && apt-get install -y         make         cmake         git         libopenblas-dev=0.3.21+ds-4         liblapack-dev=3.11.0-2         liblapacke-dev=3.11.0-2         && rm -rf /var/lib/apt/lists/*
+#8 CACHED
+
+#9 [5/5] RUN g++ -O2 -o lablassvd lablasSvd.cpp -fopenmp -lopenblas -llapacke -lm -lpthread
+#9 CACHED
+
+#10 exporting to image
+#10 exporting layers done
+#10 writing image sha256:db156db802fe1588dd69e6b1f9e9af8acd3266c7f0af3110953b7f658104530d done
+#10 naming to docker.io/library/lapack_svd done
+#10 DONE 0.0s
+ numpy_svd <- /home/ksenia/ksenia/ubiquitous-computing-machine/runks/build/numpy/svd/Dockerfile.numsvd
+#0 building with "default" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile.numsvd
+#1 transferring dockerfile: 327B done
+#1 DONE 0.0s
+
+#2 [internal] load metadata for docker.io/library/python:3.9@sha256:da5aee29682d12a6649f51c8d6f15b87deb3e6c524b923c41d0cb3304d07c913
+#2 DONE 0.0s
+
+#3 [internal] load .dockerignore
+#3 transferring context: 2B done
+#3 DONE 0.0s
+
+#4 [1/5] FROM docker.io/library/python:3.9@sha256:da5aee29682d12a6649f51c8d6f15b87deb3e6c524b923c41d0cb3304d07c913
+#4 DONE 0.0s
+
+#5 [internal] load build context
+#5 transferring context: 2.71kB done
+#5 DONE 0.0s
+
+#6 [3/5] RUN pip install --no-cache-dir -r requirements.txt
+#6 CACHED
+
+#7 [2/5] COPY requirements.txt .
+#7 CACHED
+
+#8 [4/5] COPY numSVD.py /usr/share/num/numSVD.py
+#8 CACHED
+
+#9 [5/5] WORKDIR /usr/share/num
+#9 CACHED
+
+#10 exporting to image
+#10 exporting layers done
+#10 writing image sha256:d0d41cfaf5d502d11ab6e8d306654565e9fc2b3dbbae0b62ab302701c3d9966c done
+#10 naming to docker.io/library/numpy_svd done
+#10 DONE 0.0s
+mkl_chol	sha256:c0c08db89bd570844494eff7a5319fedb1c78cc393b67194a7d21f6f9a85b3aa
+lapack_chol	sha256:5086a75d9f2f229448b4e8eff0d4c640425f3ef5f69b29b19f0d7f94523118fb
+numpy_chol	sha256:cce575399944e03c600409b2ecf9f2e1a764f7f0ec4a9f5ccf16fb87a069af67
+mkl_lu	sha256:3b3a299b936181213e31f90775e4ad0d1d6d3a1ba22a6e7d63ed775bc2891e01
+lapack_lu	sha256:d73cf9400cce68e86337d7a512ca9fe0c0b37cd0ec04e5ed0230bc2fb3b8fb48
+numpy_lu	sha256:7d9b2f3b2c71d7ec7381420e11d4bd1a4227354cf2608d2175faab91309eda3e
+mkl_mul	sha256:4b43330eedee228de6134a425dc5db2b985a8a8d78649764a33fbb9676fbe7e8
+lapack_mul	sha256:aceabb5f617ac8ab2a2b88f84ef775b466665f43a8b141e84d5670dfd1fc7f87
+numpy_mul	sha256:7354e4699235ede5009e50d868cfbfd9d0b7308431aa5c2b672417e53640e115
+mkl_svd	sha256:18c81636a927d3510ce0bb882bbb38f67830e34f47c55402843fae2bef59ee32
+lapack_svd	sha256:db156db802fe1588dd69e6b1f9e9af8acd3266c7f0af3110953b7f658104530d
+numpy_svd	sha256:d0d41cfaf5d502d11ab6e8d306654565e9fc2b3dbbae0b62ab302701c3d9966c
