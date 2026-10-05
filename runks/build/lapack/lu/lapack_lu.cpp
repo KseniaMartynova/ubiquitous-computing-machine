@@ -10,10 +10,11 @@
 #include <cstdlib>
 #include <cmath>
 #include <sys/resource.h>
-//LU-факторизация
+
+// LU-факторизация
 std::vector<std::string> called_routines;
 
-std::vector<double> create_positive_definite_matrix(int n, int seed)  {
+std::vector<double> create_positive_definite_matrix(int n, int seed) {
     std::vector<double> matrix(n * n);
     std::mt19937 gen(seed);
     std::uniform_real_distribution<> dis(0.0, 1.0);
@@ -35,23 +36,85 @@ std::vector<double> create_positive_definite_matrix(int n, int seed)  {
     return matrix;
 }
 
-int main(int argc, char* argv[]) {
-    if (argc != 2) {
-        std::cerr << "Usage: " << argv[0] << " <matrix_size>" << std::endl;
+// Возвращает невязку ||A·A⁻¹ − I||_F / (||A||_F · ||A⁻¹||_F)
+double compute_residual(const double* A, const double* A_inv, int n) {
+    std::vector<double> product(n * n, 0.0);
+    cblas_dgemm(CblasRowMajor, CblasNoTrans, CblasNoTrans,
+                n, n, n, 1.0, A, n, A_inv, n, 0.0, product.data(), n);
+
+    double num_sq = 0.0;
+    for (int i = 0; i < n; ++i) {
+        for (int j = 0; j < n; ++j) {
+            double expected = (i == j) ? 1.0 : 0.0;
+            double d = product[i * n + j] - expected;
+            num_sq += d * d;
+        }
+    }
+
+    double norm_a_sq = 0.0, norm_inv_sq = 0.0;
+    for (int i = 0; i < n * n; ++i) {
+        norm_a_sq += A[i] * A[i];
+        norm_inv_sq += A_inv[i] * A_inv[i];
+    }
+    double denom = std::sqrt(norm_a_sq) * std::sqrt(norm_inv_sq);
+    if (denom == 0.0) return std::nan("");
+    return std::sqrt(num_sq) / denom;
+}
+
+int run_validate(std::vector<double>& A, int n) {
+    std::vector<double> A_inv = A;
+    std::vector<lapack_int> ipiv(n);
+
+    int info = LAPACKE_dgetrf(LAPACK_ROW_MAJOR, n, n, A_inv.data(), n, ipiv.data());
+    if (info != 0) {
+        std::cout << "VALIDATE_RESIDUAL=nan\n";
+        std::cout << "VALIDATE_STATUS=fail\n";
+        return 1;
+    }
+    info = LAPACKE_dgetri(LAPACK_ROW_MAJOR, n, A_inv.data(), n, ipiv.data());
+    if (info != 0) {
+        std::cout << "VALIDATE_RESIDUAL=nan\n";
+        std::cout << "VALIDATE_STATUS=fail\n";
         return 1;
     }
 
-    int n = std::atoi(argv[1]);
+    double residual = compute_residual(A.data(), A_inv.data(), n);
+    bool ok = std::isfinite(residual) && residual <= 1e-10;
+
+    std::cout << std::scientific << std::setprecision(6);
+    std::cout << "VALIDATE_RESIDUAL=" << residual << "\n";
+    std::cout << "VALIDATE_STATUS=" << (ok ? "ok" : "fail") << "\n";
+    return ok ? 0 : 1;
+}
+
+int main(int argc, char* argv[]) {
+    bool validate = false;
+    int n = 0;
+
+    if (argc == 3 && std::string(argv[1]) == "--validate") {
+        validate = true;
+        n = std::atoi(argv[2]);
+    } else if (argc == 2) {
+        n = std::atoi(argv[1]);
+    } else {
+        std::cerr << "Usage: " << argv[0] << " [--validate] <matrix_size>" << std::endl;
+        return 1;
+    }
+
     if (n <= 0) {
         std::cerr << "Matrix size must be positive" << std::endl;
         return 1;
     }
 
-    // Только читаем текущее число потоков 
+    std::vector<double> A = create_positive_definite_matrix(n, n);
+
+    if (validate) {
+        return run_validate(A, n);
+    }
+
     int num_threads = openblas_get_num_threads();
 
-    std::vector<double> A = create_positive_definite_matrix(n, n);
-    std::vector<double> A_inv = A; // копия для обращения
+    std::vector<double> A_inv = A;
     std::vector<lapack_int> ipiv(n);
 
     auto start = std::chrono::steady_clock::now();
@@ -75,7 +138,7 @@ int main(int argc, char* argv[]) {
 
     struct rusage usage;
     getrusage(RUSAGE_SELF, &usage);
-    long rss_kb = usage.ru_maxrss;   
+    long rss_kb = usage.ru_maxrss;
 
     double checksum = 0.0;
     for (double v : A) checksum += v;
