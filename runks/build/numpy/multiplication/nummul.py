@@ -36,6 +36,8 @@ def generate_positive_definite_matrix(n, seed):
 
 
 def compute_mult_residual(A, B, C, n):
+    if not np.all(np.isfinite(C)):
+        return float       
     residual = 0.0
     for k in range(100):
         i = (k * 7) % n

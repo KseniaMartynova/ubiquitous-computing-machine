@@ -37,6 +37,8 @@ std::vector<double> create_positive_definite_matrix(int n, int seed) {
 // проверка умножения: 100 элементов считаются вручнуюи сравниваются с что вернул dgemm
 double compute_mult_residual(const double* A, const double* B,
                              const double* C, int n) {
+    for (int i=0; i<n*n; ++i){
+        if (!std::isfinite(C[i])) return std::nan("");}
     double residual = 0.0;
     for (int k = 0; k < 100; ++k) {
         int i = (k * 7) % n;

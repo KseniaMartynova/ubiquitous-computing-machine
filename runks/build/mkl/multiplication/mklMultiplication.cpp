@@ -35,6 +35,8 @@ void generate_positive_definite_matrix(double* A, int n, int seed) {
 
 double compute_mult_residual(const double* A, const double* B,
                              const double* C, int n) {
+    for (int i=0; i<n*n; ++i) {
+        if (!std::isfinite(C[i])) return std::nan("");}
     double residual = 0.0;
     for (int k = 0; k < 100; ++k) {
         int i = (k * 7) % n;
