@@ -1,0 +1,67 @@
+{
+  "synthetic": true,
+  "description": "ARTIFICIAL TEST DATA; NOT EXPERIMENTAL RESULTS",
+  "created_utc": "2000-01-01T00:00:00Z",
+  "timezone": "UTC",
+  "commit": "0000000000000000000000000000000000000000",
+  "worktree_clean": true,
+  "machine": {
+    "cpu_model": "SYNTHETIC TEST CPU",
+    "sockets": 1,
+    "cores_per_socket": 8,
+    "threads_per_core": 2,
+    "logical_cpus": 16,
+    "governor": null
+  },
+  "images": {
+    "mkl_chol": {
+      "id": "sha256:062ce451f801812e66b7fbb803c20be02e55ec826b66ee81a0b5354c80586602"
+    },
+    "lapack_chol": {
+      "id": "sha256:999e7636a86efc036d1fc9d30900aed3eab3ab93a7fc7476246082bf7389db91"
+    },
+    "numpy_chol": {
+      "id": "sha256:0817232ca55f4b43a95f05d58f22bb248b4b29df8a9cb996e3f831a7d3e26219"
+    },
+    "mkl_lu": {
+      "id": "sha256:f21dd7037129489e4ae565a7f458afccb401a38053a8a2bfbf3a0306a56ae855"
+    },
+    "lapack_lu": {
+      "id": "sha256:f3a2d7461d6d4073fe6fac17526749e95c9ac4de0275c05d48c4f69ef0ce57ac"
+    },
+    "numpy_lu": {
+      "id": "sha256:66ac7ccc7d9b3fbac609297f803ac686fc607d2b0607ca5b8c02fa1c1a2a70fb"
+    },
+    "mkl_mul": {
+      "id": "sha256:984511eb90abe0666bcb621a4c149439fcb00de0c46f65a44d1465cbc5e77751"
+    },
+    "lapack_mul": {
+      "id": "sha256:32a58eae7e916ba976398a990135fb6078deabf699e25702b3b31d943ec59db5"
+    },
+    "numpy_mul": {
+      "id": "sha256:a8a9b1dca64cabc83f2b67a907ca3d2012f1d0e3d9e7736c26ccdea09ecb5185"
+    },
+    "mkl_svd": {
+      "id": "sha256:7ace7523a0043b16f36f98f54829c30df1f672d3ed71a9afe9969f00d41292ba"
+    },
+    "lapack_svd": {
+      "id": "sha256:e8bfbdcfc4680af2fb56cdc2bcff5046e83c76012cea56ffe9163db775a922f0"
+    },
+    "numpy_svd": {
+      "id": "sha256:eada7dde1a6eaf012f5c9f8409f41dbae25661d8cbc4c0526621319cfd691802"
+    }
+  },
+  "block": {
+    "sizes": [
+      16,
+      64,
+      256,
+      1024
+    ],
+    "repetitions": 5,
+    "thread_mode": "default",
+    "shuffle_seed": 20260818,
+    "matrix_seed_rule": "seed = n; для multiplication вторая матрица n + 1",
+    "output": "runks/fixtures/analyze/noisy.csv"
+  }
+}
