@@ -37,12 +37,14 @@ def generate_positive_definite_matrix(n, seed):
 
 def compute_mult_residual(A, B, C, n):
     if not np.all(np.isfinite(C)):
-        return float       
+        return float("nan")       
     residual = 0.0
     for k in range(100):
         i = (k * 7) % n
         j = (k * 13) % n
-        ref = float(np.dot(A[i, :], B[:, j]))
+        ref=0.0
+        for l in range(n):
+            ref += A[i, l]* B[l, j]
         diff = abs(C[i, j] - ref) / (abs(ref) + 1.0)
         if diff > residual:
             residual = diff
