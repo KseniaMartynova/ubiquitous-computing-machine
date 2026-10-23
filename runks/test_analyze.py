@@ -182,6 +182,51 @@ class FixtureCasesTest(unittest.TestCase):
 
 class RejectionsTest(unittest.TestCase):
 
+    def test_n_outside_block_sizes(self):
+        tmp, csv_path, _ = self._make_temp_case()
+        rows = _read_csv_rows(csv_path)
+        rows[1][4] = "9999"
+        _write_csv_rows(csv_path, rows)
+        rc, err = self._run([csv_path], [16, 64, 256, 1024])
+        self.assertNotEqual(rc, 0)
+        self.assertIn("block.sizes", err)
+
+    def test_rep_outside_range(self):
+        tmp, csv_path, _ = self._make_temp_case()
+        rows = _read_csv_rows(csv_path)
+        rows[1][5] = "999"
+        _write_csv_rows(csv_path, rows)
+        rc, err = self._run([csv_path], [16, 64, 256, 1024])
+        self.assertNotEqual(rc, 0)
+        self.assertIn("вне диапазона", err)
+
+    def test_image_not_matching_combo(self):
+        tmp, csv_path, _ = self._make_temp_case()
+        rows = _read_csv_rows(csv_path)
+        rows[1][13] = "mkl_lu"      
+        _write_csv_rows(csv_path, rows)
+        rc, err = self._run([csv_path], [16, 64, 256, 1024])
+        self.assertNotEqual(rc, 0)
+        self.assertTrue(
+            "run_grid.COMBOS" in err or "image_id" in err,
+            f"неожиданное сообщение: {err!r}",
+        )
+
+    def test_image_not_matching_combo(self):
+        tmp, csv_path, man_path = self._make_temp_case()
+        rows = _read_csv_rows(csv_path)
+        with open(man_path, encoding="utf-8") as f:
+            m = json.load(f)
+        images = m.get("images", {})
+        if "mkl_lu" not in images:
+            self.skipTest("в manifest нет mkl_lu для проверки COMBOS")
+        rows[1][3] = "lu"                      
+        rows[1][13] = "mkl_lu"                 
+        rows[1][14] = images["mkl_lu"]["id"]   
+        _write_csv_rows(csv_path, rows)
+        rc, err = self._run([csv_path], [16, 64, 256, 1024])
+        self.assertNotEqual(rc, 0)
+        self.assertIn("run_grid.COMBOS", err)
     def _make_temp_case(self, base="power"):
         tmp = pathlib.Path(tempfile.mkdtemp())
         self.addCleanup(shutil.rmtree, tmp, ignore_errors=True)

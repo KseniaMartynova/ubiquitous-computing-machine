@@ -155,15 +155,36 @@ def validate_pair(csv_path, manifest_path):
     if not isinstance(images, dict):
         raise DataError(f"{manifest_path}: отсутствует images")
 
+    expected_triples = {(image, impl, op) for (image, impl, op) in COMBOS}
+
     parsed = []
     seen = set()
     for idx, row in enumerate(rows, start=2):
         p = _parse_row(csv_path, idx, row)
 
+        if p["n"] not in block_sizes:
+            raise DataError(
+                f"{csv_path}: строка {idx}: n={p['n']} "
+                f"отсутствует в block.sizes={sorted(block_sizes)}"
+            )
+        if not (1 <= p["rep"] <= block_reps):
+            raise DataError(
+                f"{csv_path}: строка {idx}: rep={p['rep']} "
+                f"вне диапазона 1..{block_reps}"
+            )
+
+        triple = (p["image"], p["implementation"], p["operation"])
+        if triple not in expected_triples:
+            raise DataError(
+                f"{csv_path}: строка {idx}: тройка "
+                f"(image, implementation, operation)={triple!r} "
+                f"отсутствует в run_grid.COMBOS"
+            )
+
         if p["thread_mode"] != block_mode:
             raise DataError(
-                f"{csv_path}: строка {idx}: thread_mode={p['thread_mode']!r} "
-                f"!= block.thread_mode={block_mode!r}"
+                f"{csv_path}: строка {idx}: thread_mode="
+                f"{p['thread_mode']!r} != block.thread_mode={block_mode!r}"
             )
         if p["commit"] != manifest_commit:
             raise DataError(
@@ -171,7 +192,9 @@ def validate_pair(csv_path, manifest_path):
                 f"!= manifest.commit={manifest_commit!r}"
             )
         image_info = images.get(p["image"])
-        expected_image_id = image_info.get("id") if isinstance(image_info, dict) else None
+        expected_image_id = (
+            image_info.get("id") if isinstance(image_info, dict) else None
+        )
         if expected_image_id is None:
             raise DataError(
                 f"{csv_path}: строка {idx}: image={p['image']!r} "
@@ -189,22 +212,13 @@ def validate_pair(csv_path, manifest_path):
         seen.add(key)
         parsed.append(p)
 
-    expected_combos = {(impl, op) for (_, impl, op) in COMBOS}
-    for p in parsed:
-        if (p["implementation"], p["operation"]) not in expected_combos:
-            raise DataError(
-                f"{csv_path}: строка run_order={p['run_order']}: "
-                f"неизвестная комбинация "
-                f"({p['implementation']}, {p['operation']})"
-            )
-
     for n in block_sizes:
         for rep in range(1, block_reps + 1):
-            for (impl, op) in expected_combos:
+            for (image, impl, op) in expected_triples:
                 if (impl, op, n, rep) not in seen:
                     raise DataError(
                         f"{csv_path}: отсутствует запуск "
-                        f"impl={impl} op={op} n={n} rep={rep}"
+                        f"image={image} impl={impl} op={op} n={n} rep={rep}"
                     )
 
     return {
@@ -323,7 +337,10 @@ def compute_fits(summary_rows):
                 a = math.exp(fit.intercept)
                 c = float(fit.slope)
                 if math.isfinite(a) and a > 0 and math.isfinite(c):
-                    half = scipy.stats.t.ppf(0.975, df=n_points - 2) * fit.stderr
+                    half = (
+                        scipy.stats.t.ppf(0.975, df=n_points - 2)
+                        * fit.stderr
+                    )
                     row["a"] = a
                     row["c"] = c
                     row["c_ci95_low"] = c - half
@@ -331,6 +348,7 @@ def compute_fits(summary_rows):
                     row["status"] = "ok"
         fits.append(row)
     return fits
+
 
 def write_csv(path, fields, rows):
     with open(path, "w", newline="", encoding="utf-8") as f:
