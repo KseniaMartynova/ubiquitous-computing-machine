@@ -38,8 +38,7 @@ results/pilot8-r2-default.fits.csv и results/pilot8-r2-single.fits.csv(по 12 
 | svd | openblas | 2.615233 | 6.861452 | 2.624 |
 
 
-Фактические пулы потоков в default: mkl- mkl/libmkl_rt:8, 
-openblass-openblas/libopenblas:16, numpy-openblas/libopenblas:16;openblas/libopenblas:16; подтверждение :1 в single: mkl-mkl/libmkl_rt:1,openblass-openblas/libopenblas:1, numpy-openblas/libopenblas:1;openblas/libopenblas:1.
+Фактические пулы потоков в default: mkl- mkl/libmkl_rt:8, openblass-openblas/libopenblas:16, numpy-openblas/libopenblas:16;openblas/libopenblas:16; подтверждение :1 в single: mkl-mkl/libmkl_rt:1,openblass  openblas/libopenblas:1, numpy-openblas/libopenblas:1;openblas/libopenblas:1.
 
 Максимальный RSS (значение, единицы и сочетание): 649880 КБ у mkl/svd/n=2500 режим default; 615988 КБ у mkl/svd/n=2500 режим single
 
