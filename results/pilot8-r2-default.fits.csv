@@ -1,0 +1,13 @@
+operation,implementation,thread_mode,n_points,a,c,c_ci95_low,c_ci95_high,status
+cholesky,mkl,default,1,,,,,insufficient_sizes
+cholesky,numpy,default,1,,,,,insufficient_sizes
+cholesky,openblas,default,1,,,,,insufficient_sizes
+lu,mkl,default,1,,,,,insufficient_sizes
+lu,numpy,default,1,,,,,insufficient_sizes
+lu,openblas,default,1,,,,,insufficient_sizes
+multiplication,mkl,default,1,,,,,insufficient_sizes
+multiplication,numpy,default,1,,,,,insufficient_sizes
+multiplication,openblas,default,1,,,,,insufficient_sizes
+svd,mkl,default,1,,,,,insufficient_sizes
+svd,numpy,default,1,,,,,insufficient_sizes
+svd,openblas,default,1,,,,,insufficient_sizes
