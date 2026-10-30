@@ -1,0 +1,217 @@
+=== run_order=1 image=numpy_chol n=2500 rep=1 ===
+started_at=2026-10-23T14:32:19Z
+finished_at=2026-10-23T14:32:20Z
+returncode=0
+data=1,2026-10-23T14:32:19Z,numpy,cholesky,2500,1,0.305530910,openblas/libopenblas:16;openblas/libopenblas:16,239808,0,0,false,default,numpy_chol,sha256:242b08def8736d76585dadc827726eec9f905aa59fadfa0d4c9c23989e4274e2,b625f4b754486c37531d82b0ac3cbe53f832eaa6,2500,,20260818,dpotrf,dpotrs,9376366.493615,
+status=OK
+=== run_order=2 image=mkl_chol n=2500 rep=1 ===
+started_at=2026-10-23T14:32:20Z
+finished_at=2026-10-23T14:32:21Z
+returncode=0
+data=2,2026-10-23T14:32:20Z,mkl,cholesky,2500,1,0.088408520,mkl/libmkl_rt:8,166960,0,0,false,default,mkl_chol,sha256:dd19733ec5abe320b19bb2e8f8d0a99d50698e78435728dba8aa513a5450de64,b625f4b754486c37531d82b0ac3cbe53f832eaa6,2500,,20260818,dpotrf,dpotri,9375519.962315,
+status=OK
+=== run_order=3 image=mkl_mul n=2500 rep=1 ===
+started_at=2026-10-23T14:32:21Z
+finished_at=2026-10-23T14:32:21Z
+returncode=0
+data=3,2026-10-23T14:32:21Z,mkl,multiplication,2500,1,0.097617223,mkl/libmkl_rt:8,183296,0,0,false,default,mkl_mul,sha256:dc2be03d636f30e24eaf2a675f1bd9ffda2116c6d09bbc193838e4b6ea342f22,b625f4b754486c37531d82b0ac3cbe53f832eaa6,2500,2501,20260818,dgemm,,9375519.962315,9375742.075099
+status=OK
+=== run_order=4 image=lapack_lu n=2500 rep=1 ===
+started_at=2026-10-23T14:32:21Z
+finished_at=2026-10-23T14:32:22Z
+returncode=0
+data=4,2026-10-23T14:32:21Z,openblas,lu,2500,1,0.369637436,openblas/libopenblas:16,183672,0,0,false,default,lapack_lu,sha256:e9be5376a68b89e5f9a4be9dfcb5bdbf4459b28dff5486916880b9eed255844f,b625f4b754486c37531d82b0ac3cbe53f832eaa6,2500,,20260818,dgetrf,dgetri,9375519.962315,
+status=OK
+=== run_order=5 image=numpy_lu n=2500 rep=1 ===
+started_at=2026-10-23T14:32:22Z
+finished_at=2026-10-23T14:32:23Z
+returncode=0
+data=5,2026-10-23T14:32:22Z,numpy,lu,2500,1,0.208053926,openblas/libopenblas:16;openblas/libopenblas:16,177152,0,0,false,default,numpy_lu,sha256:4132e6b2b4b858cb57d36ea9116737121076497ae0c373b3791935366350d750,b625f4b754486c37531d82b0ac3cbe53f832eaa6,2500,,20260818,dgetrf,dgetri,9376366.493615,
+status=OK
+=== run_order=6 image=numpy_svd n=2500 rep=1 ===
+started_at=2026-10-23T14:32:23Z
+finished_at=2026-10-23T14:32:26Z
+returncode=0
+data=6,2026-10-23T14:32:23Z,numpy,svd,2500,1,2.145887067,openblas/libopenblas:16;openblas/libopenblas:16,391668,0,0,false,default,numpy_svd,sha256:574d35c1cbab14d1fc5cbbbbd9d5aaf5c590e705dbe15681729ae071d7158aa7,b625f4b754486c37531d82b0ac3cbe53f832eaa6,2500,,20260818,dgesdd,dgemm,9376366.493615,
+status=OK
+=== run_order=7 image=lapack_chol n=2500 rep=1 ===
+started_at=2026-10-23T14:32:26Z
+finished_at=2026-10-23T14:32:27Z
+returncode=0
+data=7,2026-10-23T14:32:26Z,openblas,cholesky,2500,1,0.137218909,openblas/libopenblas:16,167212,0,0,false,default,lapack_chol,sha256:1aba5789af2121b12463430adb99c253afbbe61f9ad8d92d6ac01271d7ba52d6,b625f4b754486c37531d82b0ac3cbe53f832eaa6,2500,,20260818,dpotrf,dpotri,9375519.962315,
+status=OK
+=== run_order=8 image=lapack_svd n=2500 rep=1 ===
+started_at=2026-10-23T14:32:27Z
+finished_at=2026-10-23T14:32:29Z
+returncode=0
+data=8,2026-10-23T14:32:27Z,openblas,svd,2500,1,2.340104082,openblas/libopenblas:16,545408,0,0,false,default,lapack_svd,sha256:65a35b2a277805ed2030847fc5fcda707bc7bbcd911383ad0992cf020e6134dc,b625f4b754486c37531d82b0ac3cbe53f832eaa6,2500,,20260818,dgesdd,dgemm,9375519.962315,
+status=OK
+=== run_order=9 image=mkl_svd n=2500 rep=1 ===
+started_at=2026-10-23T14:32:29Z
+finished_at=2026-10-23T14:32:31Z
+returncode=0
+data=9,2026-10-23T14:32:30Z,mkl,svd,2500,1,1.453856064,mkl/libmkl_rt:8,649736,0,0,false,default,mkl_svd,sha256:78658f7af31f5f52155a50a0e824b2b61efdfbecac22c3a4f2bfc0a0298c9744,b625f4b754486c37531d82b0ac3cbe53f832eaa6,2500,,20260818,dgesdd,dgemm,9375519.962315,
+status=OK
+=== run_order=10 image=lapack_mul n=2500 rep=1 ===
+started_at=2026-10-23T14:32:31Z
+finished_at=2026-10-23T14:32:32Z
+returncode=0
+data=10,2026-10-23T14:32:31Z,openblas,multiplication,2500,1,0.054134636,openblas/libopenblas:16,168832,0,0,false,default,lapack_mul,sha256:28299cc5155f8c656e0739584e11c74d5152a0685bdd7ebd7b6e26c6a7de04e2,b625f4b754486c37531d82b0ac3cbe53f832eaa6,2500,2501,20260818,dgemm,,9375519.962315,9375742.075100
+status=OK
+=== run_order=11 image=numpy_mul n=2500 rep=1 ===
+started_at=2026-10-23T14:32:32Z
+finished_at=2026-10-23T14:32:33Z
+returncode=0
+data=11,2026-10-23T14:32:32Z,numpy,multiplication,2500,1,0.069984856,openblas/libopenblas:16,194684,0,0,false,default,numpy_mul,sha256:7c911c7db3a3da59320090b68e371c8d3d641c29ac3fc912812fc41e74f17fa4,b625f4b754486c37531d82b0ac3cbe53f832eaa6,2500,2501,20260818,dgemm,,9376366.493615,9375146.565727
+status=OK
+=== run_order=12 image=mkl_lu n=2500 rep=1 ===
+started_at=2026-10-23T14:32:33Z
+finished_at=2026-10-23T14:32:33Z
+returncode=0
+data=12,2026-10-23T14:32:33Z,mkl,lu,2500,1,0.128586966,mkl/libmkl_rt:8,209668,0,0,false,default,mkl_lu,sha256:fabdcb29758da3cd38b19401fa520a0c6451225c2c15a24729dae6602aa2686b,b625f4b754486c37531d82b0ac3cbe53f832eaa6,2500,,20260818,dgetrf,dgetri,9375519.962315,
+status=OK
+=== run_order=13 image=numpy_chol n=2500 rep=2 ===
+started_at=2026-10-23T14:32:33Z
+finished_at=2026-10-23T14:32:34Z
+returncode=0
+data=13,2026-10-23T14:32:33Z,numpy,cholesky,2500,2,0.255301129,openblas/libopenblas:16;openblas/libopenblas:16,240092,0,0,false,default,numpy_chol,sha256:242b08def8736d76585dadc827726eec9f905aa59fadfa0d4c9c23989e4274e2,b625f4b754486c37531d82b0ac3cbe53f832eaa6,2500,,20260818,dpotrf,dpotrs,9376366.493615,
+status=OK
+=== run_order=14 image=mkl_lu n=2500 rep=2 ===
+started_at=2026-10-23T14:32:34Z
+finished_at=2026-10-23T14:32:35Z
+returncode=0
+data=14,2026-10-23T14:32:34Z,mkl,lu,2500,2,0.129961994,mkl/libmkl_rt:8,208616,0,0,false,default,mkl_lu,sha256:fabdcb29758da3cd38b19401fa520a0c6451225c2c15a24729dae6602aa2686b,b625f4b754486c37531d82b0ac3cbe53f832eaa6,2500,,20260818,dgetrf,dgetri,9375519.962315,
+status=OK
+=== run_order=15 image=lapack_mul n=2500 rep=2 ===
+started_at=2026-10-23T14:32:35Z
+finished_at=2026-10-23T14:32:36Z
+returncode=0
+data=15,2026-10-23T14:32:35Z,openblas,multiplication,2500,2,0.083411765,openblas/libopenblas:16,168576,0,0,false,default,lapack_mul,sha256:28299cc5155f8c656e0739584e11c74d5152a0685bdd7ebd7b6e26c6a7de04e2,b625f4b754486c37531d82b0ac3cbe53f832eaa6,2500,2501,20260818,dgemm,,9375519.962315,9375742.075100
+status=OK
+=== run_order=16 image=numpy_mul n=2500 rep=2 ===
+started_at=2026-10-23T14:32:36Z
+finished_at=2026-10-23T14:32:36Z
+returncode=0
+data=16,2026-10-23T14:32:36Z,numpy,multiplication,2500,2,0.074928513,openblas/libopenblas:16,194436,0,0,false,default,numpy_mul,sha256:7c911c7db3a3da59320090b68e371c8d3d641c29ac3fc912812fc41e74f17fa4,b625f4b754486c37531d82b0ac3cbe53f832eaa6,2500,2501,20260818,dgemm,,9376366.493615,9375146.565727
+status=OK
+=== run_order=17 image=numpy_lu n=2500 rep=2 ===
+started_at=2026-10-23T14:32:36Z
+finished_at=2026-10-23T14:32:37Z
+returncode=0
+data=17,2026-10-23T14:32:36Z,numpy,lu,2500,2,0.195545069,openblas/libopenblas:16;openblas/libopenblas:16,176760,0,0,false,default,numpy_lu,sha256:4132e6b2b4b858cb57d36ea9116737121076497ae0c373b3791935366350d750,b625f4b754486c37531d82b0ac3cbe53f832eaa6,2500,,20260818,dgetrf,dgetri,9376366.493615,
+status=OK
+=== run_order=18 image=lapack_lu n=2500 rep=2 ===
+started_at=2026-10-23T14:32:37Z
+finished_at=2026-10-23T14:32:38Z
+returncode=0
+data=18,2026-10-23T14:32:37Z,openblas,lu,2500,2,0.335313969,openblas/libopenblas:16,183680,0,0,false,default,lapack_lu,sha256:e9be5376a68b89e5f9a4be9dfcb5bdbf4459b28dff5486916880b9eed255844f,b625f4b754486c37531d82b0ac3cbe53f832eaa6,2500,,20260818,dgetrf,dgetri,9375519.962315,
+status=OK
+=== run_order=19 image=lapack_svd n=2500 rep=2 ===
+started_at=2026-10-23T14:32:38Z
+finished_at=2026-10-23T14:32:42Z
+returncode=0
+data=19,2026-10-23T14:32:38Z,openblas,svd,2500,2,3.552006772,openblas/libopenblas:16,545792,0,0,false,default,lapack_svd,sha256:65a35b2a277805ed2030847fc5fcda707bc7bbcd911383ad0992cf020e6134dc,b625f4b754486c37531d82b0ac3cbe53f832eaa6,2500,,20260818,dgesdd,dgemm,9375519.962315,
+status=OK
+=== run_order=20 image=numpy_svd n=2500 rep=2 ===
+started_at=2026-10-23T14:32:42Z
+finished_at=2026-10-23T14:32:45Z
+returncode=0
+data=20,2026-10-23T14:32:42Z,numpy,svd,2500,2,2.537252086,openblas/libopenblas:16;openblas/libopenblas:16,392332,0,0,false,default,numpy_svd,sha256:574d35c1cbab14d1fc5cbbbbd9d5aaf5c590e705dbe15681729ae071d7158aa7,b625f4b754486c37531d82b0ac3cbe53f832eaa6,2500,,20260818,dgesdd,dgemm,9376366.493615,
+status=OK
+=== run_order=21 image=mkl_chol n=2500 rep=2 ===
+started_at=2026-10-23T14:32:45Z
+finished_at=2026-10-23T14:32:46Z
+returncode=0
+data=21,2026-10-23T14:32:45Z,mkl,cholesky,2500,2,0.066719220,mkl/libmkl_rt:8,167256,0,0,false,default,mkl_chol,sha256:dd19733ec5abe320b19bb2e8f8d0a99d50698e78435728dba8aa513a5450de64,b625f4b754486c37531d82b0ac3cbe53f832eaa6,2500,,20260818,dpotrf,dpotri,9375519.962315,
+status=OK
+=== run_order=22 image=lapack_chol n=2500 rep=2 ===
+started_at=2026-10-23T14:32:46Z
+finished_at=2026-10-23T14:32:46Z
+returncode=0
+data=22,2026-10-23T14:32:46Z,openblas,cholesky,2500,2,0.145102392,openblas/libopenblas:16,167052,0,0,false,default,lapack_chol,sha256:1aba5789af2121b12463430adb99c253afbbe61f9ad8d92d6ac01271d7ba52d6,b625f4b754486c37531d82b0ac3cbe53f832eaa6,2500,,20260818,dpotrf,dpotri,9375519.962315,
+status=OK
+=== run_order=23 image=mkl_mul n=2500 rep=2 ===
+started_at=2026-10-23T14:32:46Z
+finished_at=2026-10-23T14:32:47Z
+returncode=0
+data=23,2026-10-23T14:32:46Z,mkl,multiplication,2500,2,0.046803494,mkl/libmkl_rt:8,183296,0,0,false,default,mkl_mul,sha256:dc2be03d636f30e24eaf2a675f1bd9ffda2116c6d09bbc193838e4b6ea342f22,b625f4b754486c37531d82b0ac3cbe53f832eaa6,2500,2501,20260818,dgemm,,9375519.962315,9375742.075099
+status=OK
+=== run_order=24 image=mkl_svd n=2500 rep=2 ===
+started_at=2026-10-23T14:32:47Z
+finished_at=2026-10-23T14:32:49Z
+returncode=0
+data=24,2026-10-23T14:32:47Z,mkl,svd,2500,2,1.451896615,mkl/libmkl_rt:8,650244,0,0,false,default,mkl_svd,sha256:78658f7af31f5f52155a50a0e824b2b61efdfbecac22c3a4f2bfc0a0298c9744,b625f4b754486c37531d82b0ac3cbe53f832eaa6,2500,,20260818,dgesdd,dgemm,9375519.962315,
+status=OK
+=== run_order=25 image=numpy_mul n=2500 rep=3 ===
+started_at=2026-10-23T14:32:49Z
+finished_at=2026-10-23T14:32:50Z
+returncode=0
+data=25,2026-10-23T14:32:49Z,numpy,multiplication,2500,3,0.068262123,openblas/libopenblas:16,194668,0,0,false,default,numpy_mul,sha256:7c911c7db3a3da59320090b68e371c8d3d641c29ac3fc912812fc41e74f17fa4,b625f4b754486c37531d82b0ac3cbe53f832eaa6,2500,2501,20260818,dgemm,,9376366.493615,9375146.565727
+status=OK
+=== run_order=26 image=lapack_lu n=2500 rep=3 ===
+started_at=2026-10-23T14:32:50Z
+finished_at=2026-10-23T14:32:50Z
+returncode=0
+data=26,2026-10-23T14:32:50Z,openblas,lu,2500,3,0.306815462,openblas/libopenblas:16,183732,0,0,false,default,lapack_lu,sha256:e9be5376a68b89e5f9a4be9dfcb5bdbf4459b28dff5486916880b9eed255844f,b625f4b754486c37531d82b0ac3cbe53f832eaa6,2500,,20260818,dgetrf,dgetri,9375519.962315,
+status=OK
+=== run_order=27 image=lapack_mul n=2500 rep=3 ===
+started_at=2026-10-23T14:32:50Z
+finished_at=2026-10-23T14:32:51Z
+returncode=0
+data=27,2026-10-23T14:32:50Z,openblas,multiplication,2500,3,0.084601880,openblas/libopenblas:16,168704,0,0,false,default,lapack_mul,sha256:28299cc5155f8c656e0739584e11c74d5152a0685bdd7ebd7b6e26c6a7de04e2,b625f4b754486c37531d82b0ac3cbe53f832eaa6,2500,2501,20260818,dgemm,,9375519.962315,9375742.075100
+status=OK
+=== run_order=28 image=mkl_chol n=2500 rep=3 ===
+started_at=2026-10-23T14:32:51Z
+finished_at=2026-10-23T14:32:52Z
+returncode=0
+data=28,2026-10-23T14:32:51Z,mkl,cholesky,2500,3,0.080010725,mkl/libmkl_rt:8,166960,0,0,false,default,mkl_chol,sha256:dd19733ec5abe320b19bb2e8f8d0a99d50698e78435728dba8aa513a5450de64,b625f4b754486c37531d82b0ac3cbe53f832eaa6,2500,,20260818,dpotrf,dpotri,9375519.962315,
+status=OK
+=== run_order=29 image=lapack_chol n=2500 rep=3 ===
+started_at=2026-10-23T14:32:52Z
+finished_at=2026-10-23T14:32:52Z
+returncode=0
+data=29,2026-10-23T14:32:52Z,openblas,cholesky,2500,3,0.236124195,openblas/libopenblas:16,166996,0,0,false,default,lapack_chol,sha256:1aba5789af2121b12463430adb99c253afbbe61f9ad8d92d6ac01271d7ba52d6,b625f4b754486c37531d82b0ac3cbe53f832eaa6,2500,,20260818,dpotrf,dpotri,9375519.962315,
+status=OK
+=== run_order=30 image=mkl_lu n=2500 rep=3 ===
+started_at=2026-10-23T14:32:52Z
+finished_at=2026-10-23T14:32:53Z
+returncode=0
+data=30,2026-10-23T14:32:52Z,mkl,lu,2500,3,0.105789689,mkl/libmkl_rt:8,210092,0,0,false,default,mkl_lu,sha256:fabdcb29758da3cd38b19401fa520a0c6451225c2c15a24729dae6602aa2686b,b625f4b754486c37531d82b0ac3cbe53f832eaa6,2500,,20260818,dgetrf,dgetri,9375519.962315,
+status=OK
+=== run_order=31 image=lapack_svd n=2500 rep=3 ===
+started_at=2026-10-23T14:32:53Z
+finished_at=2026-10-23T14:32:56Z
+returncode=0
+data=31,2026-10-23T14:32:53Z,openblas,svd,2500,3,2.522022197,openblas/libopenblas:16,545664,0,0,false,default,lapack_svd,sha256:65a35b2a277805ed2030847fc5fcda707bc7bbcd911383ad0992cf020e6134dc,b625f4b754486c37531d82b0ac3cbe53f832eaa6,2500,,20260818,dgesdd,dgemm,9375519.962315,
+status=OK
+=== run_order=32 image=numpy_chol n=2500 rep=3 ===
+started_at=2026-10-23T14:32:56Z
+finished_at=2026-10-23T14:32:57Z
+returncode=0
+data=32,2026-10-23T14:32:56Z,numpy,cholesky,2500,3,0.186221259,openblas/libopenblas:16;openblas/libopenblas:16,239684,0,0,false,default,numpy_chol,sha256:242b08def8736d76585dadc827726eec9f905aa59fadfa0d4c9c23989e4274e2,b625f4b754486c37531d82b0ac3cbe53f832eaa6,2500,,20260818,dpotrf,dpotrs,9376366.493615,
+status=OK
+=== run_order=33 image=mkl_mul n=2500 rep=3 ===
+started_at=2026-10-23T14:32:57Z
+finished_at=2026-10-23T14:32:57Z
+returncode=0
+data=33,2026-10-23T14:32:57Z,mkl,multiplication,2500,3,0.082437516,mkl/libmkl_rt:8,183424,0,0,false,default,mkl_mul,sha256:dc2be03d636f30e24eaf2a675f1bd9ffda2116c6d09bbc193838e4b6ea342f22,b625f4b754486c37531d82b0ac3cbe53f832eaa6,2500,2501,20260818,dgemm,,9375519.962315,9375742.075099
+status=OK
+=== run_order=34 image=mkl_svd n=2500 rep=3 ===
+started_at=2026-10-23T14:32:57Z
+finished_at=2026-10-23T14:32:59Z
+returncode=0
+data=34,2026-10-23T14:32:57Z,mkl,svd,2500,3,1.501466812,mkl/libmkl_rt:8,649744,0,0,false,default,mkl_svd,sha256:78658f7af31f5f52155a50a0e824b2b61efdfbecac22c3a4f2bfc0a0298c9744,b625f4b754486c37531d82b0ac3cbe53f832eaa6,2500,,20260818,dgesdd,dgemm,9375519.962315,
+status=OK
+=== run_order=35 image=numpy_lu n=2500 rep=3 ===
+started_at=2026-10-23T14:32:59Z
+finished_at=2026-10-23T14:33:00Z
+returncode=0
+data=35,2026-10-23T14:32:59Z,numpy,lu,2500,3,0.193873228,openblas/libopenblas:16;openblas/libopenblas:16,177280,0,0,false,default,numpy_lu,sha256:4132e6b2b4b858cb57d36ea9116737121076497ae0c373b3791935366350d750,b625f4b754486c37531d82b0ac3cbe53f832eaa6,2500,,20260818,dgetrf,dgetri,9376366.493615,
+status=OK
+=== run_order=36 image=numpy_svd n=2500 rep=3 ===
+started_at=2026-10-23T14:33:00Z
+finished_at=2026-10-23T14:33:03Z
+returncode=0
+data=36,2026-10-23T14:33:00Z,numpy,svd,2500,3,2.099877285,openblas/libopenblas:16;openblas/libopenblas:16,391512,0,0,false,default,numpy_svd,sha256:574d35c1cbab14d1fc5cbbbbd9d5aaf5c590e705dbe15681729ae071d7158aa7,b625f4b754486c37531d82b0ac3cbe53f832eaa6,2500,,20260818,dgesdd,dgemm,9376366.493615,
+status=OK
+block_check_error=контрольные суммы MKL и OpenBLAS разошлись для operation=multiplication n=2500: строка 33 (mkl) ('9375519.962315', '9375742.075099') vs строка 27 (openblas) ('9375519.962315', '9375742.075100')

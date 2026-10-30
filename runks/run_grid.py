@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-
+import math
 import argparse
 import csv
 import datetime
@@ -148,7 +148,26 @@ def check_row(row, expected):
                 f"поле {name}={row[idx]!r}, ожидалось {str(exp)!r}"
             )
 
+def _checksum_value_close(a, b):
+    """Сравнивает два строковых значения контрольной суммы с допуском."""
+    if a == "" and b == "":
+        return True
+    if a == "" or b == "":
+        return False
+    try:
+        fa = float(a)
+        fb = float(b)
+    except ValueError:
+        return False
+    if not math.isfinite(fa) or not math.isfinite(fb):
+        return False
+    return math.isclose(fa, fb, rel_tol=1e-12, abs_tol=1e-6)
 
+
+def _checksum_pair_close(pair_a, pair_b):
+    """Сравнивает пары (checksum_a, checksum_b) с допуском"""
+    return (_checksum_value_close(pair_a[0], pair_b[0])
+            and _checksum_value_close(pair_a[1], pair_b[1]))
 def check_block(rows, expected):
     """
     Проверяет весь блок.
@@ -220,16 +239,13 @@ def check_block(rows, expected):
         if "mkl" in by_impl and "openblas" in by_impl:
             mkl_i, mkl_sum = by_impl["mkl"]
             obl_i, obl_sum = by_impl["openblas"]
-            if mkl_sum != obl_sum:
+            if not _checksum_pair_close(mkl_sum, obl_sum):
                 raise GridError(
                     f"контрольные суммы MKL и OpenBLAS разошлись для "
                     f"operation={key[0]} n={key[1]}: "
                     f"строка {mkl_i} (mkl) {mkl_sum} "
                     f"vs строка {obl_i} (openblas) {obl_sum}"
                 )
-
-
-#Вспомогательные функции для main
 
 
 def _now_utc():

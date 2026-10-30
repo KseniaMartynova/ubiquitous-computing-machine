@@ -177,6 +177,51 @@ class CheckRowTest(unittest.TestCase):
 # проверка блока
 
 class CheckBlockTest(unittest.TestCase):
+    def test_accepts_mkl_openblas_checksum_within_tolerance(self):
+        rows = [list(HEADER)]
+        rows.append(make_row(
+            run_order=1, implementation="mkl", image="mkl_mul",
+            operation="multiplication",
+            checksum_a="9375519.962315", checksum_b="9375742.075099",
+        ))
+        rows.append(make_row(
+            run_order=2, implementation="openblas", image="lapack_mul",
+            operation="multiplication",
+            checksum_a="9375519.962315", checksum_b="9375742.075100",
+        ))
+        check_block(rows, make_block_expected(2))
+
+    def test_rejects_visible_mkl_openblas_divergence(self):
+        rows = [list(HEADER)]
+        rows.append(make_row(
+            run_order=1, implementation="mkl", image="mkl_mul",
+            operation="multiplication",
+            checksum_a="1.0", checksum_b="1.0",
+        ))
+        rows.append(make_row(
+            run_order=2, implementation="openblas", image="lapack_mul",
+            operation="multiplication",
+            checksum_a="1.0", checksum_b="1.1",   
+        ))
+        with self.assertRaises(GridError):
+            check_block(rows, make_block_expected(2))
+
+    def test_rejects_nan_or_inf_checksum(self):
+        for bad in ("nan", "inf", "-inf"):
+            with self.subTest(bad=bad):
+                rows = [list(HEADER)]
+                rows.append(make_row(
+                    run_order=1, implementation="mkl", image="mkl_mul",
+                    operation="multiplication",
+                    checksum_a="1.0", checksum_b="1.0",
+                ))
+                rows.append(make_row(
+                    run_order=2, implementation="openblas", image="lapack_mul",
+                    operation="multiplication",
+                    checksum_a="1.0", checksum_b=bad,
+                ))
+                with self.assertRaises(GridError):
+                    check_block(rows, make_block_expected(2))
 
     def test_rejects_wrong_header(self):
         rows = make_valid_block(2)
