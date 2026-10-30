@@ -4,15 +4,17 @@
 Intel(R) Xeon(R) Gold 6334 CPU @ 3.60GHz; logical_cpus = 16; governor = powersave; Ubuntu 22.04.5 LTS; kernel 6.8.0-106-generic
 
 Commit кода: 00945a571619f21c36a80205359fec607a86d682
-Файлы CSV и manifest: results/pilot8-r2-default.csv  и results/pilot8-r2-default.manifest.json
-results/pilot8-r2-single.csv и results/pilot8-r2-single.manifest.json
+
+Файлы CSV и manifest: results/pilot8-r2-default.csv  и results/pilot8-r2-default.manifest.json results/pilot8-r2-single.csv и results/pilot8-r2-single.manifest.json
+
 Governor и условия нагрузки: governor = powersave; измерения выполнялись последовательно одно за другим, без другой значимой нагрузки на сервер
+
 Проверка корректности: 12 из 12 образов прошли; файл вывода: results/pilot8-validate256.log.
+
 Unit-тесты: Ran 73 tests in 6.904s OK.
-Результаты анализа:results/pilot8-r2-default.summary.csv и
-results/pilot8-r2-single.summary.csv (по 12 строк, count=3);
-results/pilot8-r2-default.fits.csv и results/pilot8-r2-single.fits.csv(по 12 строк, все insufficient_sizes); 8 PNG на каждый блок в
-analysis/pilot8-r2-*.
+
+Результаты анализа:results/pilot8-r2-default.summary.csv и results/pilot8-r2-single.summary.csv (по 12 строк, count=3);
+results/pilot8-r2-default.fits.csv и results/pilot8-r2-single.fits.csv(по 12 строк, все insufficient_sizes); 8 PNG на каждый блок в analysis/pilot8-r2-*.
 
 ## Время и режимы потоков
 
@@ -39,9 +41,13 @@ analysis/pilot8-r2-*.
 Фактические пулы потоков в default: mkl- mkl/libmkl_rt:8, 
 openblass-openblas/libopenblas:16, numpy-openblas/libopenblas:16;openblas/libopenblas:16; подтверждение :1 в single: mkl-mkl/libmkl_rt:1,
 openblass-openblas/libopenblas:1, numpy-openblas/libopenblas:1;openblas/libopenblas:1.
+
 Максимальный RSS (значение, единицы и сочетание): 649880 КБ у mkl/svd/n=2500 режим default; 615988 КБ у mkl/svd/n=2500 режим single
+
 Был ли swap или посторонняя нагрузка: нет (single swap=true: 0, default swap=true: 0)
+
 Есть ли заметный разброс повторов: в single Q3/Q1 < 1.5 во всех группах, В default группа: lu/openblas при n=2500 имеет Q3/Q1 ≈ 4.83
+
 Проверка совпадения commit/image ID и состава обоих блоков: commit 00945a571619f21c36a80205359fec607a86d682: один и тот же в двух manifest и во всех 72 строках CSV, image ID: все 12 совпадают, 36 строк в каждом блоке, 12 сочетаний × 3 повтора, n=2500 во всех строках
 
 ## Наблюдения и предварительный бюджет
@@ -59,7 +65,8 @@ openblass-openblas/libopenblas:1, numpy-openblas/libopenblas:1;openblas/libopenb
 
 Итого чистых вычислений: 23527.3 с = 6.54 часов без сборки, генерации матриц, запуска контейнеров и тд
 
-4. Ограничения оценки и что нужно уточнить до полного запуска: 1)разное число потоков в default. mkl выбрал 8 потоков, а openblass - 16. В single число потоков зафиксировано и равно 1. 
+3. Ограничения оценки и что нужно уточнить до полного запуска: 
+1)разное число потоков в default. mkl выбрал 8 потоков, а openblass - 16. В single число потоков зафиксировано и равно 1. 
 2)в скриптах run_grid.py и test_run_grid.py была изменена проверка совпадений контрольных сумм на math.isclose с rel_tol=1e-12, abs_tol=1e-6, так как первая попытка упала на старой проверке контрольных сумм
 3) В default lu/openblas при n=2500 имеет Q3/Q1 ≈ 4.83, что слишком много.
 
