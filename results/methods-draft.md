@@ -1,4 +1,5 @@
 1. Фактическая машина и версии из manifest
+
 Дата и машина: 2026-10-30T09:00:16Z 
 Intel(R) Xeon(R) Gold 6334 CPU @ 3.60GHz; logical_cpus = 16; governor = powersave; Ubuntu 22.04.5 LTS; kernel 6.8.0-106-generic
 mem_total_kb: 263732508
