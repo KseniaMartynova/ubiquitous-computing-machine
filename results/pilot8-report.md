@@ -39,14 +39,13 @@ results/pilot8-r2-default.fits.csv и results/pilot8-r2-single.fits.csv(по 12 
 
 
 Фактические пулы потоков в default: mkl- mkl/libmkl_rt:8, 
-openblass-openblas/libopenblas:16, numpy-openblas/libopenblas:16;openblas/libopenblas:16; подтверждение :1 в single: mkl-mkl/libmkl_rt:1,
-openblass-openblas/libopenblas:1, numpy-openblas/libopenblas:1;openblas/libopenblas:1.
+openblass-openblas/libopenblas:16, numpy-openblas/libopenblas:16;openblas/libopenblas:16; подтверждение :1 в single: mkl-mkl/libmkl_rt:1,openblass-openblas/libopenblas:1, numpy-openblas/libopenblas:1;openblas/libopenblas:1.
 
 Максимальный RSS (значение, единицы и сочетание): 649880 КБ у mkl/svd/n=2500 режим default; 615988 КБ у mkl/svd/n=2500 режим single
 
 Был ли swap или посторонняя нагрузка: нет (single swap=true: 0, default swap=true: 0)
 
-Есть ли заметный разброс повторов: в single Q3/Q1 < 1.5 во всех группах, В default группа: lu/openblas при n=2500 имеет Q3/Q1 ≈ 4.83
+Есть ли заметный разброс повторов: в single Q3/Q1 < 1.5 во всех группах. В default: lu/openblas при n=2500 имеет Q3/Q1 ≈ 4.83
 
 Проверка совпадения commit/image ID и состава обоих блоков: commit 00945a571619f21c36a80205359fec607a86d682: один и тот же в двух manifest и во всех 72 строках CSV, image ID: все 12 совпадают, 36 строк в каждом блоке, 12 сочетаний × 3 повтора, n=2500 во всех строках
 
