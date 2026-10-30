@@ -48,8 +48,8 @@ openblass-openblas/libopenblas:1, numpy-openblas/libopenblas:1;openblas/libopenb
 
 1. Что отличается у SVD и multiplication при смене режима: отношение single/default больше у multiplication. Для multiplication и svd все три реализации сильно выигрывают в многопоточном режиме, MKL и OpenBLAS очень близкие значения отношения single/default  Однако отношение single/default для svd более неоднородное, openblas и numpy занижены по сравнению с mkl.   
 2. Условный бюджет по кубической модели для предварительной сетки (время и единицы):
-| n | r | T(n), с | r·T(n), с |
-|------|----|-----|------|
+| n | r | T(n),с | r·T(n),с |
+|---|---|---|---|
 | 2500 | 10 | 8.1 | 80.7 |
 | 5000 | 10 | 64.6 | 645.9 |
 | 10000 | 10 | 516.7 | 5167.3 |
