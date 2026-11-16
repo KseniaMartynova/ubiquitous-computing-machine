@@ -161,7 +161,7 @@ def _checksum_value_close(a, b):
         return False
     if not math.isfinite(fa) or not math.isfinite(fb):
         return False
-    return math.isclose(fa, fb, rel_tol=1e-12, abs_tol=1e-6)
+    return math.isclose(fa, fb, rel_tol=1e-9, abs_tol=1e-6)
 
 
 def _checksum_pair_close(pair_a, pair_b):

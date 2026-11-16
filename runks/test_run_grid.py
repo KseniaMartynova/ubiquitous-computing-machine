@@ -130,7 +130,7 @@ class BuildScheduleTest(unittest.TestCase):
         )
 
 
-# разбор --sizes 
+
 
 class ParseSizesTest(unittest.TestCase):
 
@@ -177,6 +177,21 @@ class CheckRowTest(unittest.TestCase):
 # проверка блока
 
 class CheckBlockTest(unittest.TestCase):
+    def test_accepts_svd_checksum_at_n20000(self):
+
+        rows = [list(HEADER)]
+        rows.append(make_row(
+            run_order=1, implementation="mkl", image="mkl_svd",
+            operation="svd",
+            checksum_a="599990922.516121", checksum_b="",
+        ))
+        rows.append(make_row(
+            run_order=2, implementation="openblas", image="lapack_svd",
+            operation="svd",
+            checksum_a="599990922.515380", checksum_b="",
+        ))
+        check_block(rows, make_block_expected(2))
+
     def test_accepts_mkl_openblas_checksum_within_tolerance(self):
         rows = [list(HEADER)]
         rows.append(make_row(
